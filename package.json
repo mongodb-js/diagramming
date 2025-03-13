@@ -1,0 +1,66 @@
+{
+  "name": "@mongodb-js/diagramming",
+  "description": "Diagram canvas for data modelling capabilities in MongoDB",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "dist/modelling.es.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest",
+    "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "lint:fix": "yarn lint --fix",
+    "coverage": "vitest run --coverage",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "deploy-storybook": "gh-pages -d storybook-static"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.4",
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
+    "@storybook/addon-essentials": "^8.6.0",
+    "@storybook/addon-interactions": "^8.6.0",
+    "@storybook/react": "^8.6.0",
+    "@storybook/react-vite": "^8.6.0",
+    "@storybook/test": "^8.6.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/jest": "29.5.14",
+    "@types/node": "18.19.70",
+    "@types/react": "18.3.18",
+    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/ui": "0.34.7",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-storybook": "^0.11.3",
+    "globals": "^16.0.0",
+    "jest-extended": "^4.0.2",
+    "jsdom": "20.0.3",
+    "prettier": "2.7.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "storybook": "^8.6.0",
+    "typescript": "^5.7.3",
+    "vite": "6.2.0",
+    "vite-plugin-dts": "^4.5.0",
+    "vite-plugin-node-polyfills": "^0.23.0",
+    "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "3.6.0",
+    "vitest": "0.34.6"
+  },
+  "packageManager": "yarn@4.6.0",
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  }
+}

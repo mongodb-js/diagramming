@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "target": "esnext",
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ],
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "types": ["node","vitest", "@testing-library/jest-dom"],
+    "typeRoots": ["./node_modules/@types", "./types", "./node_modules"],
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/*.d.ts"
+  ]
+}
