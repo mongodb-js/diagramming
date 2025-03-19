@@ -1,11 +1,29 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Diagram } from '@/diagram/diagram';
 
-const meta: Meta<typeof Diagram> = {
+const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
   component: Diagram,
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    Story => (
+      <div
+        style={{
+          height: '100vh',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    title: 'MongoDB Diagram',
+    isDarkMode: true,
+  },
 };
 
-export default meta;
+export default diagram;
 type Story = StoryObj<typeof Diagram>;
 export const BasicDiagram: Story = {};
