@@ -1,7 +1,7 @@
 import ReactFlow, { Background, ProOptions, ReactFlowProps } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from '@emotion/styled';
-import { MiniMap } from '@/diagram/controls/mini-map';
+import { MiniMap } from '@/components/controls/mini-map';
 
 const PRO_OPTIONS: ProOptions = {
   hideAttribution: true,

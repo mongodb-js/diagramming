@@ -1,1 +1,1 @@
-export * from '@/diagram/diagram';
+export * from '@/components/diagram';

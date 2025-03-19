@@ -1,4 +1,4 @@
-import { Diagram } from '@/diagram/diagram';
+import { Diagram } from '@/components/diagram';
 import { render, screen } from '@testing-library/react';
 import { ReactFlowProvider } from 'reactflow';
 

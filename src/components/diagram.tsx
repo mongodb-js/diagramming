@@ -1,8 +1,9 @@
-import { Canvas } from '@/diagram/canvas/canvas';
+import { Canvas } from '@/components/canvas/canvas';
 import LeafyGreenProvider from '@leafygreen-ui/leafygreen-provider';
-import { ThemeProvider } from '@emotion/react';
 import { ComponentProps } from 'react';
-import { DARK_THEME, LIGHT_THEME } from '@/styles/styles';
+import { DARK_THEME } from '@/styles/theme-dark';
+import { LIGHT_THEME } from '@/styles/theme-light';
+import { ThemeProvider } from '@emotion/react';
 
 interface Props extends ComponentProps<typeof Canvas> {
   isDarkMode?: boolean;
