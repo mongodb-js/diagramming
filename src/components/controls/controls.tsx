@@ -20,7 +20,7 @@ const ControlsGroup = styled.div`
   > .react-flow__controls-button {
     background-color: ${props => props.theme.controls.background};
     border: 1px solid ${palette.gray.base};
-    color: ${props => props.theme.controls.zoomText};
+    color: ${props => props.theme.controls.buttonColor};
   }
   > .react-flow__controls-button:hover {
     background-color: ${props => props.theme.controls.backgroundHover};

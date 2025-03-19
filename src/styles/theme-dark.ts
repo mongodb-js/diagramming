@@ -13,5 +13,6 @@ export const DARK_THEME: Theme = {
     background: palette.gray.dark2,
     backgroundHover: palette.gray.dark1,
     zoomText: palette.gray.base,
+    buttonColor: palette.gray.light2,
   },
 };

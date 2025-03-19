@@ -7,6 +7,7 @@ declare module '@emotion/react' {
       background: string;
       backgroundHover: string;
       zoomText: string;
+      buttonColor: string;
     };
     minimap: {
       node: string;
