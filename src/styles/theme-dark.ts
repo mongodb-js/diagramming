@@ -9,4 +9,10 @@ export const DARK_THEME: Theme = {
     mask: hexToRgb(palette.gray.dark4, 0.5),
     selectionArea: palette.black,
   },
+  controls: {
+    background: palette.gray.dark2,
+    backgroundHover: palette.gray.dark1,
+    zoomText: palette.gray.base,
+    buttonColor: palette.gray.light2,
+  },
 };
