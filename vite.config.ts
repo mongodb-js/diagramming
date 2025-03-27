@@ -31,7 +31,7 @@ export default defineConfig({
     react(),
     dts({
       rollupTypes: true,
-      exclude: ['./node_modules'],
+      exclude: ['./node_modules', 'src/**/*.test.(tsx|ts)', 'src/**/*.stories.(tsx|ts)'],
       tsconfigPath: './tsconfig.json',
     }),
     svgrPlugin(),
