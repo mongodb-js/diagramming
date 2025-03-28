@@ -6,7 +6,7 @@ describe('Diagram', () => {
   it('Should render diagram', () => {
     render(
       <ReactFlowProvider>
-        <Diagram title={'MongoDB Diagram'} />
+        <Diagram title={'MongoDB Diagram'} nodes={[]} edges={[]} />
       </ReactFlowProvider>,
     );
     expect(screen.getByTitle('MongoDB Diagram')).toBeInTheDocument();
