@@ -1,5 +1,5 @@
 import Icon from '@leafygreen-ui/icon';
-import { ControlButton, Controls as ReactFlowControls, useReactFlow, useViewport } from 'reactflow';
+import { ControlButton, Controls as ReactFlowControls, useReactFlow, useViewport } from '@xyflow/react';
 import { palette } from '@leafygreen-ui/palette';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import styled from '@emotion/styled';
@@ -9,6 +9,7 @@ const zoomTransitionOption = { duration: 500 };
 const ControlsWrapper = styled(ReactFlowControls)`
   box-shadow: unset;
   display: flex;
+  flex-direction: row;
   align-items: flex-end;
   gap: ${spacing[300]}px;
   font-size: 11px;
@@ -44,7 +45,7 @@ export const Controls = ({ title }: DiagramControlsProps) => {
   const { zoom } = useViewport();
 
   return (
-    <ControlsWrapper position={'bottom-left'} showFitView={false} showInteractive={false} showZoom={false}>
+    <ControlsWrapper position="bottom-left" showFitView={false} showInteractive={false} showZoom={false}>
       <ControlsGroup>
         <ControlButton onClick={() => zoomIn(zoomTransitionOption)}>
           <Icon glyph="Plus" />

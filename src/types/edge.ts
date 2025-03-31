@@ -1,4 +1,4 @@
-import { Edge as ReactFlowEdge } from 'reactflow';
+import { Edge as ReactFlowEdge } from '@xyflow/react';
 
 type BaseEdgeProps = Pick<ReactFlowEdge, 'id' | 'type' | 'source' | 'target' | 'hidden' | 'selected'>;
 

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import type { PropsWithChildren, ReactElement } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { LIGHT_THEME } from '@/styles/theme-light';
-import { ReactFlowProvider } from 'reactflow';
+import { ReactFlowProvider } from '@xyflow/react';
 export * from '@testing-library/react';
 
 export const wrapper = ({ children }: PropsWithChildren) => (
