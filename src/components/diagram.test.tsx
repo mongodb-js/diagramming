@@ -1,6 +1,6 @@
 import { Diagram } from '@/components/diagram';
 import { render, screen } from '@testing-library/react';
-import { ReactFlowProvider } from 'reactflow';
+import { ReactFlowProvider } from '@xyflow/react';
 
 describe('Diagram', () => {
   it('Should render diagram', () => {

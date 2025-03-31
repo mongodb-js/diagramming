@@ -1,4 +1,4 @@
-import { MiniMap as ReactFlowMiniMap } from 'reactflow';
+import { MiniMap as ReactFlowMiniMap } from '@xyflow/react';
 import { Theme, useTheme } from '@emotion/react';
 
 const MINIMAP_WIDTH = 200;

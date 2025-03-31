@@ -1,4 +1,4 @@
-import { Node as ReactFlowNode } from 'reactflow';
+import { Node as ReactFlowNode } from '@xyflow/react';
 
 type BaseNodeProps = Pick<
   ReactFlowNode,
