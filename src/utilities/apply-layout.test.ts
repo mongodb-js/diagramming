@@ -2,47 +2,56 @@ import { applyLayout } from '@/utilities/apply-layout';
 import { Edge, Node } from '@/types';
 
 describe('apply-layout', () => {
+  const nodes: Node[] = [
+    {
+      title: 'orders',
+      fields: [],
+      type: 'collection',
+      id: '1',
+      position: {
+        x: 12,
+        y: 12,
+      },
+    },
+    {
+      title: 'customers',
+      fields: [],
+      type: 'collection',
+      id: '2',
+      position: {
+        x: 200,
+        y: 200,
+      },
+    },
+    {
+      title: 'products',
+      fields: [],
+      type: 'collection',
+      id: '3',
+      position: {
+        x: 300,
+        y: 300,
+      },
+    },
+  ];
+  const edges: Edge[] = [
+    {
+      id: '1',
+      source: '3',
+      target: '1',
+      markerEnd: 'one',
+      markerStart: 'many',
+    },
+  ];
   it('With no nodes or edges', async () => {
-    const result = await applyLayout<Node, Edge>([], [], 'TB');
+    const result = await applyLayout<Node, Edge>([], [], 'TOP_BOTTOM');
     expect(result).toEqual({
       nodes: [],
       edges: [],
     });
   });
   it('With nodes', async () => {
-    const nodes: Node[] = [
-      {
-        title: 'orders',
-        fields: [],
-        type: 'collection',
-        id: '1',
-        position: {
-          x: 12,
-          y: 12,
-        },
-      },
-      {
-        title: 'customers',
-        fields: [],
-        type: 'collection',
-        id: '2',
-        position: {
-          x: 200,
-          y: 200,
-        },
-      },
-      {
-        title: 'products',
-        fields: [],
-        type: 'collection',
-        id: '3',
-        position: {
-          x: 300,
-          y: 300,
-        },
-      },
-    ];
-    const result = await applyLayout<Node, Edge>(nodes, [], 'TB');
+    const result = await applyLayout<Node, Edge>(nodes, [], 'TOP_BOTTOM');
     expect(result.nodes).toEqual([
       expect.objectContaining({
         title: 'orders',
@@ -77,50 +86,7 @@ describe('apply-layout', () => {
     ]);
   });
   it('With nodes and edges', async () => {
-    const nodes: Node[] = [
-      {
-        title: 'orders',
-        fields: [],
-        type: 'collection',
-        id: '1',
-        position: {
-          x: 12,
-          y: 12,
-        },
-      },
-      {
-        title: 'customers',
-        fields: [],
-        type: 'collection',
-        id: '2',
-        position: {
-          x: 200,
-          y: 200,
-        },
-      },
-      {
-        title: 'products',
-        fields: [],
-        type: 'collection',
-        id: '3',
-        position: {
-          x: 300,
-          y: 300,
-        },
-      },
-    ];
-
-    const edges: Edge[] = [
-      {
-        id: '1',
-        source: '3',
-        target: '1',
-        markerEnd: 'one',
-        markerStart: 'many',
-      },
-    ];
-
-    const result = await applyLayout<Node, Edge>(nodes, edges, 'TB');
+    const result = await applyLayout<Node, Edge>(nodes, edges, 'TOP_BOTTOM');
     expect(result.edges).toEqual([
       expect.objectContaining({
         id: '1',

@@ -23,11 +23,11 @@ const STAR = {
 
 const getLayoutOptions = (direction: LayoutDirection) => {
   switch (direction) {
-    case 'LR':
+    case 'LEFT_RIGHT':
       return LEFT_RIGHT;
-    case 'TB':
+    case 'TOP_BOTTOM':
       return TOP_BOTTOM;
-    case 'S':
+    case 'STAR':
       return STAR;
     default:
       return {};
@@ -37,7 +37,7 @@ const getLayoutOptions = (direction: LayoutDirection) => {
 export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   nodes: N[],
   edges: E[],
-  direction: LayoutDirection,
+  direction: LayoutDirection = 'TOP_BOTTOM',
 ): Promise<ApplyLayout<N, E>> => {
   const transformedEdges = edges.map<ElkExtendedEdge>(edge => ({
     ...edge,
