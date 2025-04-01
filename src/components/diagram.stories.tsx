@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Diagram } from '@/components/diagram';
+import { EMPLOYEES_NODE, ORDERS_NODE } from './datasets/nodes';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
@@ -21,6 +22,7 @@ const diagram: Meta<typeof Diagram> = {
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
+    nodes: [ORDERS_NODE, EMPLOYEES_NODE],
   },
 };
 
