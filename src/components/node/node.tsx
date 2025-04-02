@@ -30,6 +30,7 @@ const NodeWrapper = styled.div<{ background: string }>`
     background: ${props => props.background};
     width: 2px;
   }
+
   border-left: 1px solid ${props => props.background};
   &:hover {
     border-left: 1px solid ${props => props.background};
