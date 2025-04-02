@@ -2,21 +2,21 @@ import { NodeProps } from '@xyflow/react';
 import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
-import { useMemo } from 'react';
 import { ellipsisTruncation } from '@/styles/styles';
 import { InternalNode } from '@/types';
+import { DEFAULT_NODE_HEADER_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
+import Icon from '@leafygreen-ui/icon';
 
-const NODE_HEADER_HEIGHT_PIXELS = 28;
-const NODE_WIDTH_PIXELS = 244;
-
-const NodeWrapper = styled.div<{ background: string }>`
+const NodeWrapper = styled.div<{ accent: string }>`
   position: relative;
   font-family: ${fontFamilies.code};
   background: ${props => props.theme.node.background};
   color: ${props => props.theme.node.color};
-  width: ${NODE_WIDTH_PIXELS}px;
-  border-radius: ${spacing[200]}px;
+  width: ${DEFAULT_NODE_WIDTH}px;
   overflow: hidden;
+  border-left: 1px solid ${props => props.accent};
+  border: 1px solid ${props => props.theme.node.border};
+  border-radius: ${spacing[200]}px;
 
   &:hover {
     background: ${props => props.theme.node.backgroundHover};
@@ -27,16 +27,9 @@ const NodeWrapper = styled.div<{ background: string }>`
     display: block;
     content: ' ';
     height: 100%;
-    background: ${props => props.background};
+    background: ${props => props.accent};
     width: 2px;
   }
-
-  border-left: 1px solid ${props => props.background};
-  &:hover {
-    border-left: 1px solid ${props => props.background};
-  }
-
-  border: 1px solid ${props => props.theme.node.border};
 `;
 
 const NodeHeader = styled.div`
@@ -45,24 +38,40 @@ const NodeHeader = styled.div`
   font-size: 13px;
   line-height: 20px;
   font-weight: bold;
-  height: ${NODE_HEADER_HEIGHT_PIXELS}px;
+  height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
   padding: ${spacing[100]}px ${spacing[400]}px ${spacing[100]}px ${spacing[200]}px;
+  background: ${props => props.theme.node.backgroundHeader};
+  ${ellipsisTruncation};
+`;
+
+const NodeHeaderIcon = styled.div`
+  display: flex;
+  flex: 0 0 ${spacing[400]}px;
+  margin-left: ${spacing[100]}px;
+`;
+
+const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
 export const Node = ({ type, data: { title } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
 
-  const accent = useMemo(() => {
-    if (type === 'TABLE') {
+  const getAccent = () => {
+    if (type === 'table') {
       return theme.node.relationalAccent;
     }
     return theme.node.mongoDBAccent;
-  }, [type, theme.node.relationalAccent, theme.node.mongoDBAccent]);
+  };
 
   return (
-    <NodeWrapper background={accent}>
-      <NodeHeader>{title}</NodeHeader>
+    <NodeWrapper accent={getAccent()}>
+      <NodeHeader>
+        <NodeHeaderIcon>
+          <Icon fill={theme.node.headerIcon} glyph="Drag" />
+        </NodeHeaderIcon>
+        <NodeHeaderTitle>{title}</NodeHeaderTitle>
+      </NodeHeader>
     </NodeWrapper>
   );
 };

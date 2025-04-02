@@ -7,7 +7,7 @@ import { InternalNode } from '@/types';
 describe('node', () => {
   const DEFAULT_PROPS: NodeProps<InternalNode> = {
     id: 'id',
-    type: 'TABLE',
+    type: 'table',
     data: { title: 'title', fields: [] },
     dragging: false,
     zIndex: 0,
@@ -21,12 +21,12 @@ describe('node', () => {
   };
 
   it('Should show table node', () => {
-    render(<Node {...DEFAULT_PROPS} type="TABLE" data={{ title: 'orders', fields: [] }} />);
+    render(<Node {...DEFAULT_PROPS} type="table" data={{ title: 'orders', fields: [] }} />);
     expect(screen.getByText('orders')).toBeInTheDocument();
   });
 
   it('Should show collection node', () => {
-    render(<Node {...DEFAULT_PROPS} type="COLLECTION" data={{ title: 'employees', fields: [] }} />);
+    render(<Node {...DEFAULT_PROPS} type="collection" data={{ title: 'employees', fields: [] }} />);
     expect(screen.getByText('employees')).toBeInTheDocument();
   });
 });

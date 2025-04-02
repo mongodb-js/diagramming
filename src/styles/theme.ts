@@ -22,6 +22,7 @@ declare module '@emotion/react' {
       border: string;
       relationalAccent: string;
       mongoDBAccent: string;
+      headerIcon: string;
     };
   }
 }

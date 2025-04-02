@@ -4,7 +4,7 @@ type BaseNodeProps = Pick<
   ReactFlowNode<{}, NodeType>,
   'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'selected' | 'style' | 'className'
 >;
-type NodeType = 'TABLE' | 'COLLECTION';
+type NodeType = 'table' | 'collection';
 type NodeFieldVariant = 'dimmed' | 'preview' | 'default';
 type NodeGlyph = 'key' | 'link';
 

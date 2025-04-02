@@ -24,5 +24,6 @@ export const DARK_THEME: Theme = {
     border: palette.gray.dark1,
     relationalAccent: purple30,
     mongoDBAccent: palette.green.base,
+    headerIcon: palette.gray.light2,
   },
 };

@@ -6,7 +6,7 @@ describe('apply-layout', () => {
     {
       title: 'orders',
       fields: [],
-      type: 'COLLECTION',
+      type: 'collection',
       id: '1',
       position: {
         x: 12,
@@ -16,7 +16,7 @@ describe('apply-layout', () => {
     {
       title: 'customers',
       fields: [],
-      type: 'COLLECTION',
+      type: 'collection',
       id: '2',
       position: {
         x: 200,
@@ -26,7 +26,7 @@ describe('apply-layout', () => {
     {
       title: 'products',
       fields: [],
-      type: 'COLLECTION',
+      type: 'collection',
       id: '3',
       position: {
         x: 300,
@@ -56,7 +56,7 @@ describe('apply-layout', () => {
       expect.objectContaining({
         title: 'orders',
         fields: [],
-        type: 'COLLECTION',
+        type: 'collection',
         id: '1',
         position: {
           x: 12,
@@ -66,7 +66,7 @@ describe('apply-layout', () => {
       expect.objectContaining({
         title: 'customers',
         fields: [],
-        type: 'COLLECTION',
+        type: 'collection',
         id: '2',
         position: {
           x: 12,
@@ -76,7 +76,7 @@ describe('apply-layout', () => {
       expect.objectContaining({
         title: 'products',
         fields: [],
-        type: 'COLLECTION',
+        type: 'collection',
         id: '3',
         position: {
           x: 12,
@@ -100,7 +100,7 @@ describe('apply-layout', () => {
       expect.objectContaining({
         title: 'orders',
         fields: [],
-        type: 'COLLECTION',
+        type: 'collection',
         id: '1',
         position: {
           x: 12,
@@ -110,7 +110,7 @@ describe('apply-layout', () => {
       expect.objectContaining({
         title: 'customers',
         fields: [],
-        type: 'COLLECTION',
+        type: 'collection',
         id: '2',
         position: {
           x: 12,
@@ -120,7 +120,7 @@ describe('apply-layout', () => {
       expect.objectContaining({
         title: 'products',
         fields: [],
-        type: 'COLLECTION',
+        type: 'collection',
         id: '3',
         position: {
           x: 12,

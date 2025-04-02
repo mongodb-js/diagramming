@@ -2,10 +2,11 @@ import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { InternalNode, Node as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { ReactFlow, Background, ProOptions, ReactFlowProps, useNodesState } from '@xyflow/react';
+import { useCanvas } from '@/components/canvas/use-canvas';
 
 const PRO_OPTIONS: ProOptions = {
   hideAttribution: true,
@@ -17,28 +18,14 @@ const ReactFlowWrapper = styled.div`
 `;
 
 const nodeTypes = {
-  TABLE: Node,
-  COLLECTION: Node,
+  table: Node,
+  collection: Node,
 };
 
 type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[] };
 
 export const Canvas = ({ title, nodes: externalNodes }: Props) => {
-  const initialNodes: InternalNode[] = useMemo(
-    () =>
-      externalNodes.map(node => {
-        const { title, fields, borderVariant, ...rest } = node;
-        return {
-          ...rest,
-          data: {
-            title,
-            fields,
-            borderVariant,
-          },
-        };
-      }),
-    [externalNodes],
-  );
+  const { initialNodes } = useCanvas(externalNodes);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
 

@@ -2,7 +2,7 @@ import { Node } from '@/types/node';
 
 export const ORDERS_NODE: Node = {
   id: 'orders',
-  type: 'TABLE',
+  type: 'table',
   position: {
     x: 100,
     y: 100,
@@ -13,7 +13,7 @@ export const ORDERS_NODE: Node = {
 
 export const EMPLOYEES_NODE: Node = {
   id: 'employees',
-  type: 'COLLECTION',
+  type: 'collection',
   position: {
     x: 300,
     y: 300,
