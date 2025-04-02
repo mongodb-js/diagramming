@@ -15,4 +15,14 @@ export const LIGHT_THEME: Theme = {
     zoomText: palette.gray.dark1,
     buttonColor: palette.gray.dark2,
   },
+  node: {
+    background: palette.white,
+    backgroundHeader: palette.gray.light2,
+    backgroundHover: palette.gray.light3,
+    color: palette.black,
+    border: palette.gray.base,
+    relationalAccent: palette.purple.base,
+    mongoDBAccent: palette.green.dark1,
+    headerIcon: palette.gray.dark1,
+  },
 };

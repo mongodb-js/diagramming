@@ -14,5 +14,15 @@ declare module '@emotion/react' {
       mask: string;
       selectionArea: string;
     };
+    node: {
+      background: string;
+      backgroundHeader: string;
+      backgroundHover: string;
+      color: string;
+      border: string;
+      relationalAccent: string;
+      mongoDBAccent: string;
+      headerIcon: string;
+    };
   }
 }

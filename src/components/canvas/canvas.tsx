@@ -2,7 +2,11 @@ import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { Background, ProOptions, ReactFlow, ReactFlowProps } from '@xyflow/react';
+import { useEffect } from 'react';
+import { InternalNode, Node as ExternalNode } from '@/types';
+import { Node } from '@/components/node/node';
+import { ReactFlow, Background, ProOptions, ReactFlowProps, useNodesState } from '@xyflow/react';
+import { useCanvas } from '@/components/canvas/use-canvas';
 
 const PRO_OPTIONS: ProOptions = {
   hideAttribution: true,
@@ -13,12 +17,31 @@ const ReactFlowWrapper = styled.div`
   background: ${props => props.theme.background};
 `;
 
-type Props = Pick<ReactFlowProps, 'title'>;
+const nodeTypes = {
+  table: Node,
+  collection: Node,
+};
 
-export const Canvas = ({ title }: Props) => {
+type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[] };
+
+export const Canvas = ({ title, nodes: externalNodes }: Props) => {
+  const { initialNodes } = useCanvas(externalNodes);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
+
+  useEffect(() => {
+    setNodes(initialNodes);
+  }, [initialNodes]);
+
   return (
     <ReactFlowWrapper>
-      <ReactFlow title={title} proOptions={PRO_OPTIONS}>
+      <ReactFlow
+        title={title}
+        proOptions={PRO_OPTIONS}
+        nodeTypes={nodeTypes}
+        nodes={nodes}
+        onNodesChange={onNodesChange}
+      >
         <Background />
         <Controls title={title} />
         <MiniMap />
