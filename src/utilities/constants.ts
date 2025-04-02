@@ -1,3 +1,4 @@
 export const DEFAULT_NODE_WIDTH = 244;
 export const DEFAULT_NODE_SPACING = 100;
 export const DEFAULT_NODE_STAR_SPACING = 50;
+export const DEFAULT_NODE_HEADER_HEIGHT = 28;
