@@ -7,8 +7,6 @@ export const ORDERS_NODE: Node = {
     x: 100,
     y: 100,
   },
-  hidden: false,
-  selected: false,
   title: 'orders',
   fields: [{ name: 'one' }],
 };
