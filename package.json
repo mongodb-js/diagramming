@@ -6,6 +6,7 @@
   "main": "dist/modelling.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "files": ["dist"],
   "scripts": {
     "build": "vite build",
     "test": "vitest",
