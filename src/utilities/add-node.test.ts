@@ -6,8 +6,10 @@ describe('add-node', () => {
     {
       title: 'orders',
       fields: [],
-      height: 100,
-      width: 244,
+      measured: {
+        height: 100,
+        width: 244,
+      },
       type: 'collection',
       id: '1',
       position: {
@@ -26,8 +28,10 @@ describe('add-node', () => {
       {
         title: 'orders',
         fields: [],
-        height: 100,
-        width: 244,
+        measured: {
+          height: 100,
+          width: 244,
+        },
         type: 'collection',
         id: '1',
         position: {
@@ -44,8 +48,10 @@ describe('add-node', () => {
         fields: [],
         type: 'collection',
         id: '2',
-        height: 100,
-        width: 244,
+        measured: {
+          height: 100,
+          width: 244,
+        },
         position: {
           x: 200,
           y: 200,
@@ -56,8 +62,10 @@ describe('add-node', () => {
         fields: [],
         type: 'collection',
         id: '3',
-        height: 100,
-        width: 244,
+        measured: {
+          height: 100,
+          width: 244,
+        },
         position: {
           x: 300,
           y: 300,
@@ -72,8 +80,10 @@ describe('add-node', () => {
         fields: [],
         type: 'collection',
         id: '2',
-        height: 100,
-        width: 244,
+        measured: {
+          height: 100,
+          width: 244,
+        },
         position: {
           x: 344,
           y: 312,
@@ -84,8 +94,10 @@ describe('add-node', () => {
         fields: [],
         type: 'collection',
         id: '3',
-        height: 100,
-        width: 244,
+        measured: {
+          height: 100,
+          width: 244,
+        },
         position: {
           x: 344,
           y: 512,
