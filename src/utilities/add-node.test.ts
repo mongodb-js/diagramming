@@ -31,7 +31,7 @@ describe('add-node', () => {
         type: 'collection',
         id: '1',
         position: {
-          x: 0,
+          x: 344,
           y: 200,
         },
       },
@@ -75,7 +75,7 @@ describe('add-node', () => {
         height: 100,
         width: 244,
         position: {
-          x: 0,
+          x: 344,
           y: 312,
         },
       },
@@ -87,7 +87,7 @@ describe('add-node', () => {
         height: 100,
         width: 244,
         position: {
-          x: 0,
+          x: 344,
           y: 512,
         },
       },
