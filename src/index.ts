@@ -1,3 +1,3 @@
 export * from '@/components/diagram';
 export * from '@/utilities/apply-layout';
-export * from '@/utilities/add-node';
+export * from '@/utilities/add-nodes-within-bounds';

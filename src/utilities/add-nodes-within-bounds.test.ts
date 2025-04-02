@@ -1,7 +1,7 @@
-import { addNodes } from '@/utilities/add-node';
+import { addNodesWithinBounds } from '@/utilities/add-nodes-within-bounds';
 import { Node } from '@/types';
 
-describe('add-node', () => {
+describe('add-nodes-within-bounds', () => {
   const nodes: Node[] = [
     {
       title: 'orders',
@@ -19,11 +19,11 @@ describe('add-node', () => {
     },
   ];
   it('With no new nodes', () => {
-    const result = addNodes(nodes, []);
+    const result = addNodesWithinBounds(nodes, []);
     expect(result).toEqual(nodes);
   });
   it('With no existing nodes', () => {
-    const result = addNodes([], nodes);
+    const result = addNodesWithinBounds([], nodes);
     expect(result).toEqual([
       {
         title: 'orders',
@@ -72,7 +72,7 @@ describe('add-node', () => {
         },
       },
     ];
-    const result = addNodes(nodes, newNodes);
+    const result = addNodesWithinBounds(nodes, newNodes);
     expect(result).toEqual([
       ...nodes,
       {

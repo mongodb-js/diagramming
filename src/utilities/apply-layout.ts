@@ -34,6 +34,17 @@ const getLayoutOptions = (direction: LayoutDirection) => {
   }
 };
 
+/**
+ * Applies a layout to a graph of nodes and edges using the ELK layout engine.
+ *
+ * This function transforms the provided nodes and edges into a format suitable for the ELK layout algorithm,
+ * applies the layout based on the specified direction, and then returns a promise that resolves
+ * to the nodes and edges with updated positions.
+ *
+ * @param nodes A list of nodes.
+ * @param edges A list of edges.
+ * @param direction The layout direction to use, either "LEFT_RIGHT", "TOP_BOTTOM" or "STAR".
+ */
 export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   nodes: N[],
   edges: E[],
