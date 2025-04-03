@@ -6,6 +6,23 @@
   "main": "dist/modelling.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "author": {
+    "name": "MongoDB Inc",
+    "email": "migrator-eng@mongodb.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://jira.mongodb.org/projects/MIG/issues",
+    "email": "jira-help-migrator@mongodb.com"
+  },
+  "homepage": "https://github.com/mongodb-js/diagramming",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mongodb-js/diagramming.git"
+  },
+  "files": ["dist"],
   "scripts": {
     "build": "vite build",
     "test": "vitest",
