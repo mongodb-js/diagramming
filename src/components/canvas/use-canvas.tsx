@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { InternalNode, Node as ExternalNode } from '@/types';
+import { Node as ExternalNode } from '@/types';
+import { InternalNode } from '@/types/internal';
 
 export const useCanvas = (externalNodes: ExternalNode[]) => {
   const initialNodes: InternalNode[] = useMemo(

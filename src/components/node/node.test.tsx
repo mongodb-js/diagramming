@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { render } from '@/mocks/testing-utils';
 import { Node } from '@/components/node/node';
 import { NodeProps } from '@xyflow/react';
-import { InternalNode } from '@/types';
+import { InternalNode } from '@/types/internal';
 
 describe('node', () => {
   const DEFAULT_PROPS: NodeProps<InternalNode> = {

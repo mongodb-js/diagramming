@@ -3,10 +3,11 @@ import styled from '@emotion/styled';
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
 import { useEffect } from 'react';
-import { InternalNode, Node as ExternalNode } from '@/types';
+import { Node as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { ReactFlow, Background, ProOptions, ReactFlowProps, useNodesState } from '@xyflow/react';
 import { useCanvas } from '@/components/canvas/use-canvas';
+import { InternalNode } from '@/types/internal';
 
 const PRO_OPTIONS: ProOptions = {
   hideAttribution: true,
