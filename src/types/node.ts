@@ -2,7 +2,7 @@ import { Node as ReactFlowNode } from '@xyflow/react';
 
 type BaseNodeProps = Pick<
   ReactFlowNode<{}, NodeType>,
-  'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'selected' | 'style' | 'className'
+  'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'selected' | 'style' | 'className' | 'measured'
 >;
 type NodeType = 'table' | 'collection';
 type NodeFieldVariant = 'dimmed' | 'preview' | 'default';
