@@ -11,7 +11,7 @@ Go to the **Releases** tab in the sidebar of the main repository page.
 
 Choose the version number based on [Semantic Versioning](https://semver.org/):
 
-- `MAJOR.MINOR.PATCH` (e.g., `1.2.3`) — **Do not prefix with `v`**
+- `MAJOR.MINOR.PATCH` (e.g., `1.2.3`) 
 - **Patch** – For bug fixes or security updates.
 - **Minor** – For new features that are backwards compatible.
 - **Major** – For breaking changes or significant redesigns.
@@ -19,7 +19,7 @@ Choose the version number based on [Semantic Versioning](https://semver.org/):
 
 ### 3. Create the Release
 1. Click **"Draft a new release"**. 
-2. Create a **new Git tag** with your selected version (e.g., `1.2.3`). 
+2. Create a **new Git tag** with your selected version (e.g., `1.2.3`) — **Do not prefix with `v`.**
 3. Point the release to the branch you're publishing from (typically `main`).
 4. **Generate release notes** based on commit history.
 
