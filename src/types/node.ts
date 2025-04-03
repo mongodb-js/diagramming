@@ -1,12 +1,13 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
+import { NodeData } from '@/types/internal';
 
-type BaseNodeProps = Pick<
+export type BaseNodeProps = Pick<
   ReactFlowNode<{}, NodeType>,
   'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'selected' | 'style' | 'className' | 'measured'
 >;
-type NodeType = 'table' | 'collection';
-type NodeFieldVariant = 'dimmed' | 'preview' | 'default';
-type NodeGlyph = 'key' | 'link';
+export type NodeType = 'table' | 'collection';
+export type NodeFieldVariant = 'dimmed' | 'preview' | 'default';
+export type NodeGlyph = 'key' | 'link';
 
 export interface NodeField {
   name: string;
@@ -16,12 +17,4 @@ export interface NodeField {
   variant?: NodeFieldVariant;
 }
 
-type NodeData = {
-  title: string;
-  fields: Array<NodeField>;
-  borderVariant?: string;
-};
-
 export type Node = BaseNodeProps & NodeData;
-
-export type InternalNode = ReactFlowNode<NodeData>; // TODO: Will need to be moved so it isn't exposed externally

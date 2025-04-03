@@ -1,6 +1,6 @@
 import { Canvas } from '@/components/canvas/canvas';
 import { render, screen } from '@/mocks/testing-utils';
-import { EMPLOYEES_NODE, ORDERS_NODE } from '@/components/datasets/nodes';
+import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 
 describe('canvas', () => {
   it('Should have elements on the canvas', () => {

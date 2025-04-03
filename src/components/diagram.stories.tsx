@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Diagram } from '@/components/diagram';
-import { EMPLOYEES_NODE, ORDERS_NODE } from './datasets/nodes';
+import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',

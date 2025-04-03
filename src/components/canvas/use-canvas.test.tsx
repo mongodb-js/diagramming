@@ -1,5 +1,5 @@
 import { renderHook } from '@/mocks/testing-utils';
-import { EMPLOYEES_NODE, ORDERS_NODE } from '@/components/datasets/nodes';
+import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { useCanvas } from './use-canvas';
 
 describe('use-canvas', () => {
