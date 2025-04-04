@@ -37,6 +37,9 @@ jobs:
       - name: Update package.json version
         run: yarn version $VERSION
 
+      - name: Build package
+        run: yarn build
+
       - name: Publish to npm
         run: npm publish --access public
         env:
