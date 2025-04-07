@@ -1,5 +1,6 @@
 import { Theme } from '@emotion/react';
 import { palette } from '@leafygreen-ui/palette';
+
 import { hexToRgb } from '@/styles/utils';
 
 export const LIGHT_THEME: Theme = {

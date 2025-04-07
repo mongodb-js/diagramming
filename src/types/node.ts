@@ -1,4 +1,5 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
+
 import { NodeData } from '@/types/internal';
 
 export type BaseNodeProps = Pick<

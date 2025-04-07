@@ -1,4 +1,5 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
+
 import { NodeField } from '@/types/node';
 
 export type NodeData = {

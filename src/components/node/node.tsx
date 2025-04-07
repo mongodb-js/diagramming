@@ -2,9 +2,10 @@ import { NodeProps } from '@xyflow/react';
 import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
+import Icon from '@leafygreen-ui/icon';
+
 import { ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_NODE_HEADER_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
-import Icon from '@leafygreen-ui/icon';
 import { InternalNode } from '@/types/internal';
 
 const NodeWrapper = styled.div<{ accent: string }>`
