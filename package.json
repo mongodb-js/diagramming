@@ -22,7 +22,9 @@
     "type": "git",
     "url": "https://github.com/mongodb-js/diagramming.git"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "vite build",
     "test": "vitest",
@@ -48,6 +50,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
+    "@emotion/eslint-plugin": "^11.12.0",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.22.0",
     "@storybook/addon-essentials": "^8.6.0",
@@ -64,10 +67,15 @@
     "@typescript-eslint/parser": "5.62.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/ui": "0.34.7",
-    "eslint": "^8.57.1",
+    "eslint": "^9.24.0",
     "eslint-config-prettier": "8.5.0",
+    "eslint-import-resolver-typescript": "^4.3.1",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^0.11.3",
+    "eslint-plugin-testing-library": "^7.1.1",
     "globals": "^16.0.0",
     "jest-extended": "^4.0.2",
     "jsdom": "20.0.3",
