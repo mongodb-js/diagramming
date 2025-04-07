@@ -34,4 +34,16 @@ export const ConnectableType: Story = {
   args: { ...INTERNAL_NODE, type: 'connectable' },
 };
 
+export const SelectedBorder: Story = {
+  args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
+};
+
+export const PreviewBorder: Story = {
+  args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'preview' } },
+};
+
+export const SubtleBorder: Story = {
+  args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'subtle' } },
+};
+
 export default nodeStory;

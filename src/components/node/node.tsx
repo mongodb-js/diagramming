@@ -7,6 +7,7 @@ import Icon from '@leafygreen-ui/icon';
 import { ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_NODE_HEADER_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
+import { NodeBorder } from '@/components/node/node-border';
 
 const NodeWrapper = styled.div<{ accent: string }>`
   position: relative;
@@ -55,7 +56,7 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
-export const Node = ({ type, data: { title } }: NodeProps<InternalNode>) => {
+export const Node = ({ type, data: { title, borderVariant } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
 
   const getAccent = () => {
@@ -66,13 +67,15 @@ export const Node = ({ type, data: { title } }: NodeProps<InternalNode>) => {
   };
 
   return (
-    <NodeWrapper accent={getAccent()}>
-      <NodeHeader>
-        <NodeHeaderIcon>
-          <Icon fill={theme.node.headerIcon} glyph="Drag" />
-        </NodeHeaderIcon>
-        <NodeHeaderTitle>{title}</NodeHeaderTitle>
-      </NodeHeader>
-    </NodeWrapper>
+    <NodeBorder variant={borderVariant}>
+      <NodeWrapper accent={getAccent()}>
+        <NodeHeader>
+          <NodeHeaderIcon>
+            <Icon fill={theme.node.headerIcon} glyph="Drag" />
+          </NodeHeaderIcon>
+          <NodeHeaderTitle>{title}</NodeHeaderTitle>
+        </NodeHeader>
+      </NodeWrapper>
+    </NodeBorder>
   );
 };
