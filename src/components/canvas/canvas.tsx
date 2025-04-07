@@ -22,6 +22,7 @@ const ReactFlowWrapper = styled.div`
 const nodeTypes = {
   table: Node,
   collection: Node,
+  connectable: Node,
 };
 
 type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[] };
