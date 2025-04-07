@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react';
+import { NodeProps } from '@xyflow/react';
+
 import { render } from '@/mocks/testing-utils';
 import { Node } from '@/components/node/node';
-import { NodeProps } from '@xyflow/react';
 import { InternalNode } from '@/types/internal';
 
 describe('node', () => {

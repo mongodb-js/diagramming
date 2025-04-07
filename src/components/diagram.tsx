@@ -1,8 +1,9 @@
-import { Canvas } from '@/components/canvas/canvas';
 import LeafyGreenProvider from '@leafygreen-ui/leafygreen-provider';
+import { ThemeProvider } from '@emotion/react';
+
+import { Canvas } from '@/components/canvas/canvas';
 import { DARK_THEME } from '@/styles/theme-dark';
 import { LIGHT_THEME } from '@/styles/theme-light';
-import { ThemeProvider } from '@emotion/react';
 import { DiagramProps } from '@/types/component-props';
 
 export const Diagram = ({ isDarkMode, ...rest }: DiagramProps) => {

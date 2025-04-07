@@ -2,8 +2,9 @@ import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import type { PropsWithChildren, ReactElement } from 'react';
 import { ThemeProvider } from '@emotion/react';
-import { LIGHT_THEME } from '@/styles/theme-light';
 import { ReactFlowProvider } from '@xyflow/react';
+
+import { LIGHT_THEME } from '@/styles/theme-light';
 export * from '@testing-library/react';
 
 export const wrapper = ({ children }: PropsWithChildren) => (

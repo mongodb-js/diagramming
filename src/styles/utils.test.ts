@@ -1,5 +1,6 @@
-import { hexToRgb } from '@/styles/utils';
 import { palette } from '@leafygreen-ui/palette';
+
+import { hexToRgb } from '@/styles/utils';
 
 describe('styles/utils', () => {
   describe('hexToRgb', () => {

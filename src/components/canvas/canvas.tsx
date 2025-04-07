@@ -1,11 +1,12 @@
 import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
+import { ReactFlow, Background, ProOptions, ReactFlowProps, useNodesState } from '@xyflow/react';
+
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { useEffect } from 'react';
 import { Node as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
-import { ReactFlow, Background, ProOptions, ReactFlowProps, useNodesState } from '@xyflow/react';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalNode } from '@/types/internal';
 
@@ -32,6 +33,7 @@ export const Canvas = ({ title, nodes: externalNodes }: Props) => {
 
   useEffect(() => {
     setNodes(initialNodes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialNodes]);
 
   return (

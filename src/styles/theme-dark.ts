@@ -1,6 +1,8 @@
 import { Theme } from '@emotion/react';
 import { palette } from '@leafygreen-ui/palette';
+
 import { hexToRgb } from '@/styles/utils';
+
 import { purple30 } from './overrides';
 
 export const DARK_THEME: Theme = {
