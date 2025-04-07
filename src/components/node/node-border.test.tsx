@@ -4,7 +4,7 @@ import { palette } from '@leafygreen-ui/palette';
 
 import { NodeBorder } from '@/components/node/node-border';
 
-describe('NodeBorder', () => {
+describe('node-border', () => {
   const renderComponent = (props?: Partial<ComponentProps<typeof NodeBorder>>) =>
     render(<NodeBorder {...props}>child</NodeBorder>);
 

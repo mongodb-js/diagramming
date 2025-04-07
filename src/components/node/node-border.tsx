@@ -58,5 +58,5 @@ export const NodeBorder = ({ children, variant }: PropsWithChildren<Props>) => {
     return <AnimatedBorder>{children}</AnimatedBorder>;
   }
 
-  return <BasicBorder outlineBorderColor={getBasicBorder() || undefined}>{children}</BasicBorder>;
+  return <BasicBorder outlineBorderColor={getBasicBorder()}>{children}</BasicBorder>;
 };
