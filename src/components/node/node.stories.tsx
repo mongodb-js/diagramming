@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, ReactRenderer, StoryObj } from '@storybook/react';
 import { ThemeProvider } from '@emotion/react';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 
@@ -24,7 +24,7 @@ const nodeStory: Meta<typeof Node> = {
   },
   decorators: [
     Story => <Story />,
-    withThemeFromJSXProvider<Renderer>({
+    withThemeFromJSXProvider<ReactRenderer>({
       themes: {
         light: LIGHT_THEME,
         dark: DARK_THEME,
@@ -42,6 +42,7 @@ export const CollectionType: Story = { args: INTERNAL_NODE };
 export const RelationalType: Story = {
   args: { ...INTERNAL_NODE, type: 'table' },
 };
+
 export const ConnectableType: Story = {
   args: { ...INTERNAL_NODE, type: 'connectable' },
 };
