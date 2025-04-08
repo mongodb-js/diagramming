@@ -19,7 +19,15 @@ export const FieldList = ({ fields, accent }: Props) => {
   return (
     <NodeFieldWrapper>
       {fields.map(({ name, type: fieldType, depth, glyphs }) => (
-        <Field key={name} name={name} depth={depth} color={accent} glyphs={glyphs} type={fieldType} spacing={spacing} />
+        <Field
+          key={name}
+          name={name}
+          depth={depth}
+          accent={accent}
+          glyphs={glyphs}
+          type={fieldType}
+          spacing={spacing}
+        />
       ))}
     </NodeFieldWrapper>
   );

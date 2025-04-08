@@ -10,7 +10,7 @@ describe('field', () => {
         name={'ordersId'}
         type={'objectId'}
         glyphs={['key', 'link']}
-        color={palette.blue.base}
+        accent={palette.blue.base}
         spacing={2}
         depth={1}
       />,

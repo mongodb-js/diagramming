@@ -1,12 +1,18 @@
 import styled from '@emotion/styled';
-import { color as LGColor, fontWeights, spacing, spacing as LGSpacing } from '@leafygreen-ui/tokens';
+import { color, fontWeights, spacing as LGSpacing, spacing } from '@leafygreen-ui/tokens';
+import { palette } from '@leafygreen-ui/palette';
+import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 
 import { ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
-import { FieldIcon } from '@/components/field/field-icon';
 import { FieldDepth } from '@/components/field/field-depth';
-import { NodeField } from '@/types';
+import { NodeField, NodeGlyph } from '@/types';
+
+const GlyphToIcon: Record<NodeGlyph, string> = {
+  key: 'Key',
+  link: 'Link',
+};
 
 const FieldWrapper = styled.div`
   display: flex;
@@ -44,28 +50,34 @@ const FieldType = styled.div`
   ${ellipsisTruncation}
 `;
 
+const IconWrapper = styled(Icon)`
+  padding-right: ${spacing[100]}px;
+`;
+
 interface Props extends NodeField {
-  color: string;
+  accent: string;
   spacing: number;
 }
 
-export const Field = ({ name, depth, type, glyphs, color, spacing }: Props) => {
+export const Field = ({ name, depth, type, glyphs, accent, spacing }: Props) => {
   const { theme } = useDarkMode();
 
-  const secondaryColor = LGColor[theme].text.secondary.default;
+  const getIconColor = (glyph: NodeGlyph) => {
+    return glyph === 'key' ? accent : palette.gray.light1;
+  };
 
   return (
     <FieldWrapper>
       <InnerFieldWrapper width={spacing}>
         {glyphs?.map(glyph => (
-          <FieldIcon key={glyph} primaryColor={color} glyph={glyph} />
+          <IconWrapper key={glyph} size={11} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
         ))}
       </InnerFieldWrapper>
       <FieldName>
         <FieldDepth depth={depth || 0} />
         <InnerFieldName>{name}</InnerFieldName>
       </FieldName>
-      <FieldType color={secondaryColor}>{type}</FieldType>
+      <FieldType color={color[theme].text.secondary.default}>{type}</FieldType>
     </FieldWrapper>
   );
 };
