@@ -1,10 +1,6 @@
-import { Meta, ReactRenderer, StoryObj } from '@storybook/react';
-import { ThemeProvider } from '@emotion/react';
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { Meta, StoryObj } from '@storybook/react';
 
-import { LIGHT_THEME } from '@/styles/theme-light';
 import { InternalNode } from '@/types/internal';
-import { DARK_THEME } from '@/styles/theme-dark';
 import { Node } from '@/components/node/node';
 
 const INTERNAL_NODE: InternalNode = {
@@ -36,6 +32,18 @@ export const RelationalType: Story = {
 
 export const ConnectableType: Story = {
   args: { ...INTERNAL_NODE, type: 'connectable' },
+};
+
+export const SelectedBorder: Story = {
+  args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
+};
+
+export const PreviewBorder: Story = {
+  args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'preview' } },
+};
+
+export const SubtleBorder: Story = {
+  args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'subtle' } },
 };
 
 export default nodeStory;
