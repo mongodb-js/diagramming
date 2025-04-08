@@ -46,7 +46,7 @@ interface Props {
 }
 
 export const NodeBorder = ({ children, variant }: PropsWithChildren<Props>) => {
-  const getBasicBorder = () => {
+  const getBasicBorderColor = () => {
     if (variant === 'subtle') {
       return palette.gray.base;
     } else if (variant === 'selected') {
@@ -58,5 +58,5 @@ export const NodeBorder = ({ children, variant }: PropsWithChildren<Props>) => {
     return <AnimatedBorder>{children}</AnimatedBorder>;
   }
 
-  return <BasicBorder outlineBorderColor={getBasicBorder()}>{children}</BasicBorder>;
+  return <BasicBorder outlineBorderColor={getBasicBorderColor()}>{children}</BasicBorder>;
 };
