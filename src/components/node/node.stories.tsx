@@ -17,21 +17,12 @@ const INTERNAL_NODE: InternalNode = {
 const nodeStory: Meta<typeof Node> = {
   title: 'Node',
   component: Node,
-  parameters: {
-    docs: {
-      theme: LIGHT_THEME,
-    },
-  },
   decorators: [
-    Story => <Story />,
-    withThemeFromJSXProvider<ReactRenderer>({
-      themes: {
-        light: LIGHT_THEME,
-        dark: DARK_THEME,
-      },
-      defaultTheme: 'light',
-      Provider: ThemeProvider,
-    }),
+    Story => (
+      <div style={{ padding: '100px' }}>
+        <Story />
+      </div>
+    ),
   ],
 };
 
