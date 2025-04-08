@@ -8,6 +8,7 @@ import { ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_NODE_HEADER_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
 import { NodeBorder } from '@/components/node/node-border';
+import { FieldList } from '@/components/field/field-list';
 
 const NodeWrapper = styled.div<{ accent: string }>`
   position: relative;
@@ -56,7 +57,7 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
-export const Node = ({ type, data: { title, borderVariant } }: NodeProps<InternalNode>) => {
+export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
 
   const getAccent = () => {
@@ -75,6 +76,7 @@ export const Node = ({ type, data: { title, borderVariant } }: NodeProps<Interna
           </NodeHeaderIcon>
           <NodeHeaderTitle>{title}</NodeHeaderTitle>
         </NodeHeader>
+        <FieldList accent={getAccent()} fields={fields} />
       </NodeWrapper>
     </NodeBorder>
   );
