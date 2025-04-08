@@ -1260,6 +1260,7 @@ __metadata:
     "@leafygreen-ui/typography": "npm:^20.1.4"
     "@storybook/addon-essentials": "npm:^8.6.0"
     "@storybook/addon-interactions": "npm:^8.6.0"
+    "@storybook/addon-themes": "npm:^8.6.12"
     "@storybook/react": "npm:^8.6.0"
     "@storybook/react-vite": "npm:^8.6.0"
     "@storybook/test": "npm:^8.6.0"
@@ -1736,6 +1737,17 @@ __metadata:
   peerDependencies:
     storybook: ^8.6.0
   checksum: 10c0/3a482815661eb6ebc17d26fb4d6694cda353567856e2e8cf8d5b03e7cad04f7ee6a2329b130550748a8a5c7f4fd52e3f9b950db5a0dbe7893354ee8ef7210392
+  languageName: node
+  linkType: hard
+
+"@storybook/addon-themes@npm:^8.6.12":
+  version: 8.6.12
+  resolution: "@storybook/addon-themes@npm:8.6.12"
+  dependencies:
+    ts-dedent: "npm:^2.0.0"
+  peerDependencies:
+    storybook: ^8.6.12
+  checksum: 10c0/9cd55c917fb7399bcd641c8ae31a8b403fcff79e0f33ec2ac5aabb5cff70b588eeb05bb8bea1b4a4cc2b970bfe2ce57607583b19f2a969d7b4337b18036cb222
   languageName: node
   linkType: hard
 

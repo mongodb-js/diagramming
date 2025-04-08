@@ -6,7 +6,8 @@ export type BaseNodeProps = Pick<
   ReactFlowNode<{}, NodeType>,
   'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'selected' | 'style' | 'className' | 'measured'
 >;
-export type NodeType = 'table' | 'collection';
+export type NodeType = 'table' | 'collection' | 'connectable';
+export type NodeBorderVariant = 'subtle' | 'preview' | 'selected' | 'none';
 export type NodeFieldVariant = 'dimmed' | 'preview' | 'default';
 export type NodeGlyph = 'key' | 'link';
 
