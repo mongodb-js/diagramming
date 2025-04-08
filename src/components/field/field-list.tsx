@@ -18,7 +18,7 @@ export const FieldList = ({ fields, accent }: Props) => {
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
   return (
     <NodeFieldWrapper>
-      {fields.map(({ name, type: fieldType, depth, glyphs }) => (
+      {fields.map(({ name, type: fieldType, depth, glyphs, variant }) => (
         <Field
           key={name}
           name={name}
@@ -27,6 +27,7 @@ export const FieldList = ({ fields, accent }: Props) => {
           glyphs={glyphs}
           type={fieldType}
           spacing={spacing}
+          variant={variant}
         />
       ))}
     </NodeFieldWrapper>

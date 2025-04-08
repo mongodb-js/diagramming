@@ -8,7 +8,7 @@ export type BaseNodeProps = Pick<
 >;
 export type NodeType = 'table' | 'collection' | 'connectable';
 export type NodeBorderVariant = 'subtle' | 'preview' | 'selected' | 'none';
-export type NodeFieldVariant = 'dimmed' | 'preview' | 'default';
+export type NodeFieldVariant = 'dimmed' | 'preview' | 'primary' | 'default';
 export type NodeGlyph = 'key' | 'link';
 
 export interface NodeField {
