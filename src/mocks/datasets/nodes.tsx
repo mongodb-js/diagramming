@@ -8,7 +8,10 @@ export const ORDERS_NODE: Node = {
     y: 100,
   },
   title: 'orders',
-  fields: [{ name: 'one' }],
+  fields: [
+    { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
+    { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
+  ],
 };
 
 export const EMPLOYEES_NODE: Node = {
@@ -19,5 +22,10 @@ export const EMPLOYEES_NODE: Node = {
     y: 300,
   },
   title: 'employees',
-  fields: [{ name: 'one' }],
+  fields: [
+    { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
+    { name: 'employeeDetail', type: '{}' },
+    { name: 'firstName', type: 'string', depth: 1 },
+    { name: 'lastName', type: 'string', depth: 1 },
+  ],
 };

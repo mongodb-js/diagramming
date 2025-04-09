@@ -40,6 +40,15 @@ export default [
       ...reactPlugin.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
       ...eslintPlugin.configs.stylistic,
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       'no-unexpected-multiline': 'error',
       'no-console': 'error',
       'prefer-arrow-callback': 'warn',

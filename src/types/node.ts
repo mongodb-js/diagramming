@@ -15,7 +15,7 @@ export interface NodeField {
   name: string;
   type?: string;
   depth?: number;
-  glyphs?: NodeGlyph;
+  glyphs?: Array<NodeGlyph>;
   variant?: NodeFieldVariant;
 }
 

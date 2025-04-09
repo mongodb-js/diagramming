@@ -17,9 +17,8 @@ describe('use-canvas', () => {
         data: {
           borderVariant: undefined,
           fields: [
-            {
-              name: 'one',
-            },
+            { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
+            { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
           ],
           title: 'orders',
         },
@@ -34,9 +33,10 @@ describe('use-canvas', () => {
         data: {
           borderVariant: undefined,
           fields: [
-            {
-              name: 'one',
-            },
+            { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
+            { name: 'employeeDetail', type: '{}' },
+            { name: 'firstName', type: 'string', depth: 1 },
+            { name: 'lastName', type: 'string', depth: 1 },
           ],
           title: 'employees',
         },
