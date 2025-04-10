@@ -207,6 +207,220 @@ export const NodeWithPrimaryField: Story = {
   },
 };
 
+export const NodeWithPreviewFields: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+        },
+        {
+          name: 'companyName',
+          type: 'string',
+          variant: 'preview',
+        },
+        {
+          name: 'phoneNumber',
+          type: 'number',
+          variant: 'preview',
+        },
+        {
+          name: 'address',
+          type: 'string',
+          variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithPreviewGlyphs: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          variant: 'preview',
+          glyphs: ['key', 'link'],
+        },
+        {
+          name: 'companyName',
+          type: 'string',
+          variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithSomePreviewGlyphs: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          glyphs: ['key', 'link'],
+        },
+        {
+          name: 'companyName',
+          type: 'string',
+          variant: 'preview',
+        },
+        {
+          name: 'address',
+          type: 'string',
+          variant: 'preview',
+        },
+        {
+          name: 'fullName',
+          type: 'string',
+          variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithNestedPreviewFields: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'orderId',
+          type: 'string',
+          glyphs: ['key'],
+        },
+        {
+          name: 'customer',
+          type: '{}',
+          variant: 'preview',
+        },
+        {
+          name: 'customerId',
+          type: 'string',
+          depth: 1,
+          variant: 'preview',
+        },
+        {
+          name: 'addresses',
+          type: '[]',
+          depth: 1,
+          variant: 'preview',
+        },
+        {
+          name: 'streetName',
+          type: 'string',
+          depth: 2,
+          variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithDeeplyNestedPreviewFields: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'orderId',
+          type: 'string',
+          glyphs: ['key'],
+        },
+        {
+          name: 'customer',
+          type: '{}',
+        },
+        {
+          name: 'customerId',
+          type: 'string',
+          depth: 1,
+        },
+        {
+          name: 'addresses',
+          type: '[]',
+          depth: 1,
+          variant: 'preview',
+        },
+        {
+          name: 'streetName',
+          type: 'string',
+          depth: 2,
+          variant: 'preview',
+        },
+        {
+          name: 'postcode',
+          type: 'number',
+          depth: 2,
+          variant: 'preview',
+        },
+        {
+          name: 'country',
+          type: 'string',
+          depth: 2,
+          variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'orderId',
+          type: 'string',
+          glyphs: ['key'],
+          variant: 'preview',
+        },
+        {
+          name: 'customer',
+          type: '{}',
+        },
+        {
+          name: 'customerId',
+          type: 'string',
+          depth: 1,
+        },
+        {
+          name: 'addresses',
+          type: '[]',
+          depth: 1,
+        },
+        {
+          name: 'streetName',
+          type: 'string',
+          depth: 2,
+          variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
 export const SelectedBorder: Story = {
   args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
 };

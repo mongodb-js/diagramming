@@ -4,10 +4,13 @@ import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 
-import { ellipsisTruncation } from '@/styles/styles';
-import { DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
+import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
+import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
 import { NodeField, NodeGlyph } from '@/types';
+
+const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
+const FIELD_GLYPH_SPACING = spacing[400];
 
 const GlyphToIcon: Record<NodeGlyph, string> = {
   key: 'Key',
@@ -26,7 +29,37 @@ const InnerFieldWrapper = styled.div<{ width: number }>`
   display: flex;
   justify-content: flex-end;
   flex: 0 0 auto;
-  width: ${props => `${props.width * spacing[400]}px`};
+  width: ${props => `${props.width * FIELD_GLYPH_SPACING}px`};
+`;
+
+const FieldBorderAnimated = styled.div<{ height: string; left: string; width: string }>`
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: ${props => props.width};
+    height: ${props => props.height};
+    left: ${props => props.left};
+    top: ${FIELD_BORDER_ANIMATED_PADDING / 2}px;
+    ${animatedBlueBorder};
+    padding: ${FIELD_BORDER_ANIMATED_PADDING}px;
+    margin: -${FIELD_BORDER_ANIMATED_PADDING}px;
+  }
+`;
+
+const FieldBorder = styled(FieldBorderAnimated)`
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+`;
+
+const FieldRow = styled.div`
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
 `;
 
 const FieldName = styled.div`
@@ -58,9 +91,19 @@ const IconWrapper = styled(Icon)`
 interface Props extends NodeField {
   accent: string;
   spacing: number;
+  previewGroupLength?: number;
 }
 
-export const Field = ({ name, depth, type, glyphs, accent, spacing, variant }: Props) => {
+export const Field = ({
+  name,
+  depth = 0,
+  type,
+  glyphs = [],
+  accent,
+  spacing = 0,
+  variant,
+  previewGroupLength = 0,
+}: Props) => {
   const { theme } = useDarkMode();
 
   const getTextColor = () => {
@@ -89,18 +132,34 @@ export const Field = ({ name, depth, type, glyphs, accent, spacing, variant }: P
     }
   };
 
-  return (
-    <FieldWrapper color={getTextColor()}>
-      <InnerFieldWrapper width={spacing}>
-        {glyphs?.map(glyph => (
-          <IconWrapper key={glyph} size={11} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
-        ))}
-      </InnerFieldWrapper>
+  const content = (
+    <>
       <FieldName>
-        <FieldDepth depth={depth || 0} />
+        <FieldDepth depth={depth} />
         <InnerFieldName>{name}</InnerFieldName>
       </FieldName>
       <FieldType color={getSecondaryTextColor()}>{type}</FieldType>
+    </>
+  );
+
+  return (
+    <FieldWrapper color={getTextColor()}>
+      <InnerFieldWrapper width={spacing}>
+        {glyphs.map(glyph => (
+          <IconWrapper key={glyph} size={11} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
+        ))}
+      </InnerFieldWrapper>
+      {previewGroupLength ? (
+        <FieldBorder
+          height={`${previewGroupLength * DEFAULT_FIELD_HEIGHT - FIELD_BORDER_ANIMATED_PADDING / 2}px`}
+          left={`${depth * DEFAULT_DEPTH_SPACING - glyphs.length * FIELD_GLYPH_SPACING}px`}
+          width={`calc(100% + ${glyphs.length * FIELD_GLYPH_SPACING - depth * FIELD_BORDER_ANIMATED_PADDING * 2}px)`}
+        >
+          {content}
+        </FieldBorder>
+      ) : (
+        <FieldRow>{content}</FieldRow>
+      )}
     </FieldWrapper>
   );
 };
