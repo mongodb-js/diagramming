@@ -14,11 +14,12 @@ const GlyphToIcon: Record<NodeGlyph, string> = {
   link: 'Link',
 };
 
-const FieldWrapper = styled.div`
+const FieldWrapper = styled.div<{ color: string }>`
   display: flex;
   align-items: center;
   width: auto;
   height: ${DEFAULT_FIELD_HEIGHT}px;
+  color: ${props => props.color};
 `;
 
 const InnerFieldWrapper = styled.div<{ width: number }>`
@@ -59,15 +60,37 @@ interface Props extends NodeField {
   spacing: number;
 }
 
-export const Field = ({ name, depth, type, glyphs, accent, spacing }: Props) => {
+export const Field = ({ name, depth, type, glyphs, accent, spacing, variant }: Props) => {
   const { theme } = useDarkMode();
 
+  const getTextColor = () => {
+    if (variant === 'dimmed') {
+      return color[theme].text.disabled.default;
+    } else {
+      return color[theme].text.primary.default;
+    }
+  };
+
+  const getSecondaryTextColor = () => {
+    if (variant === 'dimmed') {
+      return color[theme].text.disabled.default;
+    } else {
+      return color[theme].text.secondary.default;
+    }
+  };
+
   const getIconColor = (glyph: NodeGlyph) => {
-    return glyph === 'key' ? accent : palette.gray.light1;
+    if (variant === 'dimmed') {
+      return color[theme].text.disabled.default;
+    } else if (variant === 'primary') {
+      return palette.blue.base;
+    } else {
+      return glyph === 'key' ? accent : palette.gray.light1;
+    }
   };
 
   return (
-    <FieldWrapper>
+    <FieldWrapper color={getTextColor()}>
       <InnerFieldWrapper width={spacing}>
         {glyphs?.map(glyph => (
           <IconWrapper key={glyph} size={11} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
@@ -77,7 +100,7 @@ export const Field = ({ name, depth, type, glyphs, accent, spacing }: Props) => 
         <FieldDepth depth={depth || 0} />
         <InnerFieldName>{name}</InnerFieldName>
       </FieldName>
-      <FieldType color={color[theme].text.secondary.default}>{type}</FieldType>
+      <FieldType color={getSecondaryTextColor()}>{type}</FieldType>
     </FieldWrapper>
   );
 };

@@ -153,6 +153,60 @@ export const NestedFields: Story = {
   },
 };
 
+export const NodeWithDefaultField: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          variant: 'default',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithDimmedField: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          variant: 'dimmed',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithPrimaryField: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    type: 'connectable',
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          variant: 'primary',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
 export const SelectedBorder: Story = {
   args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
 };
