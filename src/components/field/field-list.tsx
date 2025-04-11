@@ -4,9 +4,10 @@ import { spacing } from '@leafygreen-ui/tokens';
 import { Field } from '@/components/field/field';
 import { NodeField } from '@/types';
 import { getPreviewGroupLengths } from '@/utilities/get-preview-group-lengths';
+import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
 
 const NodeFieldWrapper = styled.div`
-  padding: ${spacing[200]}px ${spacing[400]}px ${spacing[200]}px ${spacing[400]}px;
+  padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
   font-size: 12px;
 `;
 

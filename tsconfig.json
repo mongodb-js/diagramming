@@ -18,21 +18,22 @@
         "./src/*"
       ]
     },
-    "types": ["node","vitest", "@testing-library/jest-dom", "@emotion/react"],
+    "types": ["node","vitest", "@testing-library/jest-dom", "@emotion/react", "vitest/globals"],
     "typeRoots": ["./node_modules/@types", "./types", "./node_modules"],
     "sourceMap": true,
     "esModuleInterop": true,
     "noEmit": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true
 
   },
   "include": [
-    "src"
+    "src",
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    ".storybook"
   ]
 }

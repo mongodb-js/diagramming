@@ -10,6 +10,11 @@ import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalNode } from '@/types/internal';
 
+const FIT_VIEW_OPTIONS = {
+  maxZoom: 1,
+  minZoom: 0.25,
+};
+
 const PRO_OPTIONS: ProOptions = {
   hideAttribution: true,
 };
@@ -42,6 +47,7 @@ export const Canvas = ({ title, nodes: externalNodes }: Props) => {
       <ReactFlow
         title={title}
         proOptions={PRO_OPTIONS}
+        fitViewOptions={FIT_VIEW_OPTIONS}
         nodeTypes={nodeTypes}
         nodes={nodes}
         onNodesChange={onNodesChange}

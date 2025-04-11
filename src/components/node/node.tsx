@@ -1,14 +1,33 @@
-import { NodeProps } from '@xyflow/react';
+import { NodeProps, useViewport } from '@xyflow/react';
 import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
 
 import { ellipsisTruncation } from '@/styles/styles';
-import { DEFAULT_NODE_HEADER_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
+import {
+  DEFAULT_FIELD_HEIGHT,
+  DEFAULT_FIELD_PADDING,
+  DEFAULT_NODE_HEADER_HEIGHT,
+  DEFAULT_NODE_WIDTH,
+  ZOOM_THRESHOLD,
+} from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
+
+const NodeZoomedOut = styled.div<{ height: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: ${props => props.height}px;
+`;
+
+const NodeZoomedOutInner = styled.div`
+  font-size: 20px;
+  text-align: center;
+  ${ellipsisTruncation}
+`;
 
 const NodeWrapper = styled.div<{ accent: string }>`
   position: relative;
@@ -59,6 +78,7 @@ const NodeHeaderTitle = styled.div`
 
 export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
+  const { zoom } = useViewport();
 
   const getAccent = () => {
     if (type === 'table') {
@@ -67,16 +87,27 @@ export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps
     return theme.node.mongoDBAccent;
   };
 
+  const isContextualZoom = zoom < ZOOM_THRESHOLD;
+
   return (
     <NodeBorder variant={borderVariant}>
       <NodeWrapper accent={getAccent()}>
         <NodeHeader>
-          <NodeHeaderIcon>
-            <Icon fill={theme.node.headerIcon} glyph="Drag" />
-          </NodeHeaderIcon>
-          <NodeHeaderTitle>{title}</NodeHeaderTitle>
+          {!isContextualZoom && (
+            <>
+              <NodeHeaderIcon>
+                <Icon fill={theme.node.headerIcon} glyph="Drag" />
+              </NodeHeaderIcon>
+              <NodeHeaderTitle>{title}</NodeHeaderTitle>
+            </>
+          )}
         </NodeHeader>
-        <FieldList accent={getAccent()} fields={fields} />
+        {isContextualZoom && (
+          <NodeZoomedOut height={fields.length * DEFAULT_FIELD_HEIGHT + DEFAULT_FIELD_PADDING * 2}>
+            <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
+          </NodeZoomedOut>
+        )}
+        {!isContextualZoom && <FieldList accent={getAccent()} fields={fields} />}
       </NodeWrapper>
     </NodeBorder>
   );
