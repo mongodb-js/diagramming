@@ -146,7 +146,7 @@ export const Field = ({
     <FieldWrapper color={getTextColor()}>
       <InnerFieldWrapper width={spacing}>
         {glyphs.map(glyph => (
-          <IconWrapper key={glyph} size={11} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
+          <IconWrapper key={glyph} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
         ))}
       </InnerFieldWrapper>
       {previewGroupLength ? (

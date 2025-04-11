@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { ReactFlowProvider } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
 import { Node } from '@/components/node/node';
@@ -31,9 +32,11 @@ const nodeStory: Meta<typeof Node> = {
   component: Node,
   decorators: [
     Story => (
-      <div style={{ padding: '100px' }}>
-        <Story />
-      </div>
+      <ReactFlowProvider>
+        <div style={{ padding: '100px' }}>
+          <Story />
+        </div>
+      </ReactFlowProvider>
     ),
   ],
 };
