@@ -1,4 +1,4 @@
-export const ZOOM_THRESHOLD = 0.6;
+export const ZOOM_THRESHOLD = 0.5;
 export const DEFAULT_NODE_WIDTH = 244;
 export const DEFAULT_NODE_HEIGHT = 80;
 export const DEFAULT_NODE_SPACING = 100;
