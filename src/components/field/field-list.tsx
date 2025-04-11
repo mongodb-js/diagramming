@@ -7,7 +7,7 @@ import { getPreviewGroupLengths } from '@/utilities/get-preview-group-lengths';
 import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
 
 const NodeFieldWrapper = styled.div`
-  padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
+  padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
   font-size: 12px;
 `;
 
