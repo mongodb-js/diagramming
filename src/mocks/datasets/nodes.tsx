@@ -1,4 +1,5 @@
-import { Node } from '@/types/node';
+import { Node } from '@/types';
+import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
 export const ORDERS_NODE: Node = {
   id: 'orders',
@@ -6,6 +7,10 @@ export const ORDERS_NODE: Node = {
   position: {
     x: 100,
     y: 100,
+  },
+  measured: {
+    width: DEFAULT_NODE_WIDTH,
+    height: DEFAULT_FIELD_HEIGHT * 2,
   },
   title: 'orders',
   fields: [
@@ -20,6 +25,10 @@ export const EMPLOYEES_NODE: Node = {
   position: {
     x: 300,
     y: 300,
+  },
+  measured: {
+    width: DEFAULT_NODE_WIDTH,
+    height: DEFAULT_FIELD_HEIGHT * 4,
   },
   title: 'employees',
   fields: [

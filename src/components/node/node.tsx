@@ -1,4 +1,4 @@
-import { NodeProps, useViewport } from '@xyflow/react';
+import { Handle, NodeProps, Position, useViewport } from '@xyflow/react';
 import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
@@ -76,6 +76,10 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
+const NodeHandle = styled(Handle)`
+  visibility: hidden;
+`;
+
 export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
@@ -91,6 +95,8 @@ export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps
 
   return (
     <NodeBorder variant={borderVariant}>
+      <NodeHandle id="source" position={Position.Right} type="source" />
+      <NodeHandle id="source" position={Position.Left} type="target" />
       <NodeWrapper accent={getAccent()}>
         <NodeHeader>
           {!isContextualZoom && (
