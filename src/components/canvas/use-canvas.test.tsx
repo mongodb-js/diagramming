@@ -14,6 +14,10 @@ describe('use-canvas', () => {
           x: 100,
           y: 100,
         },
+        measured: {
+          height: 36,
+          width: 244,
+        },
         data: {
           borderVariant: undefined,
           fields: [
@@ -29,6 +33,10 @@ describe('use-canvas', () => {
         position: {
           x: 300,
           y: 300,
+        },
+        measured: {
+          height: 72,
+          width: 244,
         },
         data: {
           borderVariant: undefined,
