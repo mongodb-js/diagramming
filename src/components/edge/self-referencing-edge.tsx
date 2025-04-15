@@ -1,10 +1,17 @@
-import { EdgeProps, useNodes } from '@xyflow/react';
+import { BaseEdge, EdgeProps, useNodes } from '@xyflow/react';
 import { useMemo } from 'react';
 import { path } from 'd3-path';
+import styled from '@emotion/styled';
+import { palette } from '@leafygreen-ui/palette';
 
 import { InternalNode } from '@/types/internal';
+import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
 
-export const SelfReferencingEdge = ({ id, source }: EdgeProps) => {
+const Edge = styled(BaseEdge)`
+  stroke: ${palette.gray.base};
+`;
+
+export const SelfReferencingEdge = ({ id, source, markerEnd, markerStart }: EdgeProps) => {
   const nodes = useNodes<InternalNode>();
 
   const { sourceNode } = useMemo(() => {
@@ -24,7 +31,7 @@ export const SelfReferencingEdge = ({ id, source }: EdgeProps) => {
   const rightHeight = centerY + leftHeight;
 
   const startX = sourceNode.position.x + centerX;
-  const startY = sourceNode.position.y;
+  const startY = sourceNode.position.y - DEFAULT_MARKER_SIZE / 2;
 
   const topLeftCornerX = startX;
   const topLeftCornerY = startY - leftHeight;
@@ -35,7 +42,7 @@ export const SelfReferencingEdge = ({ id, source }: EdgeProps) => {
   const bottomRightCornerX = topRightCornerX;
   const bottomRightCornerY = topRightCornerY + rightHeight;
 
-  const bottomLeftCornerX = topRightCornerX - width + centerX;
+  const bottomLeftCornerX = topRightCornerX - width + centerX + DEFAULT_MARKER_SIZE / 2;
   const bottomLeftCornerY = bottomRightCornerY;
 
   const context = path();
@@ -46,10 +53,11 @@ export const SelfReferencingEdge = ({ id, source }: EdgeProps) => {
   context.lineTo(bottomLeftCornerX, bottomLeftCornerY);
 
   return (
-    <path
+    <Edge
       data-testid={`self-referencing-edge-${id}`}
-      className="react-flow__edge-path"
-      d={context.toString()}
+      markerEnd={markerEnd}
+      markerStart={markerStart}
+      path={context.toString()}
       id={id}
     />
   );

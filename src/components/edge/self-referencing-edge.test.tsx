@@ -42,7 +42,7 @@ describe('self-referencing-edge', () => {
     renderComponent();
     const path = screen.getByTestId('self-referencing-edge-employees-to-employees');
     expect(path).toHaveAttribute('id', 'employees-to-employees');
-    expect(path).toHaveAttribute('d', 'M422,300L422,270L584,270L584,336L544,336');
+    expect(path).toHaveAttribute('d', 'M422,292.5L422,262.5L584,262.5L584,328.5L551.5,328.5');
   });
 
   it('Should not render edge if source does not exist', () => {

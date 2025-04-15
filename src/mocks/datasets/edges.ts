@@ -5,7 +5,7 @@ export const ORDERS_TO_EMPLOYEES_EDGE: Edge = {
   source: 'employees',
   target: 'orders',
   markerEnd: 'one',
-  markerStart: 'one',
+  markerStart: 'many',
 };
 
 export const EMPLOYEES_TO_EMPLOYEES_EDGE: Edge = {
@@ -13,5 +13,5 @@ export const EMPLOYEES_TO_EMPLOYEES_EDGE: Edge = {
   source: 'employees',
   target: 'employees',
   markerEnd: 'one',
-  markerStart: 'oneOrMany',
+  markerStart: 'many',
 };

@@ -7,3 +7,4 @@ export const DEFAULT_NODE_HEADER_HEIGHT = 28;
 export const DEFAULT_FIELD_HEIGHT = 18;
 export const DEFAULT_FIELD_PADDING = 8;
 export const DEFAULT_DEPTH_SPACING = 8;
+export const DEFAULT_MARKER_SIZE = 15;
