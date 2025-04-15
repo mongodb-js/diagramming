@@ -30,10 +30,10 @@
   },
   "include": [
     "src",
+    ".storybook"
   ],
   "exclude": [
     "node_modules",
     "src/**/*.d.ts",
-    ".storybook"
   ]
 }

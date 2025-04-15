@@ -1,14 +1,14 @@
 import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
-import { ReactFlow, Background, ProOptions, ReactFlowProps, useNodesState } from '@xyflow/react';
+import { Background, ProOptions, ReactFlow, ReactFlowProps, useNodesState } from '@xyflow/react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { Node as ExternalNode } from '@/types';
+import { Edge, Node as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalNode } from '@/types/internal';
+import { FloatingEdge } from '@/components/edge/floating-edge';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -28,17 +28,16 @@ const nodeTypes = {
   connectable: Node,
 };
 
-type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[] };
+const edgeTypes = {
+  floatingEdge: FloatingEdge,
+};
 
-export const Canvas = ({ title, nodes: externalNodes }: Props) => {
+type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[]; edges: Edge[] };
+
+export const Canvas = ({ title, nodes: externalNodes, edges }: Props) => {
   const { initialNodes } = useCanvas(externalNodes);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
-
-  useEffect(() => {
-    setNodes(initialNodes);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialNodes]);
+  const [nodes, , onNodesChange] = useNodesState<InternalNode>(initialNodes);
 
   return (
     <ReactFlowWrapper>
@@ -48,7 +47,10 @@ export const Canvas = ({ title, nodes: externalNodes }: Props) => {
         maxZoom={MAX_ZOOM}
         minZoom={MIN_ZOOM}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         nodes={nodes}
+        onlyRenderVisibleElements={true}
+        edges={edges}
         onNodesChange={onNodesChange}
       >
         <Background />
