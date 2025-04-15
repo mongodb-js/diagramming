@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
-import { Node as ExternalNode } from '@/types';
+import { Edge, Node as ExternalNode } from '@/types';
 import { InternalNode } from '@/types/internal';
 
-export const useCanvas = (externalNodes: ExternalNode[]) => {
+export const useCanvas = (externalNodes: ExternalNode[], externalEdges: Edge[]) => {
   const initialNodes: InternalNode[] = useMemo(
     () =>
       externalNodes.map(node => {
@@ -20,7 +20,17 @@ export const useCanvas = (externalNodes: ExternalNode[]) => {
     [externalNodes],
   );
 
+  const initialEdges: Edge[] = useMemo(
+    () =>
+      externalEdges.map(edge => ({
+        ...edge,
+        type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
+      })),
+    [externalEdges],
+  );
+
   return {
     initialNodes,
+    initialEdges,
   };
 };

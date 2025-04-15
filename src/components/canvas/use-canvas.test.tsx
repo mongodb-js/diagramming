@@ -1,11 +1,12 @@
 import { renderHook } from '@/mocks/testing-utils';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
+import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
 
 import { useCanvas } from './use-canvas';
 
 describe('use-canvas', () => {
-  it('should get initial nodes', () => {
-    const { result } = renderHook(() => useCanvas([ORDERS_NODE, EMPLOYEES_NODE]));
+  it('Should get initial nodes', () => {
+    const { result } = renderHook(() => useCanvas([ORDERS_NODE, EMPLOYEES_NODE], []));
     expect(result.current.initialNodes).toEqual([
       {
         id: 'orders',
@@ -48,6 +49,32 @@ describe('use-canvas', () => {
           ],
           title: 'employees',
         },
+      },
+    ]);
+  });
+  it('Should get initial floating edges', () => {
+    const { result } = renderHook(() => useCanvas([], [ORDERS_TO_EMPLOYEES_EDGE]));
+    expect(result.current.initialEdges).toEqual([
+      {
+        id: 'employees-to-orders',
+        markerEnd: 'one',
+        markerStart: 'one',
+        source: 'employees',
+        target: 'orders',
+        type: 'floatingEdge',
+      },
+    ]);
+  });
+  it('Should get self referencing edges', () => {
+    const { result } = renderHook(() => useCanvas([], [EMPLOYEES_TO_EMPLOYEES_EDGE]));
+    expect(result.current.initialEdges).toEqual([
+      {
+        id: 'employees-to-employees',
+        source: 'employees',
+        target: 'employees',
+        markerEnd: 'one',
+        markerStart: 'oneOrMany',
+        type: 'selfReferencingEdge',
       },
     ]);
   });

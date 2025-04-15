@@ -1,0 +1,56 @@
+import { EdgeProps, useNodes } from '@xyflow/react';
+import { useMemo } from 'react';
+import { path } from 'd3-path';
+
+import { InternalNode } from '@/types/internal';
+
+export const SelfReferencingEdge = ({ id, source }: EdgeProps) => {
+  const nodes = useNodes<InternalNode>();
+
+  const { sourceNode } = useMemo(() => {
+    const sourceNode = nodes.find(n => n.id === source);
+    return { sourceNode };
+  }, [nodes, source]);
+
+  if (!sourceNode) {
+    return null;
+  }
+
+  const centerX = (sourceNode.measured?.width || 0) / 2;
+  const centerY = (sourceNode.measured?.height || 0) / 2;
+
+  const width = centerX + 40;
+  const leftHeight = 30;
+  const rightHeight = centerY + leftHeight;
+
+  const startX = sourceNode.position.x + centerX;
+  const startY = sourceNode.position.y;
+
+  const topLeftCornerX = startX;
+  const topLeftCornerY = startY - leftHeight;
+
+  const topRightCornerX = startX + width;
+  const topRightCornerY = topLeftCornerY;
+
+  const bottomRightCornerX = topRightCornerX;
+  const bottomRightCornerY = topRightCornerY + rightHeight;
+
+  const bottomLeftCornerX = topRightCornerX - width + centerX;
+  const bottomLeftCornerY = bottomRightCornerY;
+
+  const context = path();
+  context.moveTo(startX, startY);
+  context.lineTo(topLeftCornerX, topLeftCornerY);
+  context.lineTo(topRightCornerX, topLeftCornerY);
+  context.lineTo(bottomRightCornerX, bottomRightCornerY);
+  context.lineTo(bottomLeftCornerX, bottomLeftCornerY);
+
+  return (
+    <path
+      data-testid={`self-referencing-edge-${id}`}
+      className="react-flow__edge-path"
+      d={context.toString()}
+      id={id}
+    />
+  );
+};
