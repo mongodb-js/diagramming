@@ -2,6 +2,14 @@ import { Position, XYPosition } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
 
+/**
+ * Returns the coordinates where a line connecting the centers of the source and target nodes intersects
+ * the edges of those nodes. This implementation is copied from:
+ * https://github.com/xyflow/xyflow/blob/main/examples/react/src/examples/FloatingEdges/utils.ts
+ *
+ * @param intersectionNode The source node
+ * @param targetNode The target node
+ */
 const getNodeIntersection = (intersectionNode: InternalNode, targetNode: InternalNode): XYPosition => {
   const { width: intersectionNodeWidth, height: intersectionNodeHeight } = intersectionNode.measured ?? {
     width: 0,
@@ -28,6 +36,13 @@ const getNodeIntersection = (intersectionNode: InternalNode, targetNode: Interna
   return { x, y };
 };
 
+/**
+ * Normalises the edge position based on co-ordinates of the edge
+ * @param node The node where the edge is pointing from. This implementation is copied from:
+ * https://github.com/xyflow/xyflow/blob/main/examples/react/src/examples/FloatingEdges/utils.ts
+ *
+ * @param intersectionPoint The position of the edge
+ */
 const getEdgePosition = (node: InternalNode, intersectionPoint: XYPosition) => {
   const n = { ...node.position, ...node };
   const nx = Math.round(n.x);

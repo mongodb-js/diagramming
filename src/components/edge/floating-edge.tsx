@@ -26,9 +26,5 @@ export const FloatingEdge = ({ id, source, target }: EdgeProps) => {
     targetY: ty,
   });
 
-  return (
-    <>
-      <path data-testId={`floating-edge-${id}`} className="react-flow__edge-path" d={path} id={id} />`
-    </>
-  );
+  return <path data-testId={`floating-edge-${id}`} className="react-flow__edge-path" d={path} id={id} />;
 };
