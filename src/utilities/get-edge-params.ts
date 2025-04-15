@@ -73,7 +73,6 @@ const getEdgePosition = (node: InternalNode, intersectionPoint: XYPosition) => {
  * @param position Direction of the edge
  * @param x Co-ordinates of the edge
  * @param y Co-ordinates of the edge
- * @param offset Amount of pixels to offset by
  */
 const offsetPosition = (position: Position, { x, y }: { x: number; y: number }) => {
   const offset = DEFAULT_MARKER_SIZE / 2;
@@ -106,14 +105,14 @@ export const getEdgeParams = (source: InternalNode, target: InternalNode) => {
   const sourcePos = getEdgePosition(source, sourceIntersectionPoint);
   const targetPos = getEdgePosition(target, targetIntersectionPoint);
 
-  const sourcePosition = offsetPosition(sourcePos, sourceIntersectionPoint);
-  const targetPosition = offsetPosition(targetPos, targetIntersectionPoint);
+  const sourceOffsetPosition = offsetPosition(sourcePos, sourceIntersectionPoint);
+  const targetOffsetPosition = offsetPosition(targetPos, targetIntersectionPoint);
 
   return {
-    sx: sourcePosition.x,
-    sy: sourcePosition.y,
-    tx: targetPosition.x,
-    ty: targetPosition.y,
+    sx: sourceOffsetPosition.x,
+    sy: sourceOffsetPosition.y,
+    tx: targetOffsetPosition.x,
+    ty: targetOffsetPosition.y,
     sourcePos,
     targetPos,
   };
