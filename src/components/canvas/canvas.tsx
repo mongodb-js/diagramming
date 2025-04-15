@@ -1,6 +1,6 @@
 import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
-import { Background, ProOptions, ReactFlow, ReactFlowProps, useNodesState } from '@xyflow/react';
+import { Background, ProOptions, ReactFlow, ReactFlowProps, useEdgesState, useNodesState } from '@xyflow/react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
@@ -9,6 +9,7 @@ import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalNode } from '@/types/internal';
 import { FloatingEdge } from '@/components/edge/floating-edge';
+import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -30,14 +31,16 @@ const nodeTypes = {
 
 const edgeTypes = {
   floatingEdge: FloatingEdge,
+  selfReferencingEdge: SelfReferencingEdge,
 };
 
 type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[]; edges: Edge[] };
 
-export const Canvas = ({ title, nodes: externalNodes, edges }: Props) => {
-  const { initialNodes } = useCanvas(externalNodes);
+export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Props) => {
+  const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
 
   const [nodes, , onNodesChange] = useNodesState<InternalNode>(initialNodes);
+  const [edges, , onEdgesChange] = useEdgesState<Edge>(initialEdges);
 
   return (
     <ReactFlowWrapper>
@@ -52,6 +55,7 @@ export const Canvas = ({ title, nodes: externalNodes, edges }: Props) => {
         onlyRenderVisibleElements={true}
         edges={edges}
         onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
       >
         <Background />
         <Controls title={title} />
