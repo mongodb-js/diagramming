@@ -57,8 +57,8 @@ describe('use-canvas', () => {
     expect(result.current.initialEdges).toEqual([
       {
         id: 'employees-to-orders',
-        markerEnd: 'one',
-        markerStart: 'many',
+        markerEnd: 'end-one',
+        markerStart: 'start-many',
         source: 'employees',
         target: 'orders',
         type: 'floatingEdge',
@@ -72,8 +72,8 @@ describe('use-canvas', () => {
         id: 'employees-to-employees',
         source: 'employees',
         target: 'employees',
-        markerEnd: 'one',
-        markerStart: 'many',
+        markerEnd: 'end-one',
+        markerStart: 'start-many',
         type: 'selfReferencingEdge',
       },
     ]);
