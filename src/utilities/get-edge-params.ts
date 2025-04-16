@@ -1,6 +1,7 @@
 import { Position, XYPosition } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
+import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
 
 /**
  * Returns the coordinates where a line connecting the centers of the source and target nodes intersects
@@ -67,6 +68,29 @@ const getEdgePosition = (node: InternalNode, intersectionPoint: XYPosition) => {
 };
 
 /**
+ * Offsets the edge position based on the size of the marker
+ *
+ * @param position Direction of the edge
+ * @param x Co-ordinates of the edge
+ * @param y Co-ordinates of the edge
+ */
+const offsetPosition = (position: Position, { x, y }: { x: number; y: number }) => {
+  const offset = DEFAULT_MARKER_SIZE / 2;
+  switch (position) {
+    case Position.Left:
+      return { x: x - offset, y };
+    case Position.Top:
+      return { x, y: y - offset };
+    case Position.Right:
+      return { x: x + offset, y };
+    case Position.Bottom:
+      return { x, y: y + offset };
+    default:
+      return { x, y };
+  }
+};
+
+/**
  * Returns the coordinates where a line connecting the centers of the source and target nodes intersects
  * the edges of those nodes. This implementation is copied from:
  * https://github.com/xyflow/xyflow/blob/main/examples/react/src/examples/FloatingEdges/utils.ts
@@ -81,11 +105,14 @@ export const getEdgeParams = (source: InternalNode, target: InternalNode) => {
   const sourcePos = getEdgePosition(source, sourceIntersectionPoint);
   const targetPos = getEdgePosition(target, targetIntersectionPoint);
 
+  const sourceOffsetPosition = offsetPosition(sourcePos, sourceIntersectionPoint);
+  const targetOffsetPosition = offsetPosition(targetPos, targetIntersectionPoint);
+
   return {
-    sx: sourceIntersectionPoint.x,
-    sy: sourceIntersectionPoint.y,
-    tx: targetIntersectionPoint.x,
-    ty: targetIntersectionPoint.y,
+    sx: sourceOffsetPosition.x,
+    sy: sourceOffsetPosition.y,
+    tx: targetOffsetPosition.x,
+    ty: targetOffsetPosition.y,
     sourcePos,
     targetPos,
   };

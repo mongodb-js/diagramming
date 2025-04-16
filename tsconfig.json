@@ -30,7 +30,8 @@
   },
   "include": [
     "src",
-    ".storybook"
+    ".storybook",
+    "vite-env.d.ts"
   ],
   "exclude": [
     "node_modules",

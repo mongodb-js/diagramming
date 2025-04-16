@@ -1,10 +1,16 @@
-import { EdgeProps, getSmoothStepPath, useNodes } from '@xyflow/react';
+import { EdgeProps, getSmoothStepPath, useNodes, BaseEdge } from '@xyflow/react';
 import { useMemo } from 'react';
+import styled from '@emotion/styled';
+import { palette } from '@leafygreen-ui/palette';
 
 import { getEdgeParams } from '@/utilities/get-edge-params';
 import { InternalNode } from '@/types/internal';
 
-export const FloatingEdge = ({ id, source, target }: EdgeProps) => {
+const Edge = styled(BaseEdge)`
+  stroke: ${palette.gray.base};
+`;
+
+export const FloatingEdge = ({ id, source, target, markerEnd, markerStart }: EdgeProps) => {
   const nodes = useNodes<InternalNode>();
 
   const { sourceNode, targetNode } = useMemo(() => {
@@ -26,5 +32,7 @@ export const FloatingEdge = ({ id, source, target }: EdgeProps) => {
     targetY: ty,
   });
 
-  return <path data-testid={`floating-edge-${id}`} className="react-flow__edge-path" d={path} id={id} />;
+  return (
+    <Edge data-testid={`floating-edge-${id}`} markerEnd={markerEnd} markerStart={markerStart} path={path} id={id} />
+  );
 };

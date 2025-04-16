@@ -58,7 +58,7 @@ describe('use-canvas', () => {
       {
         id: 'employees-to-orders',
         markerEnd: 'one',
-        markerStart: 'one',
+        markerStart: 'many',
         source: 'employees',
         target: 'orders',
         type: 'floatingEdge',
@@ -73,7 +73,7 @@ describe('use-canvas', () => {
         source: 'employees',
         target: 'employees',
         markerEnd: 'one',
-        markerStart: 'oneOrMany',
+        markerStart: 'many',
         type: 'selfReferencingEdge',
       },
     ]);
