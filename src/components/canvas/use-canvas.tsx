@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { Edge, Node as ExternalNode } from '@/types';
-import { InternalNode } from '@/types/internal';
+import { InternalEdge, InternalNode } from '@/types/internal';
 
 export const useCanvas = (externalNodes: ExternalNode[], externalEdges: Edge[]) => {
   const initialNodes: InternalNode[] = useMemo(
@@ -20,10 +20,12 @@ export const useCanvas = (externalNodes: ExternalNode[], externalEdges: Edge[]) 
     [externalNodes],
   );
 
-  const initialEdges: Edge[] = useMemo(
+  const initialEdges: InternalEdge[] = useMemo(
     () =>
       externalEdges.map(edge => ({
         ...edge,
+        markerStart: `start-${edge.markerStart}`,
+        markerEnd: `end-${edge.markerEnd}`,
         type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
       })),
     [externalEdges],

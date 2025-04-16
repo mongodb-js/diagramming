@@ -7,9 +7,10 @@ import { Controls } from '@/components/controls/controls';
 import { Edge, Node as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
-import { InternalNode } from '@/types/internal';
+import { InternalEdge, InternalNode } from '@/types/internal';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
+import { MarkerList } from '@/components/markers/marker-list';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -40,7 +41,7 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Pr
   const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
 
   const [nodes, , onNodesChange] = useNodesState<InternalNode>(initialNodes);
-  const [edges, , onEdgesChange] = useEdgesState<Edge>(initialEdges);
+  const [edges, , onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);
 
   return (
     <ReactFlowWrapper>
@@ -57,6 +58,7 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Pr
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
       >
+        <MarkerList />
         <Background />
         <Controls title={title} />
         <MiniMap />
