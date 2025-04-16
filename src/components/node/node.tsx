@@ -80,7 +80,7 @@ const NodeHandle = styled(Handle)`
   visibility: hidden;
 `;
 
-export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps<InternalNode>) => {
+export const Node = ({ type, selected, data: { title, fields, borderVariant } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
 
@@ -94,7 +94,7 @@ export const Node = ({ type, data: { title, fields, borderVariant } }: NodeProps
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
   return (
-    <NodeBorder variant={borderVariant}>
+    <NodeBorder variant={selected ? 'selected' : borderVariant}>
       <NodeHandle id="source" position={Position.Right} type="source" />
       <NodeHandle id="source" position={Position.Left} type="target" />
       <NodeWrapper accent={getAccent()}>
