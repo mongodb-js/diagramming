@@ -1,17 +1,12 @@
-import { BaseEdge, EdgeProps, useNodes } from '@xyflow/react';
+import { EdgeProps, useNodes } from '@xyflow/react';
 import { useMemo } from 'react';
 import { path } from 'd3-path';
-import styled from '@emotion/styled';
-import { palette } from '@leafygreen-ui/palette';
 
 import { InternalNode } from '@/types/internal';
 import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
+import { Edge } from '@/components/edge/edge';
 
-const Edge = styled(BaseEdge)`
-  stroke: ${palette.gray.base};
-`;
-
-export const SelfReferencingEdge = ({ id, source, markerEnd, markerStart }: EdgeProps) => {
+export const SelfReferencingEdge = ({ id, source, markerEnd, markerStart, selected }: EdgeProps) => {
   const nodes = useNodes<InternalNode>();
 
   const { sourceNode } = useMemo(() => {
@@ -58,6 +53,7 @@ export const SelfReferencingEdge = ({ id, source, markerEnd, markerStart }: Edge
       markerEnd={markerEnd}
       markerStart={markerStart}
       path={context.toString()}
+      selected={selected}
       id={id}
     />
   );

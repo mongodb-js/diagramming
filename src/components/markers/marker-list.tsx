@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { palette } from '@leafygreen-ui/palette';
 
 import { Marker } from '@/components/markers/marker';
 import MarkerOneOrMany from '@/assets/markers/marker-one-or-many.svg?react';
@@ -14,25 +15,55 @@ const markerList: Record<string, MarkerProps> = {
     component: <MarkerOneOrMany />,
     orient: 'auto-start-reverse',
   },
+  'start-oneOrMany-selected': {
+    component: <MarkerOneOrMany />,
+    orient: 'auto-start-reverse',
+    fill: palette.blue.base,
+  },
   'end-oneOrMany': {
     component: <MarkerOneOrMany />,
     orient: 'auto',
+  },
+  'end-oneOrMany-selected': {
+    component: <MarkerOneOrMany />,
+    orient: 'auto',
+    fill: palette.blue.base,
   },
   'start-one': {
     component: <MarkerOne />,
     orient: 'auto-start-reverse',
   },
+  'start-one-selected': {
+    component: <MarkerOne />,
+    orient: 'auto-start-reverse',
+    fill: palette.blue.base,
+  },
   'end-one': {
     component: <MarkerOne />,
     orient: 'auto',
+  },
+  'end-one-selected': {
+    component: <MarkerOne />,
+    orient: 'auto',
+    fill: palette.blue.base,
   },
   'start-many': {
     component: <MarkerMany />,
     orient: 'auto-start-reverse',
   },
+  'start-many-selected': {
+    component: <MarkerMany />,
+    orient: 'auto-start-reverse',
+    fill: palette.blue.base,
+  },
   'end-many': {
     component: <MarkerMany />,
     orient: 'auto',
+  },
+  'end-many-selected': {
+    component: <MarkerMany />,
+    orient: 'auto',
+    fill: palette.blue.base,
   },
 };
 
@@ -40,8 +71,8 @@ export const MarkerList = () => {
   return (
     <svg>
       <defs>
-        {Object.entries(markerList).map(([id, { component, orient }]) => (
-          <Marker key={id} data-testid={id} orient={orient} id={id}>
+        {Object.entries(markerList).map(([id, { component, ...rest }]) => (
+          <Marker key={id} data-testid={id} id={id} {...rest}>
             {component}
           </Marker>
         ))}
