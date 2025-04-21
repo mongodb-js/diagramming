@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@leafygreen-ui/tokens';
 
 import { Field } from '@/components/field/field';
-import { NodeField } from '@/types';
+import { NodeField, NodeType } from '@/types';
 import { getPreviewGroupLengths } from '@/utilities/get-preview-group-lengths';
 import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
 
@@ -12,11 +12,12 @@ const NodeFieldWrapper = styled.div`
 `;
 
 interface Props {
-  accent: string;
+  nodeType: NodeType;
+  isHovering?: boolean;
   fields: Array<NodeField>;
 }
 
-export const FieldList = ({ fields, accent }: Props) => {
+export const FieldList = ({ fields, nodeType, isHovering }: Props) => {
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
   const previewGroupLength = getPreviewGroupLengths(fields);
   return (
@@ -25,9 +26,10 @@ export const FieldList = ({ fields, accent }: Props) => {
         <Field
           key={name}
           name={name}
+          nodeType={nodeType}
           depth={depth}
+          isHovering={isHovering}
           previewGroupLength={previewGroupLength[name]}
-          accent={accent}
           glyphs={glyphs}
           type={fieldType}
           spacing={spacing}

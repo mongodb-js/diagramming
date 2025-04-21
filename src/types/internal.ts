@@ -5,6 +5,7 @@ import { BaseEdgeProps } from '@/types/edge';
 
 export type NodeData = {
   title: string;
+  disabled?: boolean;
   fields: Array<NodeField>;
   borderVariant?: NodeBorderVariant;
 };

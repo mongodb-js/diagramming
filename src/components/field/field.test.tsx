@@ -1,5 +1,3 @@
-import { palette } from '@leafygreen-ui/palette';
-
 import { render, screen } from '@/mocks/testing-utils';
 import { Field } from '@/components/field/field';
 
@@ -7,10 +5,10 @@ describe('field', () => {
   it('Should have field', () => {
     render(
       <Field
+        nodeType={'collection'}
         name={'ordersId'}
         type={'objectId'}
         glyphs={['key', 'link']}
-        accent={palette.blue.base}
         spacing={2}
         depth={1}
       />,

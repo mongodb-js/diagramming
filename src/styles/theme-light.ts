@@ -24,6 +24,9 @@ export const LIGHT_THEME: Theme = {
     border: palette.gray.base,
     relationalAccent: palette.purple.base,
     mongoDBAccent: palette.green.dark1,
+    disabledAccent: palette.gray.light1,
+    disabledHeader: palette.gray.light3,
+    disabledColor: palette.gray.light1,
     headerIcon: palette.gray.dark1,
   },
 };
