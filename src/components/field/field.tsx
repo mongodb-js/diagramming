@@ -101,6 +101,7 @@ export const Field = ({
   name,
   depth = 0,
   type,
+  nodeType,
   glyphs = [],
   spacing = 0,
   variant,
@@ -141,7 +142,7 @@ export const Field = ({
   const getAccent = () => {
     if (isDisabled) {
       return internalTheme.node.disabledAccent;
-    } else if (type === 'table') {
+    } else if (nodeType === 'table') {
       return internalTheme.node.relationalAccent;
     }
     return internalTheme.node.mongoDBAccent;
