@@ -97,6 +97,7 @@ interface Props extends NodeField {
 }
 
 export const Field = ({
+  hoverVariant,
   isHovering = false,
   name,
   depth = 0,
@@ -111,7 +112,7 @@ export const Field = ({
 
   const internalTheme = useTheme();
 
-  const isDisabled = variant === 'disabled' || (variant === 'disabledWithHover' && !isHovering);
+  const isDisabled = variant === 'disabled' && !(hoverVariant === 'default' && isHovering);
 
   const getTextColor = () => {
     if (isDisabled) {

@@ -203,7 +203,7 @@ export const DisabledField: Story = {
   },
 };
 
-export const DisabledHoverableField: Story = {
+export const DisabledWithHoverVariant: Story = {
   args: {
     ...INTERNAL_NODE,
     data: {
@@ -212,7 +212,8 @@ export const DisabledHoverableField: Story = {
         {
           name: 'customerId',
           type: 'string',
-          variant: 'disabledWithHover',
+          variant: 'disabled',
+          hoverVariant: 'default',
           glyphs: ['key'],
         },
       ],
