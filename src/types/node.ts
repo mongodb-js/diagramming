@@ -6,9 +6,10 @@ export type BaseNodeProps = Pick<
   ReactFlowNode<{}, NodeType>,
   'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'selected' | 'style' | 'className' | 'measured'
 >;
-export type NodeType = 'table' | 'collection' | 'connectable';
+export type NodeType = 'table' | 'collection';
 export type NodeBorderVariant = 'subtle' | 'preview' | 'selected' | 'none';
-export type NodeFieldVariant = 'dimmed' | 'preview' | 'primary' | 'default';
+export type NodeFieldVariant = 'disabled' | 'preview' | 'primary' | 'default';
+export type NodeFieldHoverVariant = 'none' | 'default';
 export type NodeGlyph = 'key' | 'link';
 
 export interface NodeField {
@@ -17,6 +18,7 @@ export interface NodeField {
   depth?: number;
   glyphs?: Array<NodeGlyph>;
   variant?: NodeFieldVariant;
+  hoverVariant?: NodeFieldHoverVariant;
 }
 
 export type Node = BaseNodeProps & NodeData;

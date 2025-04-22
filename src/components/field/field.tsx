@@ -3,11 +3,12 @@ import { color, fontWeights, spacing as LGSpacing, spacing } from '@leafygreen-u
 import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
+import { useTheme } from '@emotion/react';
 
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
-import { NodeField, NodeGlyph } from '@/types';
+import { NodeField, NodeGlyph, NodeType } from '@/types';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -89,25 +90,32 @@ const IconWrapper = styled(Icon)`
 `;
 
 interface Props extends NodeField {
-  accent: string;
+  nodeType: NodeType;
   spacing: number;
+  isHovering?: boolean;
   previewGroupLength?: number;
 }
 
 export const Field = ({
+  hoverVariant,
+  isHovering = false,
   name,
   depth = 0,
   type,
+  nodeType,
   glyphs = [],
-  accent,
   spacing = 0,
   variant,
   previewGroupLength = 0,
 }: Props) => {
   const { theme } = useDarkMode();
 
+  const internalTheme = useTheme();
+
+  const isDisabled = variant === 'disabled' && !(hoverVariant === 'default' && isHovering);
+
   const getTextColor = () => {
-    if (variant === 'dimmed') {
+    if (isDisabled) {
       return color[theme].text.disabled.default;
     } else {
       return color[theme].text.primary.default;
@@ -115,7 +123,7 @@ export const Field = ({
   };
 
   const getSecondaryTextColor = () => {
-    if (variant === 'dimmed') {
+    if (isDisabled) {
       return color[theme].text.disabled.default;
     } else {
       return color[theme].text.secondary.default;
@@ -123,13 +131,22 @@ export const Field = ({
   };
 
   const getIconColor = (glyph: NodeGlyph) => {
-    if (variant === 'dimmed') {
+    if (isDisabled) {
       return color[theme].text.disabled.default;
     } else if (variant === 'primary') {
       return palette.blue.base;
     } else {
-      return glyph === 'key' ? accent : palette.gray.light1;
+      return glyph === 'key' ? getAccent() : internalTheme.node.icon;
     }
+  };
+
+  const getAccent = () => {
+    if (isDisabled) {
+      return internalTheme.node.disabledAccent;
+    } else if (nodeType === 'table') {
+      return internalTheme.node.relationalAccent;
+    }
+    return internalTheme.node.mongoDBAccent;
   };
 
   const content = (

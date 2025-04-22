@@ -27,7 +27,6 @@ const ReactFlowWrapper = styled.div`
 const nodeTypes = {
   table: Node,
   collection: Node,
-  connectable: Node,
 };
 
 const edgeTypes = {

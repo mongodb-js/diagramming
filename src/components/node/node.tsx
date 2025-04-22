@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
+import { useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
 import {
@@ -15,6 +16,7 @@ import {
 import { InternalNode } from '@/types/internal';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
+import { NodeType } from '@/types';
 
 const NodeZoomedOut = styled.div<{ height: number }>`
   display: flex;
@@ -29,11 +31,11 @@ const NodeZoomedOutInner = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeWrapper = styled.div<{ accent: string }>`
+const NodeWrapper = styled.div<{ accent: string; color: string }>`
   position: relative;
   font-family: ${fontFamilies.code};
   background: ${props => props.theme.node.background};
-  color: ${props => props.theme.node.color};
+  color: ${props => props.color};
   width: ${DEFAULT_NODE_WIDTH}px;
   overflow: hidden;
   border-left: 1px solid ${props => props.accent};
@@ -54,7 +56,7 @@ const NodeWrapper = styled.div<{ accent: string }>`
   }
 `;
 
-const NodeHeader = styled.div`
+const NodeHeader = styled.div<{ background?: string }>`
   display: flex;
   align-items: center;
   font-size: 13px;
@@ -62,7 +64,7 @@ const NodeHeader = styled.div`
   font-weight: bold;
   height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
   padding: ${spacing[100]}px ${spacing[400]}px ${spacing[100]}px ${spacing[200]}px;
-  background: ${props => props.theme.node.backgroundHeader};
+  background: ${props => props.background};
   ${ellipsisTruncation};
 `;
 
@@ -80,41 +82,71 @@ const NodeHandle = styled(Handle)`
   visibility: hidden;
 `;
 
-export const Node = ({ type, selected, data: { title, fields, borderVariant } }: NodeProps<InternalNode>) => {
+export const Node = ({ type, selected, data: { title, fields, borderVariant, disabled } }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
 
+  const [isHovering, setHovering] = useState(false);
+
   const getAccent = () => {
-    if (type === 'table') {
+    if (disabled && !isHovering) {
+      return theme.node.disabledAccent;
+    } else if (type === 'table') {
       return theme.node.relationalAccent;
     }
     return theme.node.mongoDBAccent;
   };
 
+  const getHeaderBackground = () => {
+    if (disabled && !isHovering) {
+      return theme.node.disabledHeader;
+    } else {
+      return theme.node.backgroundHeader;
+    }
+  };
+
+  const getNodeColor = () => {
+    if (disabled && !isHovering) {
+      return theme.node.disabledColor;
+    } else {
+      return theme.node.color;
+    }
+  };
+
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
+  const onMouseEnter = () => {
+    setHovering(true);
+  };
+
+  const onMouseLeave = () => {
+    setHovering(false);
+  };
+
   return (
-    <NodeBorder variant={selected ? 'selected' : borderVariant}>
-      <NodeHandle id="source" position={Position.Right} type="source" />
-      <NodeHandle id="source" position={Position.Left} type="target" />
-      <NodeWrapper accent={getAccent()}>
-        <NodeHeader>
-          {!isContextualZoom && (
-            <>
-              <NodeHeaderIcon>
-                <Icon fill={theme.node.headerIcon} glyph="Drag" />
-              </NodeHeaderIcon>
-              <NodeHeaderTitle>{title}</NodeHeaderTitle>
-            </>
+    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <NodeBorder variant={selected ? 'selected' : borderVariant}>
+        <NodeHandle id="source" position={Position.Right} type="source" />
+        <NodeHandle id="source" position={Position.Left} type="target" />
+        <NodeWrapper accent={getAccent()} color={getNodeColor()}>
+          <NodeHeader background={getHeaderBackground()}>
+            {!isContextualZoom && (
+              <>
+                <NodeHeaderIcon>
+                  <Icon fill={theme.node.headerIcon} glyph="Drag" />
+                </NodeHeaderIcon>
+                <NodeHeaderTitle>{title}</NodeHeaderTitle>
+              </>
+            )}
+          </NodeHeader>
+          {isContextualZoom && (
+            <NodeZoomedOut height={fields.length * DEFAULT_FIELD_HEIGHT + DEFAULT_FIELD_PADDING * 2}>
+              <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
+            </NodeZoomedOut>
           )}
-        </NodeHeader>
-        {isContextualZoom && (
-          <NodeZoomedOut height={fields.length * DEFAULT_FIELD_HEIGHT + DEFAULT_FIELD_PADDING * 2}>
-            <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
-          </NodeZoomedOut>
-        )}
-        {!isContextualZoom && <FieldList accent={getAccent()} fields={fields} />}
-      </NodeWrapper>
-    </NodeBorder>
+          {!isContextualZoom && <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />}
+        </NodeWrapper>
+      </NodeBorder>
+    </div>
   );
 };

@@ -56,7 +56,6 @@ export const ConnectableType: Story = {
 export const FieldsWithGlyph: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -78,7 +77,6 @@ export const FieldsWithGlyph: Story = {
 export const FieldsWithGlyphs: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -104,7 +102,6 @@ export const FieldsWithGlyphs: Story = {
 export const FieldsWithLongValues: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'rm_demo_collection_orders_table_equivalent',
       fields: [
@@ -129,7 +126,6 @@ export const FieldsWithLongValues: Story = {
 export const NestedFields: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -159,7 +155,6 @@ export const NestedFields: Story = {
 export const NodeWithDefaultField: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -174,17 +169,51 @@ export const NodeWithDefaultField: Story = {
   },
 };
 
-export const NodeWithDimmedField: Story = {
+export const DisabledNode: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
+    data: {
+      disabled: true,
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
+export const DisabledField: Story = {
+  args: {
+    ...INTERNAL_NODE,
     data: {
       title: 'orders',
       fields: [
         {
           name: 'customerId',
           type: 'string',
-          variant: 'dimmed',
+          variant: 'disabled',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
+export const DisabledWithHoverVariant: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: 'string',
+          variant: 'disabled',
+          hoverVariant: 'default',
           glyphs: ['key'],
         },
       ],
@@ -195,7 +224,6 @@ export const NodeWithDimmedField: Story = {
 export const NodeWithPrimaryField: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -213,7 +241,6 @@ export const NodeWithPrimaryField: Story = {
 export const NodeWithPreviewFields: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -244,7 +271,6 @@ export const NodeWithPreviewFields: Story = {
 export const NodeWithPreviewGlyphs: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -267,7 +293,6 @@ export const NodeWithPreviewGlyphs: Story = {
 export const NodeWithSomePreviewGlyphs: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -299,7 +324,6 @@ export const NodeWithSomePreviewGlyphs: Story = {
 export const NodeWithNestedPreviewFields: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -339,7 +363,6 @@ export const NodeWithNestedPreviewFields: Story = {
 export const NodeWithDeeplyNestedPreviewFields: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [
@@ -389,7 +412,6 @@ export const NodeWithDeeplyNestedPreviewFields: Story = {
 export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
   args: {
     ...INTERNAL_NODE,
-    type: 'connectable',
     data: {
       title: 'orders',
       fields: [

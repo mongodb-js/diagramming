@@ -22,8 +22,12 @@ export const LIGHT_THEME: Theme = {
     backgroundHover: palette.gray.light3,
     color: palette.black,
     border: palette.gray.base,
+    icon: palette.gray.light1,
     relationalAccent: palette.purple.base,
     mongoDBAccent: palette.green.dark1,
+    disabledAccent: palette.gray.light1,
+    disabledHeader: palette.gray.light3,
+    disabledColor: palette.gray.light1,
     headerIcon: palette.gray.dark1,
   },
 };
