@@ -136,7 +136,7 @@ export const Field = ({
     } else if (variant === 'primary') {
       return palette.blue.base;
     } else {
-      return glyph === 'key' ? getAccent() : palette.gray.light1;
+      return glyph === 'key' ? getAccent() : internalTheme.node.icon;
     }
   };
 

@@ -20,6 +20,7 @@ declare module '@emotion/react' {
       backgroundHover: string;
       color: string;
       border: string;
+      icon: string;
       relationalAccent: string;
       mongoDBAccent: string;
       disabledAccent: string;
