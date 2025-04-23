@@ -1,6 +1,7 @@
 import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
 import { Background, ProOptions, ReactFlow, ReactFlowProps, useEdgesState, useNodesState } from '@xyflow/react';
+import { useEffect } from 'react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
@@ -11,6 +12,7 @@ import { InternalEdge, InternalNode } from '@/types/internal';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { MarkerList } from '@/components/markers/marker-list';
+import { ConnectionLine } from '@/components/line/connection-line';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -34,13 +36,23 @@ const edgeTypes = {
   selfReferencingEdge: SelfReferencingEdge,
 };
 
-type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[]; edges: Edge[] };
+type Props = Pick<ReactFlowProps, 'title' | 'onConnect'> & { nodes: ExternalNode[]; edges: Edge[] };
 
-export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Props) => {
+export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onConnect, ...rest }: Props) => {
   const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
 
-  const [nodes, , onNodesChange] = useNodesState<InternalNode>(initialNodes);
-  const [edges, , onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);
+
+  useEffect(() => {
+    setNodes(initialNodes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialNodes]);
+
+  useEffect(() => {
+    setEdges(initialEdges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialEdges]);
 
   return (
     <ReactFlowWrapper>
@@ -54,8 +66,11 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Pr
         nodes={nodes}
         onlyRenderVisibleElements={true}
         edges={edges}
+        connectionLineComponent={ConnectionLine}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        {...rest}
       >
         <MarkerList />
         <Background />

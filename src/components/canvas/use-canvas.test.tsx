@@ -6,7 +6,7 @@ import { useCanvas } from './use-canvas';
 
 describe('use-canvas', () => {
   it('Should get initial nodes', () => {
-    const { result } = renderHook(() => useCanvas([ORDERS_NODE, EMPLOYEES_NODE], []));
+    const { result } = renderHook(() => useCanvas([{ ...ORDERS_NODE, disabled: true }, EMPLOYEES_NODE], []));
     expect(result.current.initialNodes).toEqual([
       {
         id: 'orders',
@@ -15,12 +15,14 @@ describe('use-canvas', () => {
           x: 100,
           y: 100,
         },
+        draggable: false,
         measured: {
           height: 36,
           width: 244,
         },
         data: {
           borderVariant: undefined,
+          disabled: true,
           fields: [
             { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
             { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
@@ -39,7 +41,9 @@ describe('use-canvas', () => {
           height: 72,
           width: 244,
         },
+        draggable: true,
         data: {
+          disabled: undefined,
           borderVariant: undefined,
           fields: [
             { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
