@@ -79,10 +79,25 @@ const NodeHeaderTitle = styled.div`
 `;
 
 const NodeHandle = styled(Handle)`
-  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  background: blue;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+  transform: none;
+  border: none;
+  opacity: 0;
+  z-index: 1;
 `;
 
-export const Node = ({ type, selected, data: { title, fields, borderVariant, disabled } }: NodeProps<InternalNode>) => {
+export const Node = ({
+  type,
+  selected,
+  isConnectable,
+  data: { title, fields, borderVariant, disabled },
+}: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
 
@@ -126,8 +141,8 @@ export const Node = ({ type, selected, data: { title, fields, borderVariant, dis
   return (
     <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
-        <NodeHandle id="source" position={Position.Right} type="source" />
-        <NodeHandle id="source" position={Position.Left} type="target" />
+        <NodeHandle id="source" isConnectable={isConnectable} position={Position.Right} type="source" />
+        <NodeHandle id="source" isConnectable={isConnectable} position={Position.Left} type="target" />
         <NodeWrapper accent={getAccent()} color={getNodeColor()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (
