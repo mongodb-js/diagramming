@@ -5,8 +5,7 @@ import { Connection } from '@xyflow/react';
 import { Diagram } from '@/components/diagram';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
-import { Edge, Node } from '@/types';
-import { setFieldVariantsForNodes } from '@/mocks/story-utils';
+import { Edge } from '@/types';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
@@ -26,7 +25,6 @@ export const DiagramWithConnectableNodes: Story = {
   decorators: [
     (Story, context) => {
       const [edges, setEdges] = useState<Edge[]>(context.args.edges);
-      const [nodes, setNodes] = useState<Node[]>(context.args.nodes);
       const onConnect = (connection: Connection) => {
         setEdges([
           ...edges,
@@ -38,12 +36,9 @@ export const DiagramWithConnectableNodes: Story = {
             selected: true,
           },
         ]);
-
-        setNodes(setFieldVariantsForNodes(nodes));
       };
 
       const onPaneClick = () => {
-        setNodes(setFieldVariantsForNodes(nodes, 'disabled'));
         setEdges(edges.filter(edge => edge.id !== ORDERS_TO_EMPLOYEES_EDGE.id));
       };
 
@@ -52,7 +47,6 @@ export const DiagramWithConnectableNodes: Story = {
         args: {
           ...context.args,
           edges,
-          nodes,
           onPaneClick,
           onConnect,
         },
@@ -63,12 +57,6 @@ export const DiagramWithConnectableNodes: Story = {
     title: 'MongoDB Diagram',
     isDarkMode: true,
     edges: [],
-    nodes: setFieldVariantsForNodes(
-      [
-        { ...ORDERS_NODE, connectable: true, disabled: true },
-        { ...EMPLOYEES_NODE, connectable: true, disabled: true },
-      ],
-      'disabled',
-    ),
+    nodes: [ORDERS_NODE, EMPLOYEES_NODE],
   },
 };
