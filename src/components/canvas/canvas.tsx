@@ -1,11 +1,10 @@
-import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
 import { Background, ProOptions, ReactFlow, ReactFlowProps, useEdgesState, useNodesState } from '@xyflow/react';
 import { useEffect } from 'react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { Edge, Node as ExternalNode } from '@/types';
+import { EdgeProps, NodeProps as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalEdge, InternalNode } from '@/types/internal';
@@ -36,7 +35,7 @@ const edgeTypes = {
   selfReferencingEdge: SelfReferencingEdge,
 };
 
-type Props = Pick<ReactFlowProps, 'title' | 'onConnect'> & { nodes: ExternalNode[]; edges: Edge[] };
+type Props = Pick<ReactFlowProps, 'title' | 'onConnect'> & { nodes: ExternalNode[]; edges: EdgeProps[] };
 
 export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onConnect, ...rest }: Props) => {
   const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);

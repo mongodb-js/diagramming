@@ -5,6 +5,7 @@ import svgrPlugin from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import dts from 'vite-plugin-dts';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig({
   build: {
@@ -29,6 +30,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    cssInjectedByJsPlugin(),
     dts({
       rollupTypes: true,
     }),

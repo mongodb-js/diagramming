@@ -1,7 +1,7 @@
-import { Node } from '@/types';
+import { NodeProps } from '@/types';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
-export const ORDERS_NODE: Node = {
+export const ORDERS_NODE: NodeProps = {
   id: 'orders',
   type: 'table',
   position: {
@@ -19,7 +19,7 @@ export const ORDERS_NODE: Node = {
   ],
 };
 
-export const EMPLOYEES_NODE: Node = {
+export const EMPLOYEES_NODE: NodeProps = {
   id: 'employees',
   type: 'collection',
   position: {

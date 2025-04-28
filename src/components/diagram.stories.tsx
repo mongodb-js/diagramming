@@ -5,7 +5,7 @@ import { Connection } from '@xyflow/react';
 import { Diagram } from '@/components/diagram';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
-import { Edge } from '@/types';
+import { EdgeProps } from '@/types';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
@@ -24,7 +24,7 @@ export const BasicDiagram: Story = {};
 export const DiagramWithConnectableNodes: Story = {
   decorators: [
     (Story, context) => {
-      const [edges, setEdges] = useState<Edge[]>(context.args.edges);
+      const [edges, setEdges] = useState<EdgeProps[]>(context.args.edges);
       const onConnect = (connection: Connection) => {
         setEdges([
           ...edges,

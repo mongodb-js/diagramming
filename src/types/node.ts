@@ -21,4 +21,4 @@ export interface NodeField {
   hoverVariant?: NodeFieldHoverVariant;
 }
 
-export type Node = BaseNodeProps & NodeData;
+export type NodeProps = BaseNodeProps & NodeData;

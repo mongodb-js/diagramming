@@ -7,7 +7,7 @@ export type BaseEdgeProps = Pick<
 
 export type Marker = 'one' | 'many' | 'oneOrMany';
 
-export interface Edge extends BaseEdgeProps {
+export interface EdgeProps extends BaseEdgeProps {
   markerStart: Marker;
   markerEnd: Marker;
 }

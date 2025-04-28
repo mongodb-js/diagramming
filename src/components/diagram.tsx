@@ -1,3 +1,4 @@
+import '@xyflow/react/dist/style.css';
 import LeafyGreenProvider from '@leafygreen-ui/leafygreen-provider';
 import { ThemeProvider } from '@emotion/react';
 

@@ -1,6 +1,6 @@
-import { Edge } from '@/types';
+import { EdgeProps } from '@/types';
 
-export const ORDERS_TO_EMPLOYEES_EDGE: Edge = {
+export const ORDERS_TO_EMPLOYEES_EDGE: EdgeProps = {
   id: 'employees-to-orders',
   source: 'employees',
   target: 'orders',
@@ -8,7 +8,7 @@ export const ORDERS_TO_EMPLOYEES_EDGE: Edge = {
   markerStart: 'many',
 };
 
-export const EMPLOYEES_TO_EMPLOYEES_EDGE: Edge = {
+export const EMPLOYEES_TO_EMPLOYEES_EDGE: EdgeProps = {
   id: 'employees-to-employees',
   source: 'employees',
   target: 'employees',
