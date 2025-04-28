@@ -1,5 +1,5 @@
 import { applyLayout } from '@/utilities/apply-layout';
-import { Edge, NodeProps } from '@/types';
+import { EdgeProps, NodeProps } from '@/types';
 
 describe('apply-layout', () => {
   const nodes: NodeProps[] = [
@@ -34,7 +34,7 @@ describe('apply-layout', () => {
       },
     },
   ];
-  const edges: Edge[] = [
+  const edges: EdgeProps[] = [
     {
       id: '1',
       source: '3',
@@ -44,14 +44,14 @@ describe('apply-layout', () => {
     },
   ];
   it('With no nodes or edges', async () => {
-    const result = await applyLayout<NodeProps, Edge>([], [], 'TOP_BOTTOM');
+    const result = await applyLayout<NodeProps, EdgeProps>([], [], 'TOP_BOTTOM');
     expect(result).toEqual({
       nodes: [],
       edges: [],
     });
   });
   it('With nodes', async () => {
-    const result = await applyLayout<NodeProps, Edge>(nodes, [], 'TOP_BOTTOM');
+    const result = await applyLayout<NodeProps, EdgeProps>(nodes, [], 'TOP_BOTTOM');
     expect(result.nodes).toEqual([
       expect.objectContaining({
         title: 'orders',
@@ -86,7 +86,7 @@ describe('apply-layout', () => {
     ]);
   });
   it('With nodes and edges', async () => {
-    const result = await applyLayout<NodeProps, Edge>(nodes, edges, 'TOP_BOTTOM');
+    const result = await applyLayout<NodeProps, EdgeProps>(nodes, edges, 'TOP_BOTTOM');
     expect(result.edges).toEqual([
       expect.objectContaining({
         id: '1',
