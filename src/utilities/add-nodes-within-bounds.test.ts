@@ -1,8 +1,8 @@
 import { addNodesWithinBounds } from '@/utilities/add-nodes-within-bounds';
-import { Node } from '@/types';
+import { NodeProps } from '@/types';
 
 describe('add-nodes-within-bounds', () => {
-  const nodes: Node[] = [
+  const nodes: NodeProps[] = [
     {
       title: 'orders',
       fields: [],
@@ -42,7 +42,7 @@ describe('add-nodes-within-bounds', () => {
     ]);
   });
   it('With existing nodes', () => {
-    const newNodes: Node[] = [
+    const newNodes: NodeProps[] = [
       {
         title: 'customers',
         fields: [],
