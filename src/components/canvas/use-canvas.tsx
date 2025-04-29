@@ -26,8 +26,8 @@ export const useCanvas = (externalNodes: ExternalNode[], externalEdges: EdgeProp
     () =>
       externalEdges.map(edge => ({
         ...edge,
-        markerStart: `start-${edge.markerStart}`,
-        markerEnd: `end-${edge.markerEnd}`,
+        markerStart: edge.markerStart ? `start-${edge.markerStart}` : undefined,
+        markerEnd: edge.markerEnd ? `end-${edge.markerEnd}` : undefined,
         type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
       })),
     [externalEdges],
