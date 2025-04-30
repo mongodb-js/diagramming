@@ -12,6 +12,6 @@ export type NodeData = {
 export type InternalNode = ReactFlowNode<NodeData>;
 
 export interface InternalEdge extends BaseEdgeProps {
-  markerStart?: 'start-one' | 'start-oneOrMany' | 'start-many';
-  markerEnd?: 'end-one' | 'end-oneOrMany' | 'end-many';
+  markerStart: 'start-one' | 'start-oneOrMany' | 'start-many';
+  markerEnd: 'end-one' | 'end-oneOrMany' | 'end-many';
 }
