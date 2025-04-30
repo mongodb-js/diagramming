@@ -16,6 +16,7 @@ describe('use-canvas', () => {
           y: 100,
         },
         draggable: false,
+        connectable: false,
         measured: {
           height: 36,
           width: 244,
@@ -42,6 +43,7 @@ describe('use-canvas', () => {
           width: 244,
         },
         draggable: true,
+        connectable: false,
         data: {
           disabled: undefined,
           borderVariant: undefined,

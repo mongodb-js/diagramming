@@ -1,5 +1,14 @@
 import styled from '@emotion/styled';
-import { Background, ProOptions, ReactFlow, ReactFlowProps, useEdgesState, useNodesState } from '@xyflow/react';
+import {
+  Background,
+  ConnectionMode,
+  ProOptions,
+  ReactFlow,
+  ReactFlowProps,
+  SelectionMode,
+  useEdgesState,
+  useNodesState,
+} from '@xyflow/react';
 import { useEffect } from 'react';
 
 import { MiniMap } from '@/components/controls/mini-map';
@@ -66,8 +75,11 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onCo
         onlyRenderVisibleElements={true}
         edges={edges}
         connectionLineComponent={ConnectionLine}
+        connectionMode={ConnectionMode.Loose}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        selectionMode={SelectionMode.Partial}
+        nodesDraggable={true}
         onConnect={onConnect}
         {...rest}
       >

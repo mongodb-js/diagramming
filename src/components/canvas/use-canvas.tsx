@@ -7,10 +7,11 @@ export const useCanvas = (externalNodes: ExternalNode[], externalEdges: EdgeProp
   const initialNodes: InternalNode[] = useMemo(
     () =>
       externalNodes.map(node => {
-        const { title, fields, borderVariant, disabled, ...rest } = node;
+        const { title, fields, borderVariant, disabled, connectable, ...rest } = node;
         return {
           ...rest,
           draggable: !disabled,
+          connectable: connectable || false,
           data: {
             title,
             disabled,
