@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Connection } from '@xyflow/react';
 
 import { Diagram } from '@/components/diagram';
-import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
+import { EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
 import { EdgeProps } from '@/types';
 
@@ -14,7 +14,7 @@ const diagram: Meta<typeof Diagram> = {
     title: 'MongoDB Diagram',
     isDarkMode: true,
     edges: [ORDERS_TO_EMPLOYEES_EDGE, EMPLOYEES_TO_EMPLOYEES_EDGE],
-    nodes: [ORDERS_NODE, EMPLOYEES_NODE],
+    nodes: [ORDERS_NODE, EMPLOYEES_NODE, EMPLOYEE_TERRITORIES_NODE],
   },
 };
 
@@ -27,7 +27,7 @@ export const DiagramWithConnectableNodes: Story = {
       const [edges, setEdges] = useState<EdgeProps[]>(context.args.edges);
       const onConnect = (connection: Connection) => {
         setEdges([
-          ...edges,
+          ...edges.filter(edge => edge.source === connection.source && edge.source === connection.target),
           {
             ...ORDERS_TO_EMPLOYEES_EDGE,
             source: connection.source,
@@ -57,6 +57,9 @@ export const DiagramWithConnectableNodes: Story = {
     title: 'MongoDB Diagram',
     isDarkMode: true,
     edges: [],
-    nodes: [ORDERS_NODE, EMPLOYEES_NODE],
+    nodes: [
+      { ...ORDERS_NODE, connectable: true },
+      { ...EMPLOYEES_NODE, connectable: true },
+    ],
   },
 };

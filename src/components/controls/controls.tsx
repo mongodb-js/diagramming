@@ -21,6 +21,8 @@ const ControlsGroup = styled.div`
   > .react-flow__controls-button {
     background-color: ${props => props.theme.controls.background};
     border: 1px solid ${palette.gray.base};
+    height: ${spacing[600] + spacing[100]}px;
+    width: ${spacing[600] + spacing[100]}px;
     color: ${props => props.theme.controls.buttonColor};
   }
   > .react-flow__controls-button:hover {

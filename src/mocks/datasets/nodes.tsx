@@ -38,3 +38,21 @@ export const EMPLOYEES_NODE: NodeProps = {
     { name: 'lastName', type: 'string', depth: 1 },
   ],
 };
+
+export const EMPLOYEE_TERRITORIES_NODE: NodeProps = {
+  id: 'employee_territories',
+  type: 'table',
+  position: {
+    x: 400,
+    y: 100,
+  },
+  measured: {
+    width: DEFAULT_NODE_WIDTH,
+    height: DEFAULT_FIELD_HEIGHT * 4,
+  },
+  title: 'employee_territories',
+  fields: [
+    { name: 'employeeId', type: 'string', glyphs: ['key'] },
+    { name: 'employeeTerritory', type: 'string', glyphs: ['key'] },
+  ],
+};

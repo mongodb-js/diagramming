@@ -17,12 +17,12 @@ describe('use-canvas', () => {
         },
         draggable: false,
         connectable: false,
+        selectable: true,
         measured: {
           height: 36,
           width: 244,
         },
         data: {
-          borderVariant: undefined,
           disabled: true,
           fields: [
             { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
@@ -44,9 +44,8 @@ describe('use-canvas', () => {
         },
         draggable: true,
         connectable: false,
+        selectable: true,
         data: {
-          disabled: undefined,
-          borderVariant: undefined,
           fields: [
             { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
             { name: 'employeeDetail', type: '{}' },
@@ -54,6 +53,59 @@ describe('use-canvas', () => {
             { name: 'lastName', type: 'string', depth: 1 },
           ],
           title: 'employees',
+        },
+      },
+    ]);
+  });
+  it('Should be connectable', () => {
+    const { result } = renderHook(() => useCanvas([{ ...ORDERS_NODE, connectable: true }], []));
+    expect(result.current.initialNodes).toEqual([
+      {
+        id: 'orders',
+        type: 'table',
+        position: {
+          x: 100,
+          y: 100,
+        },
+        draggable: false,
+        connectable: true,
+        measured: {
+          height: 36,
+          width: 244,
+        },
+        data: {
+          fields: [
+            { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
+            { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
+          ],
+          title: 'orders',
+        },
+      },
+    ]);
+  });
+  it('Should be selectable', () => {
+    const { result } = renderHook(() => useCanvas([{ ...ORDERS_NODE, selectable: true }], []));
+    expect(result.current.initialNodes).toEqual([
+      {
+        id: 'orders',
+        type: 'table',
+        position: {
+          x: 100,
+          y: 100,
+        },
+        draggable: true,
+        selectable: true,
+        connectable: false,
+        measured: {
+          height: 36,
+          width: 244,
+        },
+        data: {
+          fields: [
+            { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
+            { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
+          ],
+          title: 'orders',
         },
       },
     ]);

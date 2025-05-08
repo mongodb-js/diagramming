@@ -44,9 +44,9 @@ const edgeTypes = {
   selfReferencingEdge: SelfReferencingEdge,
 };
 
-type Props = Pick<ReactFlowProps, 'title' | 'onConnect'> & { nodes: ExternalNode[]; edges: EdgeProps[] };
+type Props = Pick<ReactFlowProps, 'title' | 'onConnect' | 'id'> & { nodes: ExternalNode[]; edges: EdgeProps[] };
 
-export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onConnect, ...rest }: Props) => {
+export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onConnect, id, ...rest }: Props) => {
   const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
@@ -65,6 +65,7 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onCo
   return (
     <ReactFlowWrapper>
       <ReactFlow
+        id={id}
         title={title}
         proOptions={PRO_OPTIONS}
         maxZoom={MAX_ZOOM}
@@ -84,7 +85,7 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onCo
         {...rest}
       >
         <MarkerList />
-        <Background />
+        <Background id={id} />
         <Controls title={title} />
         <MiniMap />
       </ReactFlow>
