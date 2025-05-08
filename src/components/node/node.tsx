@@ -38,7 +38,6 @@ const NodeWrapper = styled.div<{ accent: string; color: string }>`
   font-family: ${fontFamilies.code};
   background: ${props => props.theme.node.background};
   color: ${props => props.color};
-  width: ${DEFAULT_NODE_WIDTH}px;
   overflow: hidden;
   border-left: 1px solid ${props => props.accent};
   border: 1px solid ${props => props.theme.node.border};

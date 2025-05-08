@@ -10,7 +10,10 @@ import { animatedBlueBorder } from '@/styles/styles';
 
 const borderProperties = css`
   border-radius: ${spacing[200]}px;
-  width: ${DEFAULT_NODE_WIDTH + spacing[50]}px;
+`;
+
+export const Border = styled.div`
+  width: ${DEFAULT_NODE_WIDTH}px;
 `;
 
 export const AnimatedBorder = styled.div<{ height?: string }>`
@@ -41,8 +44,16 @@ export const NodeBorder = ({ children, variant }: PropsWithChildren<Props>) => {
   };
 
   if (variant === 'preview') {
-    return <AnimatedBorder>{children}</AnimatedBorder>;
+    return (
+      <Border>
+        <AnimatedBorder>{children}</AnimatedBorder>
+      </Border>
+    );
   }
 
-  return <BasicBorder outlineBorderColor={getBasicBorderColor()}>{children}</BasicBorder>;
+  return (
+    <Border>
+      <BasicBorder outlineBorderColor={getBasicBorderColor()}>{children}</BasicBorder>
+    </Border>
+  );
 };
