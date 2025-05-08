@@ -1,4 +1,4 @@
-import { Handle, NodeProps, Position, useViewport } from '@xyflow/react';
+import { Handle, NodeProps, Position, useStore, useViewport } from '@xyflow/react';
 import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
@@ -28,6 +28,8 @@ const NodeZoomedOut = styled.div<{ height: number }>`
 const NodeZoomedOutInner = styled.div`
   font-size: 20px;
   text-align: center;
+  padding-left: ${spacing[300]}px;
+  padding-right: ${spacing[300]}px;
   ${ellipsisTruncation}
 `;
 
@@ -78,18 +80,16 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeHandle = styled(Handle)`
+const NodeHandle = styled(Handle)<{ zIndex?: number }>`
   width: 100%;
   height: 100%;
-  background: blue;
   position: absolute;
   top: 0;
   left: 0;
   border-radius: 0;
   transform: none;
-  border: none;
   opacity: 0;
-  z-index: 1;
+  z-index: ${props => props.zIndex};
 `;
 
 export const Node = ({
@@ -130,6 +130,8 @@ export const Node = ({
 
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
+  const fromHandle = useStore(state => state.connection.fromHandle);
+
   const onMouseEnter = () => {
     setHovering(true);
   };
@@ -141,8 +143,20 @@ export const Node = ({
   return (
     <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
-        <NodeHandle id="source" isConnectable={isConnectable} position={Position.Right} type="source" />
-        <NodeHandle id="source" isConnectable={isConnectable} position={Position.Left} type="target" />
+        <NodeHandle
+          id="source"
+          isConnectable={isConnectable}
+          position={Position.Right}
+          type="source"
+          zIndex={fromHandle ? 0 : 1}
+        />
+        <NodeHandle
+          id="target"
+          isConnectable={isConnectable}
+          position={Position.Left}
+          type="target"
+          zIndex={fromHandle ? 1 : 0}
+        />
         <NodeWrapper accent={getAccent()} color={getNodeColor()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (

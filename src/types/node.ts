@@ -4,7 +4,17 @@ import { NodeData } from '@/types/internal';
 
 export type BaseNodeProps = Pick<
   ReactFlowNode<{}, NodeType>,
-  'id' | 'type' | 'position' | 'hidden' | 'draggable' | 'connectable' | 'selected' | 'style' | 'className' | 'measured'
+  | 'id'
+  | 'type'
+  | 'position'
+  | 'hidden'
+  | 'draggable'
+  | 'connectable'
+  | 'selected'
+  | 'selectable'
+  | 'style'
+  | 'className'
+  | 'measured'
 >;
 export type NodeType = 'table' | 'collection';
 export type NodeBorderVariant = 'subtle' | 'preview' | 'selected' | 'none';
