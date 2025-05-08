@@ -43,8 +43,8 @@ export const EMPLOYEE_TERRITORIES_NODE: NodeProps = {
   id: 'employee_territories',
   type: 'table',
   position: {
-    x: 600,
-    y: 600,
+    x: 400,
+    y: 100,
   },
   measured: {
     width: DEFAULT_NODE_WIDTH,

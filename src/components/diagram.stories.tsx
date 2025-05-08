@@ -27,7 +27,7 @@ export const DiagramWithConnectableNodes: Story = {
       const [edges, setEdges] = useState<EdgeProps[]>(context.args.edges);
       const onConnect = (connection: Connection) => {
         setEdges([
-          ...edges,
+          ...edges.filter(edge => edge.source === connection.source && edge.source === connection.target),
           {
             ...ORDERS_TO_EMPLOYEES_EDGE,
             source: connection.source,
