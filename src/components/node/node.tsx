@@ -10,7 +10,6 @@ import {
   DEFAULT_FIELD_HEIGHT,
   DEFAULT_FIELD_PADDING,
   DEFAULT_NODE_HEADER_HEIGHT,
-  DEFAULT_NODE_WIDTH,
   ZOOM_THRESHOLD,
 } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
