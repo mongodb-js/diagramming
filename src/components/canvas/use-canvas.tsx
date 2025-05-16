@@ -11,7 +11,7 @@ export const useCanvas = (externalNodes: ExternalNode[], externalEdges: EdgeProp
         return {
           ...rest,
           draggable: !disabled && !connectable,
-          selectable: !connectable || selectable,
+          selectable: !connectable && selectable,
           connectable: connectable ?? false,
           data: {
             title,
