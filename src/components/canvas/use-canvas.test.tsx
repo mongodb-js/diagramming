@@ -17,7 +17,6 @@ describe('use-canvas', () => {
         },
         draggable: false,
         connectable: false,
-        selectable: true,
         measured: {
           height: 36,
           width: 244,
@@ -44,7 +43,6 @@ describe('use-canvas', () => {
         },
         draggable: true,
         connectable: false,
-        selectable: true,
         data: {
           fields: [
             { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
@@ -69,6 +67,7 @@ describe('use-canvas', () => {
         },
         draggable: false,
         connectable: true,
+        selectable: false,
         measured: {
           height: 36,
           width: 244,
