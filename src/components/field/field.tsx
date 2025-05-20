@@ -41,11 +41,9 @@ const FieldBorderAnimated = styled.div<{ height: string; left: string; width: st
     position: absolute;
     width: ${props => props.width};
     height: ${props => props.height};
-    left: ${props => props.left};
-    top: ${FIELD_BORDER_ANIMATED_PADDING / 2}px;
+    left: calc(${props => props.left} - ${FIELD_BORDER_ANIMATED_PADDING}px);
+    top: ${FIELD_BORDER_ANIMATED_PADDING / 2 - FIELD_BORDER_ANIMATED_PADDING}px;
     ${animatedBlueBorder};
-    padding: ${FIELD_BORDER_ANIMATED_PADDING}px;
-    margin: -${FIELD_BORDER_ANIMATED_PADDING}px;
   }
 `;
 
@@ -159,6 +157,28 @@ export const Field = ({
     </>
   );
 
+  /**
+   * Set the height based on the number of fields in preview multiplied by the default field height.
+   * Add some padding.
+   */
+  const previewBorderHeight = `${previewGroupLength * DEFAULT_FIELD_HEIGHT + FIELD_BORDER_ANIMATED_PADDING}px`;
+
+  /**
+   * Set the width to 100%.
+   * Increase the width to cover any glyphs.
+   * Decrease the width if the field is nested.
+   * Add some padding.
+   */
+  const previewBorderWidth = `calc(100% + ${
+    glyphs.length * FIELD_GLYPH_SPACING - depth * FIELD_BORDER_ANIMATED_PADDING * 2 + FIELD_BORDER_ANIMATED_PADDING * 2
+  }px)`;
+
+  /**
+   * Inset the border to the right if the field is nested.
+   * Inset the border to the left if the field has glyphs.
+   */
+  const previewBorderLeft = `${depth * DEFAULT_DEPTH_SPACING - glyphs.length * FIELD_GLYPH_SPACING}px`;
+
   return (
     <FieldWrapper color={getTextColor()}>
       <InnerFieldWrapper width={spacing}>
@@ -168,9 +188,10 @@ export const Field = ({
       </InnerFieldWrapper>
       {previewGroupLength ? (
         <FieldBorder
-          height={`${previewGroupLength * DEFAULT_FIELD_HEIGHT - FIELD_BORDER_ANIMATED_PADDING / 2}px`}
-          left={`${depth * DEFAULT_DEPTH_SPACING - glyphs.length * FIELD_GLYPH_SPACING}px`}
-          width={`calc(100% + ${glyphs.length * FIELD_GLYPH_SPACING - depth * FIELD_BORDER_ANIMATED_PADDING * 2}px)`}
+          data-testid={`preview-border-${name}`}
+          height={previewBorderHeight}
+          left={previewBorderLeft}
+          width={previewBorderWidth}
         >
           {content}
         </FieldBorder>
