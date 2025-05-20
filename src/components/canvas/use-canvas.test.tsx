@@ -15,7 +15,6 @@ describe('use-canvas', () => {
           x: 100,
           y: 100,
         },
-        draggable: false,
         connectable: false,
         measured: {
           height: 36,
@@ -41,7 +40,6 @@ describe('use-canvas', () => {
           height: 72,
           width: 244,
         },
-        draggable: true,
         connectable: false,
         data: {
           fields: [
@@ -65,9 +63,7 @@ describe('use-canvas', () => {
           x: 100,
           y: 100,
         },
-        draggable: false,
         connectable: true,
-        selectable: false,
         measured: {
           height: 36,
           width: 244,
@@ -92,7 +88,6 @@ describe('use-canvas', () => {
           x: 100,
           y: 100,
         },
-        draggable: true,
         selectable: true,
         connectable: false,
         measured: {
