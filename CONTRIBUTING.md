@@ -19,7 +19,7 @@ Where the type is:
 * `bugfix` for resolving issues or defects
 * `chore` for minor internal changes.
 
-For example: `feature/PLAT-456-add-user-profile`
+For example: `feature/MIG-9999-add-new-edge`
 
 ### Commit message format
 Write commit messages that are straightforward, clear, and describe a single purpose. Similar to pull request naming, the format is something like the following:
@@ -49,12 +49,11 @@ const Container = styled.div`
 Use lowercase and kebab-case for all filenames.
 
 Correct:
-* `user-profile.tsx`
-* `button-group.test.tsx`
+* `bezier-edge.tsx`
+* `bezier-edge.test.tsx`
 
 Incorrect:
-* `UserProfile.tsx`
-* `buttonGroup.test.tsx`
+* `BezierEdge.tsx`
 
 ## Tests
 
@@ -64,8 +63,8 @@ Incorrect:
 
 Example:
 ```
-describe('user-profile', () => {
-    it('renders with user data', () => {
+describe('bezier-edge', () => {
+    it('Renders an edge', () => {
         // test logic
     });
 });
@@ -78,10 +77,10 @@ Place test and story files in the same folder as the component they relate to.
 Example structure:
 ```
 components/
-└── user-profile/
-├── user-profile.tsx
-├── user-profile.test.tsx
-└── user-profile.stories.tsx
+└── edges/
+├── bezier-edge.tsx
+├── bezier-edge.test.tsx
+└── bezier-edge.stories.tsx
 ```
 
 ## Bugs
