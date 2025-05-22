@@ -6,10 +6,9 @@ Thank you for taking the time to contribute. This guide outlines how to structur
 
 To maintain consistency and clarity in your version control practices, follow these rules for naming pull requests and commit messages.
 
-### Pull request naming
-All pull requests should begin with a clear prefix indicating the nature of the change, followed by the related ticket ID and a brief description.
+### Branch naming
+All branches should following this format:
 
-Format:
 ```
 <type>/<ticket-ID>-<description>
 ```
@@ -68,6 +67,19 @@ describe('bezier-edge', () => {
         // test logic
     });
 });
+```
+
+## Linting
+We use ESLint to enforce coding standards, detect potential issues, and maintain a clean codebase. The rules are defined in the `.eslint.config.js` file. Run linting with:
+
+```
+yarn lint
+```
+
+To auto-fix certain issues, use:
+
+```
+yarn lint --fix
 ```
 
 ## File locations

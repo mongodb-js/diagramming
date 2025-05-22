@@ -30,9 +30,15 @@ import { Diagram } from '@mongodb-js/diagramming';
 const nodes = [
   {
     id: '1',
-    type: 'customNode',
+    type: 'collection',
     data: { label: 'Node 1' },
     position: { x: 250, y: 0 },
+  },
+  {
+    id: '2',
+    type: 'collection',
+    data: { label: 'Node 2' },
+    position: { x: 250, y: 250 },
   }
 ];
 
