@@ -3,8 +3,6 @@
 **@mongodb-js/diagramming** is a React component library built on top of [React Flow](https://reactflow.dev/) for creating interactive, customizable diagrams, 
 designed specifically for use cases in the MongoDB or relational world.
 
-> ⚠️ This package is currently in alpha release and is expected to change
-
 ---
 
 ## Features
