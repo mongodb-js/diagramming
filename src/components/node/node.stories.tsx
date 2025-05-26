@@ -93,6 +93,7 @@ export const FieldsWithGlyphs: Story = {
         {
           name: 'addressId',
           type: 'string',
+          glyphs: ['link'],
         },
       ],
     },

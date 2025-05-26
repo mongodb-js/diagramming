@@ -22,19 +22,16 @@ export const FieldList = ({ fields, nodeType, isHovering }: Props) => {
   const previewGroupLength = getPreviewGroupLengths(fields);
   return (
     <NodeFieldWrapper>
-      {fields.map(({ name, type: fieldType, hoverVariant, depth, glyphs, variant }, i) => (
+      {fields.map(({ name, type: fieldType, ...rest }, i) => (
         <Field
           key={i}
           name={name}
           nodeType={nodeType}
-          hoverVariant={hoverVariant}
-          depth={depth}
           isHovering={isHovering}
           previewGroupLength={previewGroupLength[name]}
-          glyphs={glyphs}
           type={fieldType}
           spacing={spacing}
-          variant={variant}
+          {...rest}
         />
       ))}
     </NodeFieldWrapper>

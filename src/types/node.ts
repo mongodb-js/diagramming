@@ -27,6 +27,7 @@ export interface NodeField {
   type?: string;
   depth?: number;
   glyphs?: Array<NodeGlyph>;
+  glyphSize?: number;
   variant?: NodeFieldVariant;
   hoverVariant?: NodeFieldHoverVariant;
 }
