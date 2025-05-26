@@ -1,7 +1,7 @@
-import { Node } from '@/types';
+import { NodeProps } from '@/types';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
-export const ORDERS_NODE: Node = {
+export const ORDERS_NODE: NodeProps = {
   id: 'orders',
   type: 'table',
   position: {
@@ -19,7 +19,7 @@ export const ORDERS_NODE: Node = {
   ],
 };
 
-export const EMPLOYEES_NODE: Node = {
+export const EMPLOYEES_NODE: NodeProps = {
   id: 'employees',
   type: 'collection',
   position: {
@@ -36,5 +36,23 @@ export const EMPLOYEES_NODE: Node = {
     { name: 'employeeDetail', type: '{}' },
     { name: 'firstName', type: 'string', depth: 1 },
     { name: 'lastName', type: 'string', depth: 1 },
+  ],
+};
+
+export const EMPLOYEE_TERRITORIES_NODE: NodeProps = {
+  id: 'employee_territories',
+  type: 'table',
+  position: {
+    x: 400,
+    y: 100,
+  },
+  measured: {
+    width: DEFAULT_NODE_WIDTH,
+    height: DEFAULT_FIELD_HEIGHT * 4,
+  },
+  title: 'employee_territories',
+  fields: [
+    { name: 'employeeId', type: 'string', glyphs: ['key'] },
+    { name: 'employeeTerritory', type: 'string', glyphs: ['key'] },
   ],
 };

@@ -1,4 +1,4 @@
-import { Handle, NodeProps, Position, useViewport } from '@xyflow/react';
+import { Handle, NodeProps, Position, useStore, useViewport } from '@xyflow/react';
 import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
@@ -10,7 +10,6 @@ import {
   DEFAULT_FIELD_HEIGHT,
   DEFAULT_FIELD_PADDING,
   DEFAULT_NODE_HEADER_HEIGHT,
-  DEFAULT_NODE_WIDTH,
   ZOOM_THRESHOLD,
 } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
@@ -28,6 +27,8 @@ const NodeZoomedOut = styled.div<{ height: number }>`
 const NodeZoomedOutInner = styled.div`
   font-size: 20px;
   text-align: center;
+  padding-left: ${spacing[300]}px;
+  padding-right: ${spacing[300]}px;
   ${ellipsisTruncation}
 `;
 
@@ -36,7 +37,6 @@ const NodeWrapper = styled.div<{ accent: string; color: string }>`
   font-family: ${fontFamilies.code};
   background: ${props => props.theme.node.background};
   color: ${props => props.color};
-  width: ${DEFAULT_NODE_WIDTH}px;
   overflow: hidden;
   border-left: 1px solid ${props => props.accent};
   border: 1px solid ${props => props.theme.node.border};
@@ -78,11 +78,24 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeHandle = styled(Handle)`
-  visibility: hidden;
+const NodeHandle = styled(Handle)<{ zIndex?: number }>`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+  transform: none;
+  opacity: 0;
+  z-index: ${props => props.zIndex};
 `;
 
-export const Node = ({ type, selected, data: { title, fields, borderVariant, disabled } }: NodeProps<InternalNode>) => {
+export const Node = ({
+  type,
+  selected,
+  isConnectable,
+  data: { title, fields, borderVariant, disabled },
+}: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
 
@@ -115,6 +128,8 @@ export const Node = ({ type, selected, data: { title, fields, borderVariant, dis
 
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
+  const fromHandle = useStore(state => state.connection.fromHandle);
+
   const onMouseEnter = () => {
     setHovering(true);
   };
@@ -126,8 +141,20 @@ export const Node = ({ type, selected, data: { title, fields, borderVariant, dis
   return (
     <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
-        <NodeHandle id="source" position={Position.Right} type="source" />
-        <NodeHandle id="source" position={Position.Left} type="target" />
+        <NodeHandle
+          id="source"
+          isConnectable={isConnectable}
+          position={Position.Right}
+          type="source"
+          zIndex={fromHandle ? 0 : 1}
+        />
+        <NodeHandle
+          id="target"
+          isConnectable={isConnectable}
+          position={Position.Left}
+          type="target"
+          zIndex={fromHandle ? 1 : 0}
+        />
         <NodeWrapper accent={getAccent()} color={getNodeColor()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (

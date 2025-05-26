@@ -1,12 +1,36 @@
 import { ReactFlowProps } from '@xyflow/react';
 
-import { Edge } from '@/types/edge';
-import { Node } from '@/types/node';
+import { EdgeProps } from '@/types/edge';
+import { NodeProps } from '@/types/node';
+import { InternalEdge, InternalNode } from '@/types/internal';
 
-type BaseProps = Pick<ReactFlowProps, 'title'>;
+type BaseProps = Pick<
+  ReactFlowProps<InternalNode, InternalEdge>,
+  | 'title'
+  | 'id'
+  | 'className'
+  | 'onConnect'
+  | 'onPaneClick'
+  | 'onEdgeClick'
+  | 'onNodeContextMenu'
+  | 'onSelectionContextMenu'
+  | 'onSelectionChange'
+  | 'onSelectionDragStop'
+  | 'onNodeDrag'
+  | 'onNodeDragStop'
+  | 'onConnectStart'
+  | 'panOnDrag'
+  | 'fitViewOptions'
+  | 'selectionKeyCode'
+  | 'multiSelectionKeyCode'
+  | 'zoomOnPinch'
+  | 'zoomOnScroll'
+  | 'maxZoom'
+  | 'minZoom'
+>;
 
 export interface DiagramProps extends BaseProps {
   isDarkMode?: boolean;
-  nodes: Array<Node>;
-  edges: Array<Edge>;
+  nodes: Array<NodeProps>;
+  edges: Array<EdgeProps>;
 }

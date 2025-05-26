@@ -1,17 +1,19 @@
 import { useMemo } from 'react';
 
-import { Edge, Node as ExternalNode } from '@/types';
+import { EdgeProps, NodeProps as ExternalNode } from '@/types';
 import { InternalEdge, InternalNode } from '@/types/internal';
 
-export const useCanvas = (externalNodes: ExternalNode[], externalEdges: Edge[]) => {
+export const useCanvas = (externalNodes: ExternalNode[], externalEdges: EdgeProps[]) => {
   const initialNodes: InternalNode[] = useMemo(
     () =>
       externalNodes.map(node => {
-        const { title, fields, borderVariant, ...rest } = node;
+        const { title, fields, borderVariant, disabled, connectable, ...rest } = node;
         return {
           ...rest,
+          connectable: connectable ?? false,
           data: {
             title,
+            disabled,
             fields,
             borderVariant,
           },

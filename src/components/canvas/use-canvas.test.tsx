@@ -6,7 +6,7 @@ import { useCanvas } from './use-canvas';
 
 describe('use-canvas', () => {
   it('Should get initial nodes', () => {
-    const { result } = renderHook(() => useCanvas([ORDERS_NODE, EMPLOYEES_NODE], []));
+    const { result } = renderHook(() => useCanvas([{ ...ORDERS_NODE, disabled: true }, EMPLOYEES_NODE], []));
     expect(result.current.initialNodes).toEqual([
       {
         id: 'orders',
@@ -15,12 +15,13 @@ describe('use-canvas', () => {
           x: 100,
           y: 100,
         },
+        connectable: false,
         measured: {
           height: 36,
           width: 244,
         },
         data: {
-          borderVariant: undefined,
+          disabled: true,
           fields: [
             { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
             { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
@@ -39,8 +40,8 @@ describe('use-canvas', () => {
           height: 72,
           width: 244,
         },
+        connectable: false,
         data: {
-          borderVariant: undefined,
           fields: [
             { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
             { name: 'employeeDetail', type: '{}' },
@@ -48,6 +49,57 @@ describe('use-canvas', () => {
             { name: 'lastName', type: 'string', depth: 1 },
           ],
           title: 'employees',
+        },
+      },
+    ]);
+  });
+  it('Should be connectable', () => {
+    const { result } = renderHook(() => useCanvas([{ ...ORDERS_NODE, connectable: true }], []));
+    expect(result.current.initialNodes).toEqual([
+      {
+        id: 'orders',
+        type: 'table',
+        position: {
+          x: 100,
+          y: 100,
+        },
+        connectable: true,
+        measured: {
+          height: 36,
+          width: 244,
+        },
+        data: {
+          fields: [
+            { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
+            { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
+          ],
+          title: 'orders',
+        },
+      },
+    ]);
+  });
+  it('Should be selectable', () => {
+    const { result } = renderHook(() => useCanvas([{ ...ORDERS_NODE, selectable: true }], []));
+    expect(result.current.initialNodes).toEqual([
+      {
+        id: 'orders',
+        type: 'table',
+        position: {
+          x: 100,
+          y: 100,
+        },
+        selectable: true,
+        connectable: false,
+        measured: {
+          height: 36,
+          width: 244,
+        },
+        data: {
+          fields: [
+            { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
+            { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
+          ],
+          title: 'orders',
         },
       },
     ]);

@@ -1,16 +1,26 @@
-import '@xyflow/react/dist/style.css';
 import styled from '@emotion/styled';
-import { Background, ProOptions, ReactFlow, ReactFlowProps, useEdgesState, useNodesState } from '@xyflow/react';
+import {
+  Background,
+  ConnectionMode,
+  ProOptions,
+  ReactFlow,
+  ReactFlowProps,
+  SelectionMode,
+  useEdgesState,
+  useNodesState,
+} from '@xyflow/react';
+import { useEffect } from 'react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { Edge, Node as ExternalNode } from '@/types';
+import { EdgeProps, NodeProps as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalEdge, InternalNode } from '@/types/internal';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { MarkerList } from '@/components/markers/marker-list';
+import { ConnectionLine } from '@/components/line/connection-line';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -34,17 +44,29 @@ const edgeTypes = {
   selfReferencingEdge: SelfReferencingEdge,
 };
 
-type Props = Pick<ReactFlowProps, 'title'> & { nodes: ExternalNode[]; edges: Edge[] };
+type Props = Pick<ReactFlowProps, 'title' | 'onConnect' | 'id'> & { nodes: ExternalNode[]; edges: EdgeProps[] };
 
-export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Props) => {
+export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onConnect, id, ...rest }: Props) => {
   const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
 
-  const [nodes, , onNodesChange] = useNodesState<InternalNode>(initialNodes);
-  const [edges, , onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);
+
+  useEffect(() => {
+    setNodes(initialNodes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialNodes]);
+
+  useEffect(() => {
+    setEdges(initialEdges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialEdges]);
 
   return (
     <ReactFlowWrapper>
       <ReactFlow
+        id={id}
+        deleteKeyCode={null}
         title={title}
         proOptions={PRO_OPTIONS}
         maxZoom={MAX_ZOOM}
@@ -54,11 +76,17 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges }: Pr
         nodes={nodes}
         onlyRenderVisibleElements={true}
         edges={edges}
+        connectionLineComponent={ConnectionLine}
+        connectionMode={ConnectionMode.Loose}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        selectionMode={SelectionMode.Partial}
+        nodesDraggable={true}
+        onConnect={onConnect}
+        {...rest}
       >
         <MarkerList />
-        <Background />
+        <Background id={id} />
         <Controls title={title} />
         <MiniMap />
       </ReactFlow>
