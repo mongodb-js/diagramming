@@ -7,7 +7,7 @@ Thank you for taking the time to contribute. This guide outlines how to structur
 To maintain consistency and clarity in your version control practices, follow these rules for naming pull requests and commit messages.
 
 ### Branch naming
-All branches should following this format:
+All branches should follow this format:
 
 ```
 <type>/<ticket-ID>-<description>
@@ -47,11 +47,11 @@ const Container = styled.div`
 
 Use lowercase and kebab-case for all filenames.
 
-Correct:
+✅ Correct:
 * `bezier-edge.tsx`
 * `bezier-edge.test.tsx`
 
-Incorrect:
+❌ Incorrect:
 * `BezierEdge.tsx`
 
 ## Tests
