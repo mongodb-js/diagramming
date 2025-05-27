@@ -3,13 +3,8 @@ import { spacing } from '@leafygreen-ui/tokens';
 
 import { Field } from '@/components/field/field';
 import { NodeField, NodeType } from '@/types';
-import { getPreviewGroupArea } from '@/utilities/get-preview-group-area';
+import { DEFAULT_PREVIEW_GROUP_AREA, getPreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
-
-const DEFAULT_PREVIEW_GROUP_AREA = {
-  height: 0,
-  width: 0,
-};
 
 const NodeFieldWrapper = styled.div`
   padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
