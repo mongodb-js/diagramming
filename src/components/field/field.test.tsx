@@ -9,6 +9,7 @@ describe('field', () => {
         name={'ordersId'}
         type={'objectId'}
         glyphs={['key', 'link']}
+        previewGroupArea={{ width: 0, height: 0 }}
         spacing={2}
         depth={1}
       />,
