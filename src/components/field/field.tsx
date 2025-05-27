@@ -28,7 +28,7 @@ const FieldWrapper = styled.div<{ color: string }>`
 
 const InnerFieldWrapper = styled.div<{ width: number }>`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex: 0 0 auto;
   width: ${props => `${props.width * FIELD_GLYPH_SPACING}px`};
 `;
@@ -85,6 +85,7 @@ const FieldType = styled.div`
 
 const IconWrapper = styled(Icon)`
   padding-right: ${spacing[100]}px;
+  flex-shrink: 0;
 `;
 
 interface Props extends NodeField {
@@ -102,6 +103,7 @@ export const Field = ({
   type,
   nodeType,
   glyphs = [],
+  glyphSize = LGSpacing[300],
   spacing = 0,
   variant,
   previewGroupLength = 0,
@@ -183,7 +185,7 @@ export const Field = ({
     <FieldWrapper color={getTextColor()}>
       <InnerFieldWrapper width={spacing}>
         {glyphs.map(glyph => (
-          <IconWrapper key={glyph} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} />
+          <IconWrapper key={glyph} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} size={glyphSize} />
         ))}
       </InnerFieldWrapper>
       {previewGroupLength ? (
