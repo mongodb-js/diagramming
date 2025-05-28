@@ -134,7 +134,7 @@ export const Field = ({
   const getIconColor = (glyph: NodeGlyph) => {
     if (isDisabled) {
       return color[theme].text.disabled.default;
-    } else if (variant === 'primary') {
+    } else if (variant === 'primary' && glyph === 'key') {
       return palette.blue.base;
     } else {
       return glyph === 'key' ? getAccent() : internalTheme.node.icon;
