@@ -231,7 +231,7 @@ export const NodeWithPrimaryField: Story = {
           name: 'customerId',
           type: 'string',
           variant: 'primary',
-          glyphs: ['key'],
+          glyphs: ['key', 'link'],
         },
       ],
     },
