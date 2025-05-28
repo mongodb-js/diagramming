@@ -32,10 +32,10 @@ const NodeZoomedOutInner = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeWrapper = styled.div<{ accent: string; color: string }>`
+const NodeWrapper = styled.div<{ accent: string; color: string; background: string }>`
   position: relative;
   font-family: ${fontFamilies.code};
-  background: ${props => props.theme.node.background};
+  background: ${props => props.background};
   color: ${props => props.color};
   overflow: hidden;
   border-left: 1px solid ${props => props.accent};
@@ -126,6 +126,14 @@ export const Node = ({
     }
   };
 
+  const getNodeBackground = () => {
+    if (isHovering) {
+      return theme.node.backgroundHover;
+    } else {
+      return theme.node.background;
+    }
+  };
+
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
   const fromHandle = useStore(state => state.connection.fromHandle);
@@ -155,7 +163,7 @@ export const Node = ({
           type="target"
           zIndex={fromHandle ? 1 : 0}
         />
-        <NodeWrapper accent={getAccent()} color={getNodeColor()}>
+        <NodeWrapper accent={getAccent()} color={getNodeColor()} background={getNodeBackground()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (
               <>
