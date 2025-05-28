@@ -142,16 +142,14 @@ export const Node = ({
     <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
         <NodeHandle
-          id={'source'}
-          data-testid={`node-handle-source-${title}`}
+          id="source"
           position={Position.Right}
           type="source"
           isConnectable={isConnectable ?? false}
           z-index={fromHandle ? 0 : 1}
         />
         <NodeHandle
-          id={'target'}
-          data-testid={`node-handle-target-${title}`}
+          id="target"
           position={Position.Left}
           type="target"
           isConnectable={isConnectable ?? false}
