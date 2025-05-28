@@ -6,6 +6,7 @@ import { InternalNode } from '@/types/internal';
 import { Edge } from '@/components/edge/edge';
 
 export const FloatingEdge = ({ id, source, target, markerEnd, markerStart, selected }: EdgeProps) => {
+  console.log('FloatingEdge', { id, source, target, markerEnd, markerStart, selected });
   const nodes = useNodes<InternalNode>();
 
   const { sourceNode, targetNode } = useMemo(() => {

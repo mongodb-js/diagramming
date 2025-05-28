@@ -15,3 +15,13 @@ export const EMPLOYEES_TO_EMPLOYEES_EDGE: EdgeProps = {
   markerEnd: 'one',
   markerStart: 'many',
 };
+
+export const TERRITORIES_TO_EMPLOYEES_EDGE: EdgeProps = {
+  id: 'territories-to-employees',
+  source: 'employee_territories',
+  target: 'employees',
+  sourceField: 'employeeId',
+  targetField: 'employeeId',
+  markerEnd: 'one',
+  markerStart: 'many',
+};

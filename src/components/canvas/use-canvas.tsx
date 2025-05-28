@@ -28,10 +28,12 @@ export const useCanvas = (externalNodes: ExternalNode[], externalEdges: EdgeProp
         ...edge,
         markerStart: `start-${edge.markerStart}`,
         markerEnd: `end-${edge.markerEnd}`,
-        type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
+        type: edge.source === edge.target ? 'selfReferencingEdge' : 'fieldEdge',
       })),
     [externalEdges],
   );
+
+  console.log({ initialEdges })
 
   return {
     initialNodes,

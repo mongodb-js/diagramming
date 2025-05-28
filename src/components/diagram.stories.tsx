@@ -4,7 +4,11 @@ import { Connection } from '@xyflow/react';
 
 import { Diagram } from '@/components/diagram';
 import { EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
-import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
+import {
+  EMPLOYEES_TO_EMPLOYEES_EDGE,
+  ORDERS_TO_EMPLOYEES_EDGE,
+  TERRITORIES_TO_EMPLOYEES_EDGE,
+} from '@/mocks/datasets/edges';
 import { EdgeProps } from '@/types';
 
 const diagram: Meta<typeof Diagram> = {
@@ -13,7 +17,7 @@ const diagram: Meta<typeof Diagram> = {
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
-    edges: [ORDERS_TO_EMPLOYEES_EDGE, EMPLOYEES_TO_EMPLOYEES_EDGE],
+    edges: [TERRITORIES_TO_EMPLOYEES_EDGE],
     nodes: [ORDERS_NODE, EMPLOYEES_NODE, EMPLOYEE_TERRITORIES_NODE],
   },
 };
@@ -26,12 +30,13 @@ export const DiagramWithConnectableNodes: Story = {
     (Story, context) => {
       const [edges, setEdges] = useState<EdgeProps[]>(context.args.edges);
       const onConnect = (connection: Connection) => {
+        console.log('onConnect', connection);
         setEdges([
           ...edges.filter(edge => edge.source === connection.source && edge.source === connection.target),
           {
-            ...ORDERS_TO_EMPLOYEES_EDGE,
-            source: connection.source,
-            target: connection.target,
+            ...TERRITORIES_TO_EMPLOYEES_EDGE,
+            source: 'orders-ORDER_ID',
+            target: 'employees-employeeId',
             animated: true,
             selected: true,
           },
@@ -39,6 +44,7 @@ export const DiagramWithConnectableNodes: Story = {
       };
 
       const onPaneClick = () => {
+        console.log('onPaneClick');
         setEdges(edges.filter(edge => edge.id !== ORDERS_TO_EMPLOYEES_EDGE.id));
       };
 
@@ -47,7 +53,7 @@ export const DiagramWithConnectableNodes: Story = {
         args: {
           ...context.args,
           edges,
-          onPaneClick,
+          // onPaneClick,
           onConnect,
         },
       });

@@ -7,6 +7,7 @@ import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
 import { Edge } from '@/components/edge/edge';
 
 export const SelfReferencingEdge = ({ id, source, markerEnd, markerStart, selected }: EdgeProps) => {
+  console.log('SelfReferencingEdge', { id, source, markerEnd, markerStart, selected });
   const nodes = useNodes<InternalNode>();
 
   const { sourceNode } = useMemo(() => {

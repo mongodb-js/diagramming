@@ -10,4 +10,6 @@ export type Marker = 'one' | 'many' | 'oneOrMany';
 export interface EdgeProps extends BaseEdgeProps {
   markerStart: Marker;
   markerEnd: Marker;
+  sourceField?: string;
+  targetField?: string;
 }

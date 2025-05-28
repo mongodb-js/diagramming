@@ -17,6 +17,7 @@ import { EdgeProps, NodeProps as ExternalNode } from '@/types';
 import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalEdge, InternalNode } from '@/types/internal';
+import { FieldEdge } from '@/components/edge/field-edge';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { MarkerList } from '@/components/markers/marker-list';
@@ -42,6 +43,7 @@ const nodeTypes = {
 const edgeTypes = {
   floatingEdge: FloatingEdge,
   selfReferencingEdge: SelfReferencingEdge,
+  fieldEdge: FieldEdge,
 };
 
 type Props = Pick<ReactFlowProps, 'title' | 'onConnect' | 'id'> & { nodes: ExternalNode[]; edges: EdgeProps[] };
