@@ -3,7 +3,7 @@ import { spacing } from '@leafygreen-ui/tokens';
 
 import { Field } from '@/components/field/field';
 import { NodeField, NodeType } from '@/types';
-import { getPreviewGroupLengths } from '@/utilities/get-preview-group-lengths';
+import { DEFAULT_PREVIEW_GROUP_AREA, getPreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
 
 const NodeFieldWrapper = styled.div`
@@ -19,7 +19,7 @@ interface Props {
 
 export const FieldList = ({ fields, nodeType, isHovering }: Props) => {
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
-  const previewGroupLength = getPreviewGroupLengths(fields);
+  const previewGroupArea = getPreviewGroupArea(fields);
   return (
     <NodeFieldWrapper>
       {fields.map(({ name, type: fieldType, ...rest }, i) => (
@@ -28,7 +28,7 @@ export const FieldList = ({ fields, nodeType, isHovering }: Props) => {
           name={name}
           nodeType={nodeType}
           isHovering={isHovering}
-          previewGroupLength={previewGroupLength[name]}
+          previewGroupArea={previewGroupArea[name] || DEFAULT_PREVIEW_GROUP_AREA}
           type={fieldType}
           spacing={spacing}
           {...rest}

@@ -9,6 +9,7 @@ import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
+import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -92,7 +93,7 @@ interface Props extends NodeField {
   nodeType: NodeType;
   spacing: number;
   isHovering?: boolean;
-  previewGroupLength?: number;
+  previewGroupArea: PreviewGroupArea;
 }
 
 export const Field = ({
@@ -103,10 +104,10 @@ export const Field = ({
   type,
   nodeType,
   glyphs = [],
+  previewGroupArea,
   glyphSize = LGSpacing[300],
   spacing = 0,
   variant,
-  previewGroupLength = 0,
 }: Props) => {
   const { theme } = useDarkMode();
 
@@ -160,10 +161,15 @@ export const Field = ({
   );
 
   /**
+   * Sets how much the preview border needs to offset by, by the maximum number of glyphs in that area.
+   */
+  const previewWidthGlyphOffset = FIELD_GLYPH_SPACING * previewGroupArea.width;
+
+  /**
    * Set the height based on the number of fields in preview multiplied by the default field height.
    * Add some padding.
    */
-  const previewBorderHeight = `${previewGroupLength * DEFAULT_FIELD_HEIGHT + FIELD_BORDER_ANIMATED_PADDING}px`;
+  const previewBorderHeight = `${previewGroupArea.height * DEFAULT_FIELD_HEIGHT + FIELD_BORDER_ANIMATED_PADDING}px`;
 
   /**
    * Set the width to 100%.
@@ -172,14 +178,14 @@ export const Field = ({
    * Add some padding.
    */
   const previewBorderWidth = `calc(100% + ${
-    glyphs.length * FIELD_GLYPH_SPACING - depth * FIELD_BORDER_ANIMATED_PADDING * 2 + FIELD_BORDER_ANIMATED_PADDING * 2
+    previewWidthGlyphOffset - depth * FIELD_BORDER_ANIMATED_PADDING * 2 + FIELD_BORDER_ANIMATED_PADDING * 2
   }px)`;
 
   /**
    * Inset the border to the right if the field is nested.
    * Inset the border to the left if the field has glyphs.
    */
-  const previewBorderLeft = `${depth * DEFAULT_DEPTH_SPACING - glyphs.length * FIELD_GLYPH_SPACING}px`;
+  const previewBorderLeft = `${depth * DEFAULT_DEPTH_SPACING - previewWidthGlyphOffset}px`;
 
   return (
     <FieldWrapper color={getTextColor()}>
@@ -188,7 +194,7 @@ export const Field = ({
           <IconWrapper key={glyph} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} size={glyphSize} />
         ))}
       </InnerFieldWrapper>
-      {previewGroupLength ? (
+      {previewGroupArea.height ? (
         <FieldBorder
           data-testid={`preview-border-${name}`}
           height={previewBorderHeight}
