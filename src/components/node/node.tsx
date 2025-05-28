@@ -78,7 +78,7 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeHandle = styled(Handle)<{ zIndex?: number }>`
+const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -87,7 +87,7 @@ const NodeHandle = styled(Handle)<{ zIndex?: number }>`
   border-radius: 0;
   transform: none;
   opacity: 0;
-  z-index: ${props => props.zIndex};
+  z-index: ${props => props['z-index']};
 `;
 
 export const Node = ({
@@ -141,24 +141,22 @@ export const Node = ({
   return (
     <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
-        {isConnectable && (
-          <>
-            <NodeHandle
-              id={'source'}
-              data-testid={`node-handle-source-${title}`}
-              position={Position.Right}
-              type="source"
-              zIndex={fromHandle ? 0 : 1}
-            />
-            <NodeHandle
-              id={'target'}
-              data-testid={`node-handle-target-${title}`}
-              position={Position.Left}
-              type="target"
-              zIndex={fromHandle ? 1 : 0}
-            />
-          </>
-        )}
+        <NodeHandle
+          id={'source'}
+          data-testid={`node-handle-source-${title}`}
+          position={Position.Right}
+          type="source"
+          isConnectable={isConnectable ?? false}
+          z-index={fromHandle ? 0 : 1}
+        />
+        <NodeHandle
+          id={'target'}
+          data-testid={`node-handle-target-${title}`}
+          position={Position.Left}
+          type="target"
+          isConnectable={isConnectable ?? false}
+          z-index={fromHandle ? 1 : 0}
+        />
         <NodeWrapper accent={getAccent()} color={getNodeColor()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (

@@ -46,8 +46,6 @@ describe('node', () => {
     expect(screen.getByText('orders')).toBeInTheDocument();
     expect(screen.getByText('orderId')).toBeInTheDocument();
     expect(screen.getByText('varchar')).toBeInTheDocument();
-    expect(screen.queryByTestId('node-handle-source-orders')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('node-handle-target-orders')).not.toBeInTheDocument();
   });
 
   it('Should show collection node', () => {
@@ -62,8 +60,6 @@ describe('node', () => {
     expect(screen.getByText('employees')).toBeInTheDocument();
     expect(screen.getByText('employeeId')).toBeInTheDocument();
     expect(screen.getByText('string')).toBeInTheDocument();
-    expect(screen.queryByTestId('node-handle-source-employees')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('node-handle-target-employees')).not.toBeInTheDocument();
   });
 
   it('Should show contextual zoom', () => {
@@ -80,18 +76,5 @@ describe('node', () => {
     expect(screen.getByText('employees')).toBeInTheDocument();
     expect(screen.queryByText('employeeId')).not.toBeInTheDocument();
     expect(screen.queryByText('string')).not.toBeInTheDocument();
-  });
-
-  it('Should have handles if connected', () => {
-    render(
-      <Node
-        {...DEFAULT_PROPS}
-        type="collection"
-        isConnectable={true}
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
-      />,
-    );
-    expect(screen.getByTestId('node-handle-source-employees')).toBeInTheDocument();
-    expect(screen.getByTestId('node-handle-target-employees')).toBeInTheDocument();
   });
 });
