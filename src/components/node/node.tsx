@@ -139,22 +139,26 @@ export const Node = ({
   };
 
   return (
-    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
-        <NodeHandle
-          id="source"
-          isConnectable={isConnectable}
-          position={Position.Right}
-          type="source"
-          zIndex={fromHandle ? 0 : 1}
-        />
-        <NodeHandle
-          id="target"
-          isConnectable={isConnectable}
-          position={Position.Left}
-          type="target"
-          zIndex={fromHandle ? 1 : 0}
-        />
+        {isConnectable && (
+          <>
+            <NodeHandle
+              id={'source'}
+              data-testid={`node-handle-source-${title}`}
+              position={Position.Right}
+              type="source"
+              zIndex={fromHandle ? 0 : 1}
+            />
+            <NodeHandle
+              id={'target'}
+              data-testid={`node-handle-target-${title}`}
+              position={Position.Left}
+              type="target"
+              zIndex={fromHandle ? 1 : 0}
+            />
+          </>
+        )}
         <NodeWrapper accent={getAccent()} color={getNodeColor()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (
