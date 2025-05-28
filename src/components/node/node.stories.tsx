@@ -93,7 +93,6 @@ export const FieldsWithGlyphs: Story = {
         {
           name: 'addressId',
           type: 'string',
-          glyphs: ['link'],
         },
       ],
     },
@@ -275,6 +274,12 @@ export const NodeWithPreviewGlyphs: Story = {
     data: {
       title: 'orders',
       fields: [
+        {
+          name: '_id',
+          type: 'string',
+          variant: 'preview',
+          glyphs: ['key'],
+        },
         {
           name: 'customerId',
           type: 'string',
