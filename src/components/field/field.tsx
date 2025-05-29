@@ -117,7 +117,7 @@ export const Field = ({
 
   const getTextColor = () => {
     if (isDisabled) {
-      return color[theme].text.disabled.default;
+      return internalTheme.node.disabledColor;
     } else {
       return color[theme].text.primary.default;
     }
@@ -125,7 +125,7 @@ export const Field = ({
 
   const getSecondaryTextColor = () => {
     if (isDisabled) {
-      return color[theme].text.disabled.default;
+      return internalTheme.node.disabledColor;
     } else {
       return color[theme].text.secondary.default;
     }
