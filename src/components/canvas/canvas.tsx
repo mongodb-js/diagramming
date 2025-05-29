@@ -67,7 +67,6 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onCo
       <ReactFlow
         id={id}
         deleteKeyCode={null}
-        title={title}
         proOptions={PRO_OPTIONS}
         maxZoom={MAX_ZOOM}
         minZoom={MIN_ZOOM}

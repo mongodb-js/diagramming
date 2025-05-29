@@ -32,10 +32,10 @@ const NodeZoomedOutInner = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeWrapper = styled.div<{ accent: string; color: string }>`
+const NodeWrapper = styled.div<{ accent: string; color: string; background: string }>`
   position: relative;
   font-family: ${fontFamilies.code};
-  background: ${props => props.theme.node.background};
+  background: ${props => props.background};
   color: ${props => props.color};
   overflow: hidden;
   border-left: 1px solid ${props => props.accent};
@@ -78,7 +78,7 @@ const NodeHeaderTitle = styled.div`
   ${ellipsisTruncation}
 `;
 
-const NodeHandle = styled(Handle)<{ zIndex?: number }>`
+const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -87,7 +87,7 @@ const NodeHandle = styled(Handle)<{ zIndex?: number }>`
   border-radius: 0;
   transform: none;
   opacity: 0;
-  z-index: ${props => props.zIndex};
+  z-index: ${props => props['z-index']};
 `;
 
 export const Node = ({
@@ -126,6 +126,14 @@ export const Node = ({
     }
   };
 
+  const getNodeBackground = () => {
+    if (isHovering) {
+      return theme.node.backgroundHover;
+    } else {
+      return theme.node.background;
+    }
+  };
+
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
   const fromHandle = useStore(state => state.connection.fromHandle);
@@ -139,23 +147,23 @@ export const Node = ({
   };
 
   return (
-    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={selected ? 'selected' : borderVariant}>
         <NodeHandle
           id="source"
-          isConnectable={isConnectable}
           position={Position.Right}
           type="source"
-          zIndex={fromHandle ? 0 : 1}
+          isConnectable={isConnectable ?? false}
+          z-index={fromHandle ? 0 : 1}
         />
         <NodeHandle
           id="target"
-          isConnectable={isConnectable}
           position={Position.Left}
           type="target"
-          zIndex={fromHandle ? 1 : 0}
+          isConnectable={isConnectable ?? false}
+          z-index={fromHandle ? 1 : 0}
         />
-        <NodeWrapper accent={getAccent()} color={getNodeColor()}>
+        <NodeWrapper accent={getAccent()} color={getNodeColor()} background={getNodeBackground()}>
           <NodeHeader background={getHeaderBackground()}>
             {!isContextualZoom && (
               <>
