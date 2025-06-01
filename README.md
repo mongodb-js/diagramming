@@ -65,15 +65,17 @@ To run all tests:
 yarn test
 ````
 
-## Running Storybook Locally
-To explore components and their behavior in isolation:
+## Running Storybook
+To explore components and their behavior in isolation: https://mongodb-js.github.io/diagramming
+
+Changes to the Storybook will be uploaded to the link above on push to `main`
+
+To run locally at http://localhost:6006 on your own branch:
 
 ```bash 
 yarn install
 yarn storybook
 ```
-
-Storybook will run locally at http://localhost:6006.
  
 ### Resources
 - [NPM Package](https://www.npmjs.com/package/@mongodb-js/diagramming)
