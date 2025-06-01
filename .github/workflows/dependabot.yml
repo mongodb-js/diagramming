@@ -12,3 +12,4 @@ updates:
     rebase-strategy: disabled
     ignore:
       - dependency-name: "react"
+      - dependency-name: "@testing-library/react"
