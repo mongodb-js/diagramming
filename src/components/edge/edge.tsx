@@ -5,18 +5,31 @@ import { SVGAttributes } from 'react';
 interface Props extends SVGAttributes<SVGPathElement> {
   selected?: boolean;
   path: string;
+  labelX: number;
+  labelY: number;
 }
 
 const getMarker = (selected?: boolean, marker?: string) => {
   return selected ? marker?.replace(/'\)/, "-selected')") : marker;
 };
 
-export const Edge = ({ markerStart, markerEnd, selected, ...rest }: Props) => {
+export const Edge = ({ markerStart, markerEnd, selected, labelX, labelY, ...rest }: Props) => {
   return (
     <BaseEdge
       markerEnd={getMarker(selected, markerEnd)}
       markerStart={getMarker(selected, markerStart)}
-      style={{ stroke: selected ? palette.blue.base : palette.gray.base }}
+      label={'my label'}
+      labelX={labelX}
+      labelY={labelY}
+      // labelShowBg={true}
+      // labelStyle={{
+      //   fill: palette.black,
+      //   fontSize: '12px',
+      //   fontWeight: 500,
+      // }}
+      // labelBgStyle={{
+      //   fill: palette.white,
+      // }}
       {...rest}
     />
   );

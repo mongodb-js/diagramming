@@ -1,12 +1,15 @@
-import { EdgeProps, getSmoothStepPath, useNodes } from '@xyflow/react';
+import { getSmoothStepPath, useNodes } from '@xyflow/react';
 import { useMemo } from 'react';
 
-import { getEdgeParams } from '@/utilities/get-edge-params';
+import { getEdgeParams } from '@/utilities/get-field-edge-params';
 import { InternalNode } from '@/types/internal';
 import { Edge } from '@/components/edge/edge';
+import { EdgeProps } from '@/types';
 
-export const FloatingEdge = ({ id, source, target, markerEnd, markerStart, selected }: EdgeProps) => {
-  console.log('FloatingEdge', { id, source, target, markerEnd, markerStart, selected });
+export const FieldEdge = ({ 
+  id, source, target, markerEnd, markerStart, selected, sourceField, targetField
+}: EdgeProps) => {
+  console.log('FieldEdge', { id, source, target, markerEnd, markerStart, selected, sourceField, targetField });
   const nodes = useNodes<InternalNode>();
 
   const { sourceNode, targetNode } = useMemo(() => {
@@ -15,9 +18,10 @@ export const FloatingEdge = ({ id, source, target, markerEnd, markerStart, selec
     return { sourceNode, targetNode };
   }, [nodes, source, target]);
 
+  console.log({ sourceNode, targetNode, sourceField, targetField });
   if (!sourceNode || !targetNode) return null;
 
-  const { sx, sy, tx, ty, sourcePos, targetPos } = getEdgeParams(sourceNode, targetNode);
+  const { sx, sy, tx, ty, sourcePos, targetPos } = getEdgeParams(sourceNode, targetNode, sourceField || 'employeeId', targetField || 'employeeId');
 
   const [path, labelX, labelY] = getSmoothStepPath({
     sourceX: sx,
@@ -32,7 +36,7 @@ export const FloatingEdge = ({ id, source, target, markerEnd, markerStart, selec
     <Edge
       labelX={labelX}
       labelY={labelY}
-      data-testid={`floating-edge-${id}`}
+      data-testid={`field-edge-${id}`}
       markerEnd={markerEnd}
       markerStart={markerStart}
       path={path}
