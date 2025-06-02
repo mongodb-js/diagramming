@@ -1,4 +1,4 @@
-import type { RenderOptions } from '@testing-library/react';
+import type { RenderOptions, RenderResult } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import type { PropsWithChildren, ReactElement } from 'react';
 import { ThemeProvider } from '@emotion/react';
@@ -14,6 +14,6 @@ export const wrapper = ({ children }: PropsWithChildren) => (
   </ThemeProvider>
 );
 
-const customRender = (ui: ReactElement, options?: RenderOptions) => render(ui, { wrapper, ...options });
+const customRender = (ui: ReactElement, options?: RenderOptions): RenderResult => render(ui, { wrapper, ...options });
 export * from '@testing-library/react';
 export { customRender as render };
