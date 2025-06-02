@@ -1,7 +1,7 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
 
 import { NodeBorderVariant, NodeField } from '@/types/node';
-import { BaseEdgeProps } from '@/types/edge';
+import { EdgeProps } from '@/types/edge';
 
 export type NodeData = {
   title: string;
@@ -11,7 +11,7 @@ export type NodeData = {
 };
 export type InternalNode = ReactFlowNode<NodeData>;
 
-export interface InternalEdge extends BaseEdgeProps {
+export interface InternalEdge extends Omit<EdgeProps, 'markerStart' | 'markerEnd'> {
   markerStart: 'start-one' | 'start-oneOrMany' | 'start-many';
   markerEnd: 'end-one' | 'end-oneOrMany' | 'end-many';
 }
