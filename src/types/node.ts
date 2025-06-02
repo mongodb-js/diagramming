@@ -151,7 +151,7 @@ export interface NodeField {
   glyphs?: Array<NodeGlyph>;
 
   /**
-   * The size of glyphs, in px.
+   * The size of glyphs, in pixels.
    */
   glyphSize?: number;
 

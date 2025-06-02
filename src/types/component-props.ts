@@ -59,6 +59,16 @@ export type OnConnectStartHandler = (
 
 export interface DiagramProps {
   /**
+   * Unique identifier for the diagram instance.
+   */
+  id?: string;
+
+  /**
+   * Title used for the diagram, displayed next to the controls.
+   */
+  title?: string;
+
+  /**
    * Whether the diagram should render in dark mode.
    */
   isDarkMode?: boolean;
@@ -72,16 +82,6 @@ export interface DiagramProps {
    * Edges to render in the diagram.
    */
   edges: Array<EdgeProps>;
-
-  /**
-   * Optional title for the diagram (used for accessibility or metadata).
-   */
-  title?: string;
-
-  /**
-   * Unique identifier for the diagram instance.
-   */
-  id?: string;
 
   /**
    * Optional CSS class to apply to the React Flow container.

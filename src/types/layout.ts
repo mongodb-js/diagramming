@@ -20,7 +20,7 @@ export interface BaseNode {
   position: Position;
 
   /**
-   * Whether the node has been measured (e.g., for layout sizing).
+   * The width and height of the node.
    */
   measured?: Measured;
 }
