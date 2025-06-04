@@ -4,16 +4,15 @@ import {
   ConnectionMode,
   ProOptions,
   ReactFlow,
-  ReactFlowProps,
   SelectionMode,
   useEdgesState,
   useNodesState,
 } from '@xyflow/react';
-import { useEffect } from 'react';
+import { MouseEvent, useCallback, useEffect } from 'react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
-import { EdgeProps, NodeProps as ExternalNode } from '@/types';
+import { DiagramProps } from '@/types';
 import { Node } from '@/components/node/node';
 import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalEdge, InternalNode } from '@/types/internal';
@@ -21,6 +20,8 @@ import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { MarkerList } from '@/components/markers/marker-list';
 import { ConnectionLine } from '@/components/line/connection-line';
+import { convertToExternalNode, convertToExternalNodes } from '@/utilities/convert-nodes';
+import { convertToExternalEdge, convertToExternalEdges } from '@/utilities/convert-edges';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -44,9 +45,21 @@ const edgeTypes = {
   selfReferencingEdge: SelfReferencingEdge,
 };
 
-type Props = Pick<ReactFlowProps, 'title' | 'onConnect' | 'id'> & { nodes: ExternalNode[]; edges: EdgeProps[] };
-
-export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onConnect, id, ...rest }: Props) => {
+export const Canvas = ({
+  title,
+  nodes: externalNodes,
+  edges: externalEdges,
+  onConnect,
+  id,
+  onNodeContextMenu,
+  onNodeDrag,
+  onNodeDragStop,
+  onEdgeClick,
+  onSelectionDragStop,
+  onSelectionContextMenu,
+  onSelectionChange,
+  ...rest
+}: DiagramProps) => {
   const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
@@ -61,6 +74,55 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onCo
     setEdges(initialEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialEdges]);
+
+  const _onNodeContextMenu = useCallback(
+    (event: MouseEvent, node: InternalNode) => {
+      onNodeContextMenu?.(event, convertToExternalNode(node));
+    },
+    [onNodeContextMenu],
+  );
+
+  const _onNodeDrag = useCallback(
+    (event: MouseEvent, node: InternalNode, nodes: InternalNode[]) => {
+      onNodeDrag?.(event, convertToExternalNode(node), convertToExternalNodes(nodes));
+    },
+    [onNodeDrag],
+  );
+
+  const _onNodeDragStop = useCallback(
+    (event: MouseEvent, node: InternalNode, nodes: InternalNode[]) => {
+      onNodeDragStop?.(event, convertToExternalNode(node), convertToExternalNodes(nodes));
+    },
+    [onNodeDragStop],
+  );
+
+  const _onSelectionDragStop = useCallback(
+    (event: MouseEvent, nodes: InternalNode[]) => {
+      onSelectionDragStop?.(event, convertToExternalNodes(nodes));
+    },
+    [onSelectionDragStop],
+  );
+
+  const _onEdgeClick = useCallback(
+    (event: MouseEvent, edge: InternalEdge) => {
+      onEdgeClick?.(event, convertToExternalEdge(edge));
+    },
+    [onEdgeClick],
+  );
+
+  const _onSelectionContextMenu = useCallback(
+    (event: MouseEvent, nodes: InternalNode[]) => {
+      onSelectionContextMenu?.(event, convertToExternalNodes(nodes));
+    },
+    [onSelectionContextMenu],
+  );
+
+  const _onSelectionChange = useCallback(
+    ({ nodes, edges }: { nodes: InternalNode[]; edges: InternalEdge[] }) => {
+      onSelectionChange?.({ nodes: convertToExternalNodes(nodes), edges: convertToExternalEdges(edges) });
+    },
+    [onSelectionChange],
+  );
 
   return (
     <ReactFlowWrapper>
@@ -82,6 +144,13 @@ export const Canvas = ({ title, nodes: externalNodes, edges: externalEdges, onCo
         selectionMode={SelectionMode.Partial}
         nodesDraggable={true}
         onConnect={onConnect}
+        onNodeContextMenu={_onNodeContextMenu}
+        onNodeDrag={_onNodeDrag}
+        onNodeDragStop={_onNodeDragStop}
+        onSelectionDragStop={_onSelectionDragStop}
+        onEdgeClick={_onEdgeClick}
+        onSelectionContextMenu={_onSelectionContextMenu}
+        onSelectionChange={_onSelectionChange}
         {...rest}
       >
         <MarkerList />
