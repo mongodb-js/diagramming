@@ -11,7 +11,7 @@ export const DEFAULT_PREVIEW_GROUP_AREA = {
 };
 
 export const getPreviewId = (id: number, name: string) => {
-  return `${name}.${id}`;
+  return `${id}.${name}`;
 };
 
 /**

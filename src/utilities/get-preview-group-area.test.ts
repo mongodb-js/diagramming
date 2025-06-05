@@ -3,7 +3,7 @@ import { getPreviewGroupArea, getPreviewId } from '@/utilities/get-preview-group
 describe('get-preview-group-lengths', () => {
   it('Should get preview id', () => {
     const previewId = getPreviewId(40, 'orders');
-    expect(previewId).toEqual('orders.40');
+    expect(previewId).toEqual('40.orders');
   });
   it('With empty list', () => {
     const result = getPreviewGroupArea([]);
@@ -11,7 +11,7 @@ describe('get-preview-group-lengths', () => {
   });
   it('With single field with preview variant', () => {
     const result = getPreviewGroupArea([{ variant: 'preview', name: 'orderId' }]);
-    expect(result).toEqual({ ['orderId.0']: { height: 1, width: 0 } });
+    expect(result).toEqual({ ['0.orderId']: { height: 1, width: 0 } });
   });
   it('With all fields with preview variant', () => {
     const result = getPreviewGroupArea([
@@ -19,7 +19,7 @@ describe('get-preview-group-lengths', () => {
       { variant: 'preview', name: 'shippingAddress' },
       { variant: 'preview', name: 'transactionId' },
     ]);
-    expect(result).toEqual({ ['orderId.0']: { height: 3, width: 0 } });
+    expect(result).toEqual({ ['0.orderId']: { height: 3, width: 0 } });
   });
   it('With all fields with preview variant, with duplicate names', () => {
     const result = getPreviewGroupArea([
@@ -27,7 +27,7 @@ describe('get-preview-group-lengths', () => {
       { variant: 'preview', name: 'orderId' },
       { variant: 'preview', name: 'orderId' },
     ]);
-    expect(result).toEqual({ ['orderId.0']: { height: 3, width: 0 } });
+    expect(result).toEqual({ ['0.orderId']: { height: 3, width: 0 } });
   });
   it('With variable number of glyphs', () => {
     const result = getPreviewGroupArea([
@@ -35,7 +35,7 @@ describe('get-preview-group-lengths', () => {
       { variant: 'preview', name: 'shippingAddress', glyphs: ['key', 'key', 'key', 'key'] },
       { variant: 'preview', name: 'transactionId' },
     ]);
-    expect(result).toEqual({ ['orderId.0']: { height: 3, width: 4 } });
+    expect(result).toEqual({ ['0.orderId']: { height: 3, width: 4 } });
   });
   it('With some fields with preview variant', () => {
     const result = getPreviewGroupArea([
@@ -43,6 +43,6 @@ describe('get-preview-group-lengths', () => {
       { name: 'shippingAddress' },
       { variant: 'preview', name: 'transactionId' },
     ]);
-    expect(result).toEqual({ ['orderId.0']: { height: 1, width: 1 }, ['transactionId.2']: { height: 1, width: 0 } });
+    expect(result).toEqual({ ['0.orderId']: { height: 1, width: 1 }, ['2.transactionId']: { height: 1, width: 0 } });
   });
 });
