@@ -356,6 +356,12 @@ export const NodeWithNestedPreviewFields: Story = {
           variant: 'preview',
         },
         {
+          name: 'addresses',
+          type: 'string',
+          depth: 2,
+          variant: 'preview',
+        },
+        {
           name: 'streetName',
           type: 'string',
           depth: 2,
