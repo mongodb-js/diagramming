@@ -10,6 +10,10 @@ export const DEFAULT_PREVIEW_GROUP_AREA = {
   width: 0,
 };
 
+export const getPreviewId = (id: number, name: string) => {
+  return `${name}.${id}`;
+};
+
 /**
  * Computes the area of consecutive groups of fields with the variant "preview".
  * Height is a unit that is denoted by the number of consecutive fields.
@@ -26,7 +30,7 @@ export const getPreviewGroupArea = (fields: Array<NodeField>) => {
 
     if (field.variant === 'preview') {
       if (!name) {
-        name = field.name;
+        name = getPreviewId(i, field.name);
       }
       currentArea = {
         height: currentArea.height + 1,
