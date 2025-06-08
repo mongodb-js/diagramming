@@ -93,7 +93,7 @@
     "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "3.6.0",
-    "vitest": "0.34.6"
+    "vitest": "3.2.2"
   },
   "packageManager": "yarn@4.6.0",
   "eslintConfig": {
