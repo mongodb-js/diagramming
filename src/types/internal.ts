@@ -8,7 +8,9 @@ export interface NodeData {
   disabled?: boolean;
   fields: NodeField[];
   borderVariant?: NodeBorderVariant;
+  [key: string]: unknown;
 }
+
 export type InternalNode = ReactFlowNode<NodeData>;
 
 export interface InternalEdge extends Omit<EdgeProps, 'markerStart' | 'markerEnd'> {
