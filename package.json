@@ -66,7 +66,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@types/d3-path": "^3",
     "@types/jest": "29.5.14",
-    "@types/node": "18.19.70",
+    "@types/node": "22.15.29",
     "@types/react": "18.3.18",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
