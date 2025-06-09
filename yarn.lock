@@ -1114,6 +1114,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/palette@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@leafygreen-ui/palette@npm:5.0.0"
+  checksum: 10c0/9242bf9e4798f35a3ca0a58f7c600f7b8e098b9afc4d018e7f07993bc90ebadf9381a27c9c94425a07753dcbd6c62db2ef475ee5e60435b524763a4c9663e60f
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/polymorphic@npm:^2.0.7":
   version: 2.0.7
   resolution: "@leafygreen-ui/polymorphic@npm:2.0.7"
@@ -1229,7 +1236,7 @@ __metadata:
     "@eslint/js": "npm:^9.22.0"
     "@leafygreen-ui/icon": "npm:^13.2.0"
     "@leafygreen-ui/leafygreen-provider": "npm:^4.0.4"
-    "@leafygreen-ui/palette": "npm:^4.1.4"
+    "@leafygreen-ui/palette": "npm:^5.0.0"
     "@leafygreen-ui/tokens": "npm:^2.12.0"
     "@leafygreen-ui/typography": "npm:^20.1.4"
     "@storybook/addon-essentials": "npm:^8.6.0"
