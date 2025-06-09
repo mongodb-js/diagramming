@@ -1065,6 +1065,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/emotion@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@leafygreen-ui/emotion@npm:5.0.0"
+  dependencies:
+    "@emotion/css": "npm:^11.1.3"
+    "@emotion/server": "npm:^11.4.0"
+  checksum: 10c0/eb0ccdca83221599e6ca78e6661c3b7b65c8a02bc528a096054b0ae5184ab0a6c7fbdfe83d77b4b92acb013c6a828d10bef79031855828dd491a43c137789513
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/hooks@npm:^8.3.6":
   version: 8.3.6
   resolution: "@leafygreen-ui/hooks@npm:8.3.6"
@@ -1107,6 +1117,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/lib@npm:^15.0.0":
+  version: 15.0.0
+  resolution: "@leafygreen-ui/lib@npm:15.0.0"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 10c0/d9290694d56d8ad90315fe747002117d82790c8137a508171974965a953e742fb2921ef6f81814de7bdadd34f9b262a95fd1cbee867bcfbaec63ebe6b3fc0fe4
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/palette@npm:^4.1.4":
   version: 4.1.4
   resolution: "@leafygreen-ui/palette@npm:4.1.4"
@@ -1140,6 +1161,18 @@ __metadata:
     "@leafygreen-ui/palette": "npm:^4.1.4"
     polished: "npm:^4.2.2"
   checksum: 10c0/d34cb95b3ec0fd443abdca16a984ccdfa0643147ee2d3ad23759d674bd0b64f28d2e049823ecd583a2c475872a9e606db3b5af4a0b58cd1a77961bd2ffaec876
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/tokens@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@leafygreen-ui/tokens@npm:3.0.0"
+  dependencies:
+    "@leafygreen-ui/emotion": "npm:^5.0.0"
+    "@leafygreen-ui/lib": "npm:^15.0.0"
+    "@leafygreen-ui/palette": "npm:^5.0.0"
+    polished: "npm:^4.2.2"
+  checksum: 10c0/8bd6e6f99c4e0cd2ee6302479b6a2fe0171e44dd567bb6d7fd713e199c007a17a86d5608a6f372837741930d4bd65d5ab77e2bcea6fa13f3974e4ba99641bcab
   languageName: node
   linkType: hard
 
@@ -1237,7 +1270,7 @@ __metadata:
     "@leafygreen-ui/icon": "npm:^13.2.0"
     "@leafygreen-ui/leafygreen-provider": "npm:^4.0.4"
     "@leafygreen-ui/palette": "npm:^5.0.0"
-    "@leafygreen-ui/tokens": "npm:^2.12.0"
+    "@leafygreen-ui/tokens": "npm:^3.0.0"
     "@leafygreen-ui/typography": "npm:^20.1.4"
     "@storybook/addon-essentials": "npm:^8.6.0"
     "@storybook/addon-interactions": "npm:^8.6.0"
