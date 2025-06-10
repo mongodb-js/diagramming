@@ -12,7 +12,7 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       fileName: format => `modelling.${format}.js`,
-      formats: ['es'],
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: ['react', 'react/jsx-runtime', 'react-dom', /@leafygreen-ui\/*/, '@emotion/react'],
