@@ -68,7 +68,7 @@
     "@eslint/js": "^9.22.0",
     "@storybook/addon-essentials": "^8.6.0",
     "@storybook/addon-interactions": "^8.6.0",
-    "@storybook/addon-themes": "^8.6.12",
+    "@storybook/addon-themes": "^9.0.8",
     "@storybook/builder-vite": "^9.0.0",
     "@storybook/react": "^8.6.0",
     "@storybook/react-vite": "^8.6.0",
