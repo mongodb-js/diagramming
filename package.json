@@ -3,9 +3,21 @@
   "description": "Diagram canvas for data modelling capabilities in MongoDB",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "dist/modelling.es.js",
+  "main": "dist/modelling.cjs.js",
+  "module": "dist/modelling.es.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/modelling.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/modelling.cjs.js"
+      }
+    }
+  },
   "types": "dist/index.d.ts",
-  "type": "module",
   "author": {
     "name": "MongoDB Inc",
     "email": "migrator-eng@mongodb.com"
