@@ -6,9 +6,10 @@ import { EdgeProps } from '@/types/edge';
 export type NodeData = {
   title: string;
   disabled?: boolean;
-  fields: Array<NodeField>;
+  fields: NodeField[];
   borderVariant?: NodeBorderVariant;
 };
+
 export type InternalNode = ReactFlowNode<NodeData>;
 
 export interface InternalEdge extends Omit<EdgeProps, 'markerStart' | 'markerEnd'> {

@@ -76,12 +76,12 @@ export interface DiagramProps {
   /**
    * Nodes to render in the diagram.
    */
-  nodes: Array<NodeProps>;
+  nodes: NodeProps[];
 
   /**
    * Edges to render in the diagram.
    */
-  edges: Array<EdgeProps>;
+  edges: EdgeProps[];
 
   /**
    * Optional CSS class to apply to the React Flow container.
@@ -141,7 +141,7 @@ export interface DiagramProps {
   /**
    * Whether the diagram should pan when dragging elements.
    */
-  panOnDrag?: boolean | Array<number>;
+  panOnDrag?: boolean | number[];
 
   /**
    * Options to control how `fitView` behaves.
@@ -156,7 +156,7 @@ export interface DiagramProps {
   /**
    * Key code used to enable multi-selection mode.
    */
-  multiSelectionKeyCode?: Array<string>;
+  multiSelectionKeyCode?: string[];
 
   /**
    * Whether to allow zooming via pinch gestures.

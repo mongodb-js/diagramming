@@ -10,6 +10,11 @@ updates:
     reviewers:
       - "lchans"
     rebase-strategy: disabled
+    groups:
+      typescript-eslint:
+        dependency-type: development
+        patterns:
+          - "@typescript-eslint/*"
     ignore:
       - dependency-name: "react"
       - dependency-name: "@testing-library/react"

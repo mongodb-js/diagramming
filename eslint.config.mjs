@@ -39,8 +39,9 @@ export default [
       ...reactHooksPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
-      ...eslintPlugin.configs.stylistic,
+      ...eslintPlugin.configs.stylistic.rules,
       '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
