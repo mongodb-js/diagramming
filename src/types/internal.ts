@@ -3,13 +3,12 @@ import { Node as ReactFlowNode } from '@xyflow/react';
 import { NodeBorderVariant, NodeField } from '@/types/node';
 import { EdgeProps } from '@/types/edge';
 
-export interface NodeData {
+export type NodeData = {
   title: string;
   disabled?: boolean;
   fields: NodeField[];
   borderVariant?: NodeBorderVariant;
-  [key: string]: unknown;
-}
+};
 
 export type InternalNode = ReactFlowNode<NodeData>;
 
