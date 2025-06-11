@@ -19,7 +19,7 @@ export const getPreviewId = (id: number, name: string) => {
  * Height is a unit that is denoted by the number of consecutive fields.
  * Width is a unit that is denoted by the highest number of glyphs within those consecutive fields.
  */
-export const getPreviewGroupArea = (fields: Array<NodeField>) => {
+export const getPreviewGroupArea = (fields: NodeField[]) => {
   let currentArea = DEFAULT_PREVIEW_GROUP_AREA;
   let name = undefined;
 
