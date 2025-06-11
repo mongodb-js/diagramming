@@ -71,7 +71,7 @@ export interface NodeProps {
   /**
    * A list of fields in a node.
    */
-  fields: Array<NodeField>;
+  fields: NodeField[];
 
   /**
    * The variant (color and style) or the node border.
@@ -148,7 +148,7 @@ export interface NodeField {
   /**
    * A list of glyphs which are shown next to a field.
    */
-  glyphs?: Array<NodeGlyph>;
+  glyphs?: NodeGlyph[];
 
   /**
    * The size of glyphs, in pixels.

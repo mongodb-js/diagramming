@@ -14,7 +14,7 @@ const NodeFieldWrapper = styled.div`
 interface Props {
   nodeType: NodeType;
   isHovering?: boolean;
-  fields: Array<NodeField>;
+  fields: NodeField[];
 }
 
 export const FieldList = ({ fields, nodeType, isHovering }: Props) => {

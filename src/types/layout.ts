@@ -52,10 +52,10 @@ export interface ApplyLayout<N, E> {
   /**
    * Nodes with updated positions.
    */
-  nodes: Array<N>;
+  nodes: N[];
 
   /**
    * Edges to be retained after layout is applied.
    */
-  edges: Array<E>;
+  edges: E[];
 }
