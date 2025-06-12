@@ -76,6 +76,12 @@ To run locally at http://localhost:6006 on your own branch:
 yarn install
 yarn storybook
 ```
+
+## Contributing 
+For contributing, please see [CONTRIBUTING.md](https://github.com/mongodb-js/diagramming/blob/main/CONTRIBUTING.md)
+
+## Releasing
+For releasing and publishing please see [RELEASING.md](https://github.com/mongodb-js/diagramming/blob/main/RELEASING.md)
  
 ### Resources
 - [NPM Package](https://www.npmjs.com/package/@mongodb-js/diagramming)
