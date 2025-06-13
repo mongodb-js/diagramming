@@ -177,4 +177,11 @@ export interface DiagramProps {
    * Minimum allowed zoom level.
    */
   minZoom?: number;
+
+  /**
+   * Whether to only render elements that are currently visible in the viewport.
+   * This can improve performance for large diagrams.
+   * @defaults true
+   */
+  onlyRenderVisibleElements?: boolean;
 }
