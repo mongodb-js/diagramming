@@ -1835,15 +1835,15 @@ __metadata:
   linkType: hard
 
 "@storybook/builder-vite@npm:^9.0.0":
-  version: 9.0.8
-  resolution: "@storybook/builder-vite@npm:9.0.8"
+  version: 9.0.10
+  resolution: "@storybook/builder-vite@npm:9.0.10"
   dependencies:
-    "@storybook/csf-plugin": "npm:9.0.8"
+    "@storybook/csf-plugin": "npm:9.0.10"
     ts-dedent: "npm:^2.0.0"
   peerDependencies:
-    storybook: ^9.0.8
+    storybook: ^9.0.10
     vite: ^5.0.0 || ^6.0.0
-  checksum: 10c0/f3e4421114c0d850e4bb179a24d55d67c6f3cc7a9b65f1541c80c8cf8d3f4f5256ad11c126ed1a7777afdeaca9e9b1246105efa4341bf2a9be041db0ef95f7f0
+  checksum: 10c0/4034c0a5878001f1512faeb0b64264df0c0f394210e87795c5e4e6d96b1f195753e8d28f7cd8de283ee076c534a22581a9d7cacabf3c107ac8672031fb99f414
   languageName: node
   linkType: hard
 
@@ -1902,14 +1902,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/csf-plugin@npm:9.0.8":
-  version: 9.0.8
-  resolution: "@storybook/csf-plugin@npm:9.0.8"
+"@storybook/csf-plugin@npm:9.0.10":
+  version: 9.0.10
+  resolution: "@storybook/csf-plugin@npm:9.0.10"
   dependencies:
     unplugin: "npm:^1.3.1"
   peerDependencies:
-    storybook: ^9.0.8
-  checksum: 10c0/4c740f037761753025259843d0d495d8c7d3d3aae1908134cd08d2652fc10fda760eef12b4f3483bb1bce840071812c59ec9d3cf8b0ed76f49144a7836fcfee8
+    storybook: ^9.0.10
+  checksum: 10c0/e3ef93592876aa79ef3fedf0081b0410f4bb714806cb871818cda20c9d2d919ef3a20dec8f4e1a1806c5ed91511341b99bcbe01bb06a75f8dc13ff73ec90f586
   languageName: node
   linkType: hard
 
