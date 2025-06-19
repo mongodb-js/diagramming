@@ -35,6 +35,13 @@ const getLayoutOptions = (direction: LayoutDirection) => {
   }
 };
 
+const getNodeHeight = <N extends BaseNode>(node: N) => {
+  if (!('fields' in node) || !Array.isArray(node.fields))
+    return 28 + 16 + 18; // Default height
+  const fieldCount = node.fields.length;
+  return 28 + 16 + fieldCount * 18;
+};
+
 /**
  * Applies a layout to a graph of nodes and edges using the ELK layout engine.
  *
@@ -51,6 +58,12 @@ export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   edges: E[],
   direction: LayoutDirection = 'TOP_BOTTOM',
 ): Promise<ApplyLayout<N, E>> => {
+  const transformedNodes = nodes.map<N>(node => ({
+    ...node,
+    height: node.measured?.height ?? getNodeHeight(node),
+    width: node.measured?.width ?? 244,
+  }));
+
   const transformedEdges = edges.map<ElkExtendedEdge>(edge => ({
     ...edge,
     id: edge.id,
@@ -66,7 +79,7 @@ export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   return elk
     .layout({
       id: 'root',
-      children: nodes,
+      children: transformedNodes,
       layoutOptions: getLayoutOptions(direction),
       edges: transformedEdges,
     })
