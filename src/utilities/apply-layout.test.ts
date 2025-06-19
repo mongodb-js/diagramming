@@ -77,7 +77,7 @@ describe('apply-layout', () => {
     ]);
   });
   it('With nodes (not measured, 1 field)', async () => {
-    const nodesWithOneField = nodes.map((node) => ({
+    const nodesWithOneField = nodes.map(node => ({
       ...node,
       fields: [{ name: 'field1', type: 'string' }],
     }));
@@ -107,7 +107,7 @@ describe('apply-layout', () => {
     ]);
   });
   it('With nodes (not measured, undefined fields)', async () => {
-    const baseNodes = nodes.map((node) => ({
+    const baseNodes = nodes.map(node => ({
       ...node,
       fields: undefined,
     }));
@@ -137,18 +137,14 @@ describe('apply-layout', () => {
     ]);
   });
   it('With nodes (measured)', async () => {
-    const measuredNodes = nodes.map((node) => ({
+    const measuredNodes = nodes.map(node => ({
       ...node,
       measured: {
         width: 100,
         height: 50,
       },
     }));
-    const result = await applyLayout<NodeProps, EdgeProps>(
-      measuredNodes,
-      [],
-      'TOP_BOTTOM'
-    );
+    const result = await applyLayout<NodeProps, EdgeProps>(measuredNodes, [], 'TOP_BOTTOM');
     expect(result.nodes).toEqual([
       expect.objectContaining({
         ...measuredNodes[0],
