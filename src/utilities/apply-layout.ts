@@ -1,7 +1,14 @@
 import { ElkExtendedEdge } from 'elkjs';
 import ELK from 'elkjs/lib/elk.bundled';
 
-import { DEFAULT_NODE_SPACING, DEFAULT_NODE_STAR_SPACING } from '@/utilities/constants';
+import {
+  DEFAULT_FIELD_HEIGHT,
+  DEFAULT_FIELD_PADDING,
+  DEFAULT_NODE_HEADER_HEIGHT,
+  DEFAULT_NODE_SPACING,
+  DEFAULT_NODE_STAR_SPACING,
+  DEFAULT_NODE_WIDTH,
+} from '@/utilities/constants';
 import { ApplyLayout, BaseEdge, BaseNode, LayoutDirection } from '@/types/layout';
 
 const TOP_BOTTOM = {
@@ -35,6 +42,11 @@ const getLayoutOptions = (direction: LayoutDirection) => {
   }
 };
 
+const getNodeHeight = <N extends BaseNode>(node: N) => {
+  const fieldCount = !('fields' in node) || !Array.isArray(node.fields) ? 1 : node.fields.length;
+  return DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING * 2 + fieldCount * DEFAULT_FIELD_HEIGHT;
+};
+
 /**
  * Applies a layout to a graph of nodes and edges using the ELK layout engine.
  *
@@ -51,6 +63,13 @@ export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   edges: E[],
   direction: LayoutDirection = 'TOP_BOTTOM',
 ): Promise<ApplyLayout<N, E>> => {
+  const transformedNodes = nodes.map<N>(node => ({
+    ...node,
+    height:
+      'height' in node && typeof node.height === 'number' ? node.height : node.measured?.height ?? getNodeHeight(node),
+    width: 'width' in node && typeof node.width === 'number' ? node.width : node.measured?.width ?? DEFAULT_NODE_WIDTH,
+  }));
+
   const transformedEdges = edges.map<ElkExtendedEdge>(edge => ({
     ...edge,
     id: edge.id,
@@ -66,7 +85,7 @@ export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   return elk
     .layout({
       id: 'root',
-      children: nodes,
+      children: transformedNodes,
       layoutOptions: getLayoutOptions(direction),
       edges: transformedEdges,
     })
