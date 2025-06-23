@@ -1071,13 +1071,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@leafygreen-ui/hooks@npm:^8.3.6":
-  version: 8.3.6
-  resolution: "@leafygreen-ui/hooks@npm:8.3.6"
+"@leafygreen-ui/hooks@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@leafygreen-ui/hooks@npm:9.0.0"
   dependencies:
-    "@leafygreen-ui/lib": "npm:^14.1.0"
+    "@leafygreen-ui/lib": "npm:^15.0.0"
     lodash: "npm:^4.17.21"
-  checksum: 10c0/3bf3fd2505521bd7b7e867bc4cefc7d3a3c5cda630532bf32f5add3cfb7e68bc3a789ae02f92e89970d027bcf535ffcff7d18fdd92530ced887fc9617ceca3d3
+  checksum: 10c0/a7ead5870aff29d53690ee480d24be9aade18ce64cd4dfd543da95c35d23602c4928a0f8e18529b37e0e55e4a9455731864771acd253defc103fa2143488f0a4
   languageName: node
   linkType: hard
 
@@ -1091,14 +1091,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@leafygreen-ui/leafygreen-provider@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "@leafygreen-ui/leafygreen-provider@npm:4.0.4"
+"@leafygreen-ui/leafygreen-provider@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@leafygreen-ui/leafygreen-provider@npm:5.0.0"
   dependencies:
-    "@leafygreen-ui/hooks": "npm:^8.3.6"
-    "@leafygreen-ui/lib": "npm:^14.1.0"
+    "@leafygreen-ui/hooks": "npm:^9.0.0"
+    "@leafygreen-ui/lib": "npm:^15.0.0"
     react-transition-group: "npm:^4.4.5"
-  checksum: 10c0/14c92596e0b5ffa1eb231c62f734ae953f08ac8a526cb979fde30fdee255cff8592fd093e4e040b7fbc8abd27223df8eeb4a852c8e7b4bd3f10451cf9b98f8e6
+  checksum: 10c0/2f4f7ab5a6eab5495e6d2c7d093e16b64d250d24713cfa867dccf02e98f090c47fbf9929c0c50a165c88e1d35d14683303edeaf2c84c3708891ececa53669242
   languageName: node
   linkType: hard
 
@@ -1251,7 +1251,7 @@ __metadata:
     "@eslint/eslintrc": "npm:^3.3.0"
     "@eslint/js": "npm:^9.22.0"
     "@leafygreen-ui/icon": "npm:^13.2.0"
-    "@leafygreen-ui/leafygreen-provider": "npm:^4.0.4"
+    "@leafygreen-ui/leafygreen-provider": "npm:^5.0.0"
     "@leafygreen-ui/palette": "npm:^5.0.0"
     "@leafygreen-ui/tokens": "npm:^3.0.0"
     "@leafygreen-ui/typography": "npm:^20.1.4"

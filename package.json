@@ -51,7 +51,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@leafygreen-ui/icon": "^13.2.0",
-    "@leafygreen-ui/leafygreen-provider": "^4.0.4",
+    "@leafygreen-ui/leafygreen-provider": "^5.0.0",
     "@leafygreen-ui/palette": "^5.0.0",
     "@leafygreen-ui/tokens": "^3.0.0",
     "@leafygreen-ui/typography": "^20.1.4",
