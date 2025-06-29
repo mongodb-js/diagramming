@@ -4,11 +4,10 @@ export { convertToExternalEdge as mapEdgeToDiagramEdge } from '@/utilities/conve
 export { convertToExternalNode as mapNodeToDiagramNode } from '@/utilities/convert-nodes';
 export * from '@/utilities/add-nodes-within-bounds';
 export * from '@/types';
+export { useDiagram, type DiagramInstance } from '@/hooks/use-diagram';
 export {
   ReactFlowProvider as DiagramProvider,
-  useReactFlow as useDiagram,
   useOnSelectionChange,
   getNodesBounds,
   getViewportForBounds,
-  type ReactFlowInstance as DiagramInstance,
 } from '@xyflow/react';

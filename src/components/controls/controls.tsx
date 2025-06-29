@@ -1,8 +1,10 @@
 import Icon from '@leafygreen-ui/icon';
-import { ControlButton, Controls as ReactFlowControls, useReactFlow, useViewport } from '@xyflow/react';
+import { ControlButton, Controls as ReactFlowControls, useViewport } from '@xyflow/react';
 import { palette } from '@leafygreen-ui/palette';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import styled from '@emotion/styled';
+
+import { useDiagram } from '@/hooks/use-diagram';
 
 const zoomTransitionOption = { duration: 500 };
 
@@ -43,7 +45,7 @@ interface DiagramControlsProps {
 }
 
 export const Controls = ({ title }: DiagramControlsProps) => {
-  const { zoomIn, zoomOut, fitView } = useReactFlow();
+  const { zoomIn, zoomOut, fitView } = useDiagram();
   const { zoom } = useViewport();
 
   return (
