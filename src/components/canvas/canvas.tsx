@@ -8,20 +8,19 @@ import {
   useEdgesState,
   useNodesState,
 } from '@xyflow/react';
-import { MouseEvent, useCallback, useEffect } from 'react';
+import { MouseEvent, useCallback, useEffect, useMemo } from 'react';
 
 import { MiniMap } from '@/components/controls/mini-map';
 import { Controls } from '@/components/controls/controls';
 import { DiagramProps } from '@/types';
 import { Node } from '@/components/node/node';
-import { useCanvas } from '@/components/canvas/use-canvas';
 import { InternalEdge, InternalNode } from '@/types/internal';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { MarkerList } from '@/components/markers/marker-list';
 import { ConnectionLine } from '@/components/line/connection-line';
-import { convertToExternalNode, convertToExternalNodes } from '@/utilities/convert-nodes';
-import { convertToExternalEdge, convertToExternalEdges } from '@/utilities/convert-edges';
+import { convertToExternalNode, convertToExternalNodes, convertToInternalNodes } from '@/utilities/convert-nodes';
+import { convertToExternalEdge, convertToExternalEdges, convertToInternalEdges } from '@/utilities/convert-edges';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -60,7 +59,8 @@ export const Canvas = ({
   onSelectionChange,
   ...rest
 }: DiagramProps) => {
-  const { initialNodes, initialEdges } = useCanvas(externalNodes, externalEdges);
+  const initialNodes = useMemo(() => convertToInternalNodes(externalNodes), [externalNodes]);
+  const initialEdges = useMemo(() => convertToInternalEdges(externalEdges), [externalEdges]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);

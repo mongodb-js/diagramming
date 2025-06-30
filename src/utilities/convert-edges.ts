@@ -13,3 +13,16 @@ export const convertToExternalEdge = (edge: InternalEdge): EdgeProps => {
 export const convertToExternalEdges = (edges: InternalEdge[]): EdgeProps[] => {
   return edges.map(edge => convertToExternalEdge(edge));
 };
+
+export const convertToInternalEdge = (edge: EdgeProps): InternalEdge => {
+  return {
+    ...edge,
+    markerStart: `start-${edge.markerStart}`,
+    markerEnd: `end-${edge.markerEnd}`,
+    type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
+  };
+};
+
+export const convertToInternalEdges = (edges: EdgeProps[]): InternalEdge[] => {
+  return edges.map(edge => convertToInternalEdge(edge));
+};
