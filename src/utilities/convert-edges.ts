@@ -2,7 +2,8 @@ import { InternalEdge } from '@/types/internal';
 import { EdgeProps, Marker } from '@/types';
 
 export const convertToExternalEdge = (edge: InternalEdge): EdgeProps => {
-  const { markerStart, markerEnd, ...rest } = edge;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { markerStart, markerEnd, type, ...rest } = edge;
   return {
     ...rest,
     markerStart: markerStart?.replace(/^start-/, '') as Marker,

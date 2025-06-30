@@ -141,7 +141,7 @@ describe('convert-edges', () => {
         {
           id: 'e2',
           source: 'node2',
-          target: 'node3',
+          target: 'node2',
           markerStart: 'start-many',
           markerEnd: 'end-many',
           type: 'selfReferencingEdge',
