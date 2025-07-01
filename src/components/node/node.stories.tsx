@@ -221,6 +221,27 @@ export const DisabledWithHoverVariant: Story = {
   },
 };
 
+export const NodeWithCustomTypeField: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          type: (
+            <span>
+              <strong>custom type display</strong>
+            </span>
+          ),
+          variant: 'default',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
 export const NodeWithPrimaryField: Story = {
   args: {
     ...INTERNAL_NODE,
