@@ -13,3 +13,21 @@ export const convertToExternalNode = (node: InternalNode): NodeProps => {
 export const convertToExternalNodes = (nodes: InternalNode[]): NodeProps[] => {
   return nodes.map(node => convertToExternalNode(node));
 };
+
+export const convertToInternalNode = (node: NodeProps): InternalNode => {
+  const { title, fields, borderVariant, disabled, connectable, ...rest } = node;
+  return {
+    ...rest,
+    connectable: connectable ?? false,
+    data: {
+      title,
+      disabled,
+      fields,
+      borderVariant,
+    },
+  };
+};
+
+export const convertToInternalNodes = (nodes: NodeProps[]): InternalNode[] => {
+  return nodes.map(node => convertToInternalNode(node));
+};
