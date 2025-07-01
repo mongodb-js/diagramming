@@ -138,7 +138,7 @@ export interface NodeField {
   /**
    * The type of the field, for example "objectId".
    */
-  type?: string;
+  type?: string | React.ReactNode;
 
   /**
    * The depth of the field.
