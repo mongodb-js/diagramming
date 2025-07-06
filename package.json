@@ -73,7 +73,7 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/d3-path": "^3",
-    "@types/jest": "29.5.14",
+    "@types/jest": "30.0.0",
     "@types/node": "22.15.29",
     "@types/react": "18.3.18",
     "@typescript-eslint/eslint-plugin": "8.35.1",
