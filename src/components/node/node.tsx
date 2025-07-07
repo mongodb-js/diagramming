@@ -65,12 +65,15 @@ const NodeHeader = styled.div<{ background?: string }>`
   min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
   padding: ${spacing[100]}px ${spacing[400]}px ${spacing[100]}px ${spacing[200]}px;
   background: ${props => props.background};
-  overflow-wrap: anywhere;
+`;
+
+export const NodeTitle = styled.div`
+  overflow-wrap: break-word;
+  min-width: 0;
 `;
 
 const NodeHeaderIcon = styled.div`
   display: flex;
-  flex: 0 0 ${spacing[400]}px;
   margin-left: ${spacing[100]}px;
   margin-right: ${spacing[100]}px;
 `;
@@ -167,7 +170,7 @@ export const Node = ({
                 <NodeHeaderIcon>
                   <Icon fill={theme.node.headerIcon} glyph="Drag" />
                 </NodeHeaderIcon>
-                <span>{title}</span>
+                <NodeTitle>{title}</NodeTitle>
               </>
             )}
           </NodeHeader>
