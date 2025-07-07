@@ -67,15 +67,15 @@ const NodeHeader = styled.div<{ background?: string }>`
   background: ${props => props.background};
 `;
 
-export const NodeTitle = styled.div`
-  overflow-wrap: break-word;
-  min-width: 0;
-`;
-
 const NodeHeaderIcon = styled.div`
   display: flex;
   margin-left: ${spacing[100]}px;
   margin-right: ${spacing[100]}px;
+`;
+
+export const NodeHeaderTitle = styled.div`
+  overflow-wrap: break-word;
+  min-width: 0;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
@@ -170,7 +170,7 @@ export const Node = ({
                 <NodeHeaderIcon>
                   <Icon fill={theme.node.headerIcon} glyph="Drag" />
                 </NodeHeaderIcon>
-                <NodeTitle>{title}</NodeTitle>
+                <NodeHeaderTitle>{title}</NodeHeaderTitle>
               </>
             )}
           </NodeHeader>
