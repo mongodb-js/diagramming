@@ -62,20 +62,17 @@ const NodeHeader = styled.div<{ background?: string }>`
   font-size: 13px;
   line-height: 20px;
   font-weight: bold;
-  height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
+  min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
   padding: ${spacing[100]}px ${spacing[400]}px ${spacing[100]}px ${spacing[200]}px;
   background: ${props => props.background};
-  ${ellipsisTruncation};
+  overflow-wrap: anywhere;
 `;
 
 const NodeHeaderIcon = styled.div`
   display: flex;
   flex: 0 0 ${spacing[400]}px;
   margin-left: ${spacing[100]}px;
-`;
-
-const NodeHeaderTitle = styled.div`
-  ${ellipsisTruncation}
+  margin-right: ${spacing[100]}px;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
@@ -170,7 +167,7 @@ export const Node = ({
                 <NodeHeaderIcon>
                   <Icon fill={theme.node.headerIcon} glyph="Drag" />
                 </NodeHeaderIcon>
-                <NodeHeaderTitle>{title}</NodeHeaderTitle>
+                <span>{title}</span>
               </>
             )}
           </NodeHeader>
