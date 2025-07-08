@@ -24,8 +24,8 @@ const NodeZoomedOut = styled.div<{ height: number }>`
   min-height: ${props => props.height}px;
 `;
 
-const NodeZoomedOutInner = styled.div<{ fontSize: number }>`
-  font-size: ${props => props.fontSize}px;
+const NodeZoomedOutInner = styled.div`
+  font-size: 20px;
   text-align: center;
   min-width: 0;
   padding-left: ${spacing[300]}px;
@@ -37,8 +37,6 @@ const NodeZoomedOutInner = styled.div<{ fontSize: number }>`
   text-overflow: ellipsis;
   word-break: break-word;
   overflow-wrap: break-word;
-  padding-top: ${spacing[200]}px;
-  padding-bottom: ${spacing[200]}px;
 `;
 
 const NodeWrapper = styled.div<{ accent: string; color: string; background: string }>`
@@ -145,7 +143,7 @@ export const Node = ({
 
   const getNodeHeight = () => {
     const fieldHeight = fields.length * DEFAULT_FIELD_HEIGHT + DEFAULT_FIELD_PADDING * 2;
-    const titleHeight = title.length / 2;
+    const titleHeight = (title.length / 15) * DEFAULT_FIELD_HEIGHT;
     return fieldHeight + titleHeight;
   };
 
@@ -181,9 +179,7 @@ export const Node = ({
         <NodeWrapper accent={getAccent()} color={getNodeColor()} background={getNodeBackground()}>
           {isContextualZoom && (
             <NodeZoomedOut height={getNodeHeight()}>
-              <NodeZoomedOutInner fontSize={zoom < 0.5 ? 20 : 30} title={title}>
-                {title}
-              </NodeZoomedOutInner>
+              <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
             </NodeZoomedOut>
           )}
           {!isContextualZoom && (

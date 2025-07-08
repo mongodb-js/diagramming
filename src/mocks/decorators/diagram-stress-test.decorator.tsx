@@ -11,9 +11,9 @@ const names = [
   'product_inventory',
   'customer_feedback_surveys',
   'internal_metrics_weekly_rollup',
-  'auth_sessions_archive_legacy_system',
+  'application_event_stream_error_logs_high_priority',
   'enterprise_tenant_billing_transactions_us_east_1',
-  'chat_messages_daily_aggregation_snapshot',
+  'enterprise_user_authentication_logs_2025_q3_us_east_1_region_backup',
   'api_keys',
 ];
 
