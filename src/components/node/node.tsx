@@ -185,14 +185,10 @@ export const Node = ({
           {!isContextualZoom && (
             <>
               <NodeHeader background={getHeaderBackground()}>
-                {!isContextualZoom && (
-                  <>
-                    <NodeHeaderIcon>
-                      <Icon fill={theme.node.headerIcon} glyph="Drag" />
-                    </NodeHeaderIcon>
-                    <NodeHeaderTitle>{title}</NodeHeaderTitle>
-                  </>
-                )}
+                <NodeHeaderIcon>
+                  <Icon fill={theme.node.headerIcon} glyph="Drag" />
+                </NodeHeaderIcon>
+                <NodeHeaderTitle>{title}</NodeHeaderTitle>
               </NodeHeader>
               <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
             </>
