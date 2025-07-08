@@ -62,20 +62,20 @@ const NodeHeader = styled.div<{ background?: string }>`
   font-size: 13px;
   line-height: 20px;
   font-weight: bold;
-  height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
+  min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
   padding: ${spacing[100]}px ${spacing[400]}px ${spacing[100]}px ${spacing[200]}px;
   background: ${props => props.background};
-  ${ellipsisTruncation};
 `;
 
 const NodeHeaderIcon = styled.div`
   display: flex;
-  flex: 0 0 ${spacing[400]}px;
   margin-left: ${spacing[100]}px;
+  margin-right: ${spacing[100]}px;
 `;
 
-const NodeHeaderTitle = styled.div`
-  ${ellipsisTruncation}
+export const NodeHeaderTitle = styled.div`
+  overflow-wrap: break-word;
+  min-width: 0;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`

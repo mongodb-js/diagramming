@@ -103,7 +103,8 @@ export const FieldsWithLongValues: Story = {
   args: {
     ...INTERNAL_NODE,
     data: {
-      title: 'rm_demo_collection_orders_table_equivalent',
+      title:
+        'enterprise_tenant_finance_department_legacy_system_us_east_1_schema_2025_v15_monthly_billing_transactions_20250702145533',
       fields: [
         {
           name: 'customerId',
