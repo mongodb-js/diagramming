@@ -5,23 +5,19 @@ import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
 import { useState } from 'react';
 
-import {
-  DEFAULT_FIELD_HEIGHT,
-  DEFAULT_FIELD_PADDING,
-  DEFAULT_NODE_HEADER_HEIGHT,
-  ZOOM_THRESHOLD,
-} from '@/utilities/constants';
+import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
 
-const NodeZoomedOut = styled.div<{ height: number }>`
+const NodeZoomedOut = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  min-height: ${props => props.height}px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
 
 const NodeZoomedOutInner = styled.div`
@@ -97,6 +93,10 @@ const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
   z-index: ${props => props['z-index']};
 `;
 
+const NodeWithFields = styled.div<{ visibility: string }>`
+  visibility: ${props => props.visibility};
+`;
+
 export const Node = ({
   type,
   selected,
@@ -141,12 +141,6 @@ export const Node = ({
     }
   };
 
-  const getNodeHeight = () => {
-    const fieldHeight = fields.length * DEFAULT_FIELD_HEIGHT + DEFAULT_FIELD_PADDING * 2;
-    const titleHeight = (title.length / 15) * DEFAULT_FIELD_HEIGHT;
-    return fieldHeight + titleHeight;
-  };
-
   const isContextualZoom = zoom < ZOOM_THRESHOLD;
 
   const fromHandle = useStore(state => state.connection.fromHandle);
@@ -178,21 +172,19 @@ export const Node = ({
         />
         <NodeWrapper accent={getAccent()} color={getNodeColor()} background={getNodeBackground()}>
           {isContextualZoom && (
-            <NodeZoomedOut height={getNodeHeight()}>
+            <NodeZoomedOut>
               <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
             </NodeZoomedOut>
           )}
-          {!isContextualZoom && (
-            <>
-              <NodeHeader background={getHeaderBackground()}>
-                <NodeHeaderIcon>
-                  <Icon fill={theme.node.headerIcon} glyph="Drag" />
-                </NodeHeaderIcon>
-                <NodeHeaderTitle>{title}</NodeHeaderTitle>
-              </NodeHeader>
-              <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
-            </>
-          )}
+          <NodeWithFields visibility={isContextualZoom ? 'hidden' : 'none'}>
+            <NodeHeader background={getHeaderBackground()}>
+              <NodeHeaderIcon>
+                <Icon fill={theme.node.headerIcon} glyph="Drag" />
+              </NodeHeaderIcon>
+              <NodeHeaderTitle>{title}</NodeHeaderTitle>
+            </NodeHeader>
+            <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
+          </NodeWithFields>
         </NodeWrapper>
       </NodeBorder>
     </div>
