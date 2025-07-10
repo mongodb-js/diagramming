@@ -5,31 +5,34 @@ import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
 import { useState } from 'react';
 
-import { ellipsisTruncation } from '@/styles/styles';
-import {
-  DEFAULT_FIELD_HEIGHT,
-  DEFAULT_FIELD_PADDING,
-  DEFAULT_NODE_HEADER_HEIGHT,
-  ZOOM_THRESHOLD,
-} from '@/utilities/constants';
+import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
 
-const NodeZoomedOut = styled.div<{ height: number }>`
+const NodeZoomedOut = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: ${props => props.height}px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
 
 const NodeZoomedOutInner = styled.div`
   font-size: 20px;
   text-align: center;
+  min-width: 0;
   padding-left: ${spacing[300]}px;
   padding-right: ${spacing[300]}px;
-  ${ellipsisTruncation}
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  overflow-wrap: break-word;
 `;
 
 const NodeWrapper = styled.div<{ accent: string; color: string; background: string }>`
@@ -88,6 +91,10 @@ const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
   transform: none;
   opacity: 0;
   z-index: ${props => props['z-index']};
+`;
+
+const NodeWithFields = styled.div<{ visibility: string }>`
+  visibility: ${props => props.visibility};
 `;
 
 export const Node = ({
@@ -164,22 +171,20 @@ export const Node = ({
           z-index={fromHandle ? 1 : 0}
         />
         <NodeWrapper accent={getAccent()} color={getNodeColor()} background={getNodeBackground()}>
-          <NodeHeader background={getHeaderBackground()}>
-            {!isContextualZoom && (
-              <>
-                <NodeHeaderIcon>
-                  <Icon fill={theme.node.headerIcon} glyph="Drag" />
-                </NodeHeaderIcon>
-                <NodeHeaderTitle>{title}</NodeHeaderTitle>
-              </>
-            )}
-          </NodeHeader>
           {isContextualZoom && (
-            <NodeZoomedOut height={fields.length * DEFAULT_FIELD_HEIGHT + DEFAULT_FIELD_PADDING * 2}>
+            <NodeZoomedOut>
               <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
             </NodeZoomedOut>
           )}
-          {!isContextualZoom && <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />}
+          <NodeWithFields visibility={isContextualZoom ? 'hidden' : 'none'}>
+            <NodeHeader background={getHeaderBackground()}>
+              <NodeHeaderIcon>
+                <Icon fill={theme.node.headerIcon} glyph="Drag" />
+              </NodeHeaderIcon>
+              <NodeHeaderTitle>{title}</NodeHeaderTitle>
+            </NodeHeader>
+            <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
+          </NodeWithFields>
         </NodeWrapper>
       </NodeBorder>
     </div>

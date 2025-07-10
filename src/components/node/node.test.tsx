@@ -73,8 +73,8 @@ describe('node', () => {
       />,
     );
     expect(screen.queryByRole('img', { name: 'Drag Icon' })).not.toBeInTheDocument();
-    expect(screen.getByText('employees')).toBeInTheDocument();
-    expect(screen.queryByText('employeeId')).not.toBeInTheDocument();
-    expect(screen.queryByText('string')).not.toBeInTheDocument();
+    expect(screen.getAllByText('employees')).toHaveLength(2);
+    expect(screen.queryByText('employeeId')).not.toBeVisible();
+    expect(screen.queryByText('string')).not.toBeVisible();
   });
 });
