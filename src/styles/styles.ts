@@ -18,13 +18,22 @@ const rotateAnimation = keyframes({
 });
 
 export const animatedBlueBorder = css`
-  background: linear-gradient(90deg, ${palette.blue.base} 50%, transparent 50%),
+  background:
+    linear-gradient(90deg, ${palette.blue.base} 50%, transparent 50%),
     linear-gradient(90deg, ${palette.blue.base} 50%, transparent 50%),
     linear-gradient(0deg, ${palette.blue.base} 50%, transparent 50%),
     linear-gradient(0deg, ${palette.blue.base} 50%, transparent 50%);
   background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-  background-position: left top, right bottom, left bottom, right top;
-  background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
+  background-position:
+    left top,
+    right bottom,
+    left bottom,
+    right top;
+  background-size:
+    15px 2px,
+    15px 2px,
+    2px 15px,
+    2px 15px;
   animation: ${rotateAnimation} 1s linear infinite;
   border-radius: ${spacing[200]}px;
 `;
