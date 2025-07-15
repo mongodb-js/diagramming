@@ -66,8 +66,11 @@ export const applyLayout = <N extends BaseNode, E extends BaseEdge>(
   const transformedNodes = nodes.map<N>(node => ({
     ...node,
     height:
-      'height' in node && typeof node.height === 'number' ? node.height : node.measured?.height ?? getNodeHeight(node),
-    width: 'width' in node && typeof node.width === 'number' ? node.width : node.measured?.width ?? DEFAULT_NODE_WIDTH,
+      'height' in node && typeof node.height === 'number'
+        ? node.height
+        : (node.measured?.height ?? getNodeHeight(node)),
+    width:
+      'width' in node && typeof node.width === 'number' ? node.width : (node.measured?.width ?? DEFAULT_NODE_WIDTH),
   }));
 
   const transformedEdges = edges.map<ElkExtendedEdge>(edge => ({
