@@ -20,6 +20,11 @@ export type OnPaneClickHandler = (event: ReactMouseEvent) => void;
 export type OnEdgeClickHandler = (event: ReactMouseEvent, edge: EdgeProps) => void;
 
 /**
+ * Called when a node is clicked.
+ */
+export type OnNodeClickHandler = (event: ReactMouseEvent, edge: NodeProps) => void;
+
+/**
  * Called when a node is right-clicked.
  */
 export type OnNodeContextMenuHandler = (event: ReactMouseEvent, node: NodeProps) => void;
@@ -104,6 +109,11 @@ export interface DiagramProps {
   onEdgeClick?: OnEdgeClickHandler;
 
   /**
+   * Callback when the user clicks on a node.
+   */
+  onNodeClick?: OnNodeClickHandler;
+
+  /**
    * Callback when the user right-clicks on a node.
    */
   onNodeContextMenu?: OnNodeContextMenuHandler;
@@ -181,7 +191,15 @@ export interface DiagramProps {
   /**
    * Whether to only render elements that are currently visible in the viewport.
    * This can improve performance for large diagrams.
-   * @defaults true
+   * @default true
    */
   onlyRenderVisibleElements?: boolean;
+
+  /**
+   * With a threshold greater than zero you can delay node drag events. If
+   * threshold equals 1, you need to drag the node 1 pixel before a drag event
+   * is fired. 1 is the default value, so that clicks don’t trigger drag events.
+   * @default 1
+   */
+  nodeDragThreshold?: number;
 }
