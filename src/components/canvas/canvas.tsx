@@ -54,6 +54,7 @@ export const Canvas = ({
   onNodeDrag,
   onNodeDragStop,
   onEdgeClick,
+  onNodeClick,
   onSelectionDragStop,
   onSelectionContextMenu,
   onSelectionChange,
@@ -110,6 +111,13 @@ export const Canvas = ({
     [onEdgeClick],
   );
 
+  const _onNodeClick = useCallback(
+    (event: MouseEvent, node: InternalNode) => {
+      onNodeClick?.(event, convertToExternalNode(node));
+    },
+    [onNodeClick],
+  );
+
   const _onSelectionContextMenu = useCallback(
     (event: MouseEvent, nodes: InternalNode[]) => {
       onSelectionContextMenu?.(event, convertToExternalNodes(nodes));
@@ -149,6 +157,7 @@ export const Canvas = ({
         onNodeDragStop={_onNodeDragStop}
         onSelectionDragStop={_onSelectionDragStop}
         onEdgeClick={_onEdgeClick}
+        onNodeClick={_onNodeClick}
         onSelectionContextMenu={_onSelectionContextMenu}
         onSelectionChange={_onSelectionChange}
         {...rest}
