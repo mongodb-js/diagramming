@@ -3,6 +3,8 @@ import { Position, XYPosition } from '@xyflow/react';
 import { InternalNode } from '@/types/internal';
 import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
 
+import { getNodeHeight, getNodeWidth } from './node-dimensions';
+
 /**
  * Returns the coordinates where a line connecting the centers of the source and target nodes intersects
  * the edges of those nodes. This implementation is copied from:
@@ -12,10 +14,8 @@ import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
  * @param targetNode The target node
  */
 const getNodeIntersection = (intersectionNode: InternalNode, targetNode: InternalNode): XYPosition => {
-  const { width: intersectionNodeWidth, height: intersectionNodeHeight } = intersectionNode.measured ?? {
-    width: 0,
-    height: 0,
-  };
+  const intersectionNodeWidth = getNodeWidth(intersectionNode);
+  const intersectionNodeHeight = getNodeHeight(intersectionNode);
   const targetPosition = targetNode.position;
 
   const w = (intersectionNodeWidth ?? 0) / 2;
