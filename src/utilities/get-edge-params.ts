@@ -18,8 +18,8 @@ const getNodeIntersection = (intersectionNode: InternalNode, targetNode: Interna
   const intersectionNodeHeight = getNodeHeight(intersectionNode);
   const targetPosition = targetNode.position;
 
-  const w = (intersectionNodeWidth ?? 0) / 2;
-  const h = (intersectionNodeHeight ?? 0) / 2;
+  const w = intersectionNodeWidth / 2;
+  const h = intersectionNodeHeight / 2;
 
   const x2 = intersectionNode.position.x + w;
   const y2 = intersectionNode.position.y + h;

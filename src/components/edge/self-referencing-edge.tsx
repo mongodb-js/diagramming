@@ -19,8 +19,8 @@ export const SelfReferencingEdge = ({ id, source, markerEnd, markerStart, select
     return null;
   }
 
-  const centerX = (getNodeWidth(sourceNode) || 0) / 2;
-  const centerY = (getNodeHeight(sourceNode) || 0) / 2;
+  const centerX = getNodeWidth(sourceNode) / 2;
+  const centerY = getNodeHeight(sourceNode) / 2;
 
   const width = centerX + 40;
   const leftHeight = 30;
