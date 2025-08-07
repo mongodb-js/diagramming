@@ -7,6 +7,7 @@ import {
   convertToInternalNodes,
 } from '@/utilities/convert-nodes';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
+import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
 describe('convert-nodes', () => {
   describe('convertToExternalNode', () => {
@@ -144,7 +145,17 @@ describe('convert-nodes', () => {
 
   describe('convertToInternalNodes', () => {
     it('Should convert node props to internal node', () => {
-      const internalNodes = convertToInternalNodes([{ ...ORDERS_NODE, disabled: true }, EMPLOYEES_NODE]);
+      const internalNodes = convertToInternalNodes([
+        {
+          ...ORDERS_NODE,
+          measured: {
+            width: DEFAULT_NODE_WIDTH,
+            height: DEFAULT_FIELD_HEIGHT * 2,
+          },
+          disabled: true,
+        },
+        EMPLOYEES_NODE,
+      ]);
       expect(internalNodes).toEqual([
         {
           id: 'orders',
@@ -173,10 +184,6 @@ describe('convert-nodes', () => {
           position: {
             x: 300,
             y: 300,
-          },
-          measured: {
-            height: 72,
-            width: 244,
           },
           connectable: false,
           data: {
