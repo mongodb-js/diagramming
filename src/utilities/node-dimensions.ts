@@ -1,4 +1,5 @@
-import type { BaseNode } from '@/types';
+import type { BaseNode, NodeProps } from '@/types';
+import { InternalNode } from '@/types/internal';
 
 import {
   DEFAULT_FIELD_HEIGHT,
@@ -7,11 +8,23 @@ import {
   DEFAULT_NODE_WIDTH,
 } from './constants';
 
-export const getNodeHeight = <N extends BaseNode>(node: N) => {
+export const getNodeHeight = <N extends BaseNode | NodeProps | InternalNode>(node: N) => {
   if ('height' in node && typeof node.height === 'number') return node.height;
   if ('measured' in node && node.measured?.height) return node.measured.height;
-  const fieldCount = !('fields' in node) || !Array.isArray(node.fields) ? 1 : node.fields.length;
-  return DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING * 2 + fieldCount * DEFAULT_FIELD_HEIGHT;
+
+  let fieldCount = 1;
+  if ('fields' in node && Array.isArray(node.fields)) {
+    fieldCount = node.fields.length;
+  }
+  if ('data' in node) {
+    let internalNode = node as InternalNode;
+    if (internalNode.data?.fields && Array.isArray(internalNode.data.fields)) {
+      fieldCount = internalNode.data.fields.length;
+    }
+  }
+  const calculatedHeight =
+    DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING * 2 + fieldCount * DEFAULT_FIELD_HEIGHT + 10;
+  return calculatedHeight;
 };
 
 export const getNodeWidth = <N extends BaseNode>(node: N) => {

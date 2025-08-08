@@ -54,13 +54,13 @@ const getEdgePosition = (node: InternalNode, intersectionPoint: XYPosition) => {
   if (px <= nx + 1) {
     return Position.Left;
   }
-  if (px >= nx + (n.measured?.width ?? 0) - 1) {
+  if (px >= nx + (getNodeWidth(n) - 1)) {
     return Position.Right;
   }
   if (py <= ny + 1) {
     return Position.Top;
   }
-  if (py >= n.y + (n.measured?.height ?? 0) - 1) {
+  if (py >= n.y + (getNodeHeight(n) - 1)) {
     return Position.Bottom;
   }
 

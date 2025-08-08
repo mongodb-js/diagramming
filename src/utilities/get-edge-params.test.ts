@@ -10,12 +10,12 @@ describe('get-edge-params', () => {
         { ...EMPLOYEES_NODE, data: { title: EMPLOYEES_NODE.title, fields: EMPLOYEES_NODE.fields } },
       );
       expect(result).toEqual({
-        sourcePos: 'right',
-        sx: 269.5,
-        sy: 180,
-        targetPos: 'right',
-        tx: 371.5,
-        ty: 300,
+        sourcePos: 'bottom',
+        sx: 267,
+        sy: 197.5,
+        targetPos: 'top',
+        tx: 359,
+        ty: 292.5,
       });
     });
   });
