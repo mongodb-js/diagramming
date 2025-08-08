@@ -57,7 +57,7 @@ describe('floating-edge', () => {
       expect(path).toHaveAttribute('id', 'orders-to-employees');
       expect(path).toHaveAttribute(
         'd',
-        'M269.5 180L289.5 180L 386.5,180Q 391.5,180 391.5,185L 391.5,295Q 391.5,300 386.5,300L371.5 300',
+        'M267 197.5L267 217.5L 267,240Q 267,245 272,245L 354,245Q 359,245 359,250L359 272.5L359 292.5',
       );
     });
   });
