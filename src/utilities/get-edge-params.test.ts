@@ -11,10 +11,10 @@ describe('get-edge-params', () => {
       );
       expect(result).toEqual({
         sourcePos: 'bottom',
-        sx: 267,
-        sy: 197.5,
+        sx: 263,
+        sy: 189.5,
         targetPos: 'top',
-        tx: 359,
+        tx: 363,
         ty: 292.5,
       });
     });

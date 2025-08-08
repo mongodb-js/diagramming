@@ -64,14 +64,14 @@ describe('apply-layout', () => {
         ...nodes[1],
         position: {
           x: 12,
-          y: 86, // 12 + 44 (0 fields height) + 2*10 (padding) + 10 (extra padding)
+          y: 78, // 12 + 44 (0 fields height) + 2*10 (padding) + 2 (extra padding)
         },
       }),
       expect.objectContaining({
         ...nodes[2],
         position: {
           x: 12,
-          y: 160, // 86 + 44 (0 fields height) + 2*10 (padding) + 10 (extra padding)
+          y: 144, // 86 + 44 (0 fields height) + 2*10 (padding) + 2 (extra padding)
         },
       }),
     ]);
@@ -94,14 +94,14 @@ describe('apply-layout', () => {
         ...nodesWithOneField[1],
         position: {
           x: 12,
-          y: 104, // 12 + 62 (1 field height) + 2*10 (padding) + 10 (extra padding)
+          y: 96, // 12 + 62 (1 field height) + 2*10 (padding) + 2 (extra padding)
         },
       }),
       expect.objectContaining({
         ...nodesWithOneField[2],
         position: {
           x: 12,
-          y: 196, // 104 + 62 (1 field height) + 2*10 (padding) + 10 (extra padding)
+          y: 180, // 96 + 62 (1 field height) + 2*10 (padding) + 2 (extra padding)
         },
       }),
     ]);
@@ -124,14 +124,14 @@ describe('apply-layout', () => {
         ...baseNodes[1],
         position: {
           x: 12,
-          y: 104, // 12 + 62 (default height) + 2*10 (padding) + 10 (extra padding)
+          y: 96, // 12 + 62 (default height) + 2*10 (padding) + 2 (extra padding)
         },
       }),
       expect.objectContaining({
         ...baseNodes[2],
         position: {
           x: 12,
-          y: 196, // 104 + 62 (default height) + 2*10 (padding) + 10 (extra padding)
+          y: 180, // 96 + 62 (default height) + 2*10 (padding) + 2 (extra padding)
         },
       }),
     ]);
@@ -188,7 +188,7 @@ describe('apply-layout', () => {
         id: '1',
         position: {
           x: 12,
-          y: 86,
+          y: 78,
         },
       }),
       expect.objectContaining({
@@ -208,7 +208,7 @@ describe('apply-layout', () => {
         id: '3',
         position: {
           x: 12,
-          y: 240,
+          y: 224,
         },
       }),
     ]);

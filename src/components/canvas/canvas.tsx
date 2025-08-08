@@ -32,6 +32,12 @@ const PRO_OPTIONS: ProOptions = {
 const ReactFlowWrapper = styled.div`
   height: 100%;
   background: ${props => props.theme.background};
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 `;
 
 const nodeTypes = {
