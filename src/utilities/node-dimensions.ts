@@ -23,7 +23,7 @@ export const getNodeHeight = <N extends BaseNode | NodeProps | InternalNode>(nod
     }
   }
   const calculatedHeight =
-    DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING * 2 + fieldCount * DEFAULT_FIELD_HEIGHT + 10;
+    DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING * 2 + fieldCount * DEFAULT_FIELD_HEIGHT + 2;
   return calculatedHeight;
 };
 
