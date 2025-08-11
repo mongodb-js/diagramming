@@ -1,5 +1,7 @@
-import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_SPACING, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
-import { BaseNode } from '@/types/layout';
+import type { BaseNode } from '@/types/layout';
+
+import { getNodeWidth, getNodeHeight } from './node-dimensions';
+import { getCoordinatesForNewNodeFromMaxDimensions } from './get-coordinates-for-new-node';
 
 /**
  * Adds new nodes to an existing array of nodes, positioning them in a grid pattern.
@@ -14,28 +16,14 @@ import { BaseNode } from '@/types/layout';
  * @param newNodes A list of new nodes to add within the bounds of the diagram.
  */
 export const addNodesWithinBounds = <N extends BaseNode>(nodes: N[], newNodes: N[]) => {
-  const maxWidth = Math.max(0, ...nodes.map(n => n.position.x + (n.measured?.width || DEFAULT_NODE_WIDTH)));
-  const maxHeight = Math.max(0, ...nodes.map(n => n.position.y + (n.measured?.height || DEFAULT_NODE_HEIGHT)));
-
-  let x = 0;
-  let y = maxHeight + DEFAULT_NODE_SPACING;
-  let rowHeight = 0;
+  const maxWidth = Math.max(0, ...nodes.map(n => n.position.x + getNodeWidth(n)));
+  const maxHeight = Math.max(0, ...nodes.map(n => n.position.y + getNodeHeight(n)));
 
   return [
     ...nodes,
-    ...newNodes.map(n => {
-      if (!n.measured || !n.measured.height || !n.measured.width) return n;
-
-      if (x + n.measured.width + DEFAULT_NODE_SPACING > maxWidth) {
-        x = 0;
-        y += rowHeight + DEFAULT_NODE_SPACING;
-        rowHeight = 0;
-      }
-
-      x += n.measured.width + DEFAULT_NODE_SPACING;
-      rowHeight = Math.max(rowHeight, n.measured.height);
-
-      return { ...n, position: { x, y } };
-    }),
+    ...newNodes.map(n => ({
+      ...n,
+      position: getCoordinatesForNewNodeFromMaxDimensions({ maxWidth, maxHeight, newNode: n }),
+    })),
   ];
 };
