@@ -1,7 +1,12 @@
 import type { BaseNode } from '@/types/layout';
 
 import { getNodeWidth, getNodeHeight } from './node-dimensions';
-import { DEFAULT_NODE_SPACING } from './constants';
+import { DEFAULT_NODE_HEIGHT, DEFAULT_NODE_SPACING, DEFAULT_NODE_WIDTH } from './constants';
+
+export const FIRST_NODE_POSITION = {
+  x: DEFAULT_NODE_SPACING + DEFAULT_NODE_WIDTH,
+  y: DEFAULT_NODE_SPACING + DEFAULT_NODE_HEIGHT,
+} as const;
 
 /**
  * Adds new nodes to an existing array of nodes, positioning them in a grid pattern.
@@ -28,22 +33,36 @@ export const addNodesWithinBounds = <N extends BaseNode>(nodes: N[], newNodes: O
 const placeNewNodes = <N extends BaseNode>({ nodes, newNodes }: { nodes: N[]; newNodes: Omit<N, 'position'>[] }) => {
   const maxWidth = Math.max(0, ...nodes.map(n => n.position.x + getNodeWidth(n)));
   const maxHeight = Math.max(0, ...nodes.map(n => n.position.y + getNodeHeight(n)));
+  const firstNodeOffsetX = nodes.length ? Math.min(...nodes.map(n => n.position.x)) : FIRST_NODE_POSITION.x;
 
-  let x = 0;
-  let y = maxHeight + DEFAULT_NODE_SPACING;
+  let x = maxWidth;
+  let y = maxHeight;
   let rowHeight = 0;
 
-  return newNodes.map(newNode => {
+  return newNodes.map((newNode, index) => {
+    if (nodes.length === 0 && index === 0) {
+      // This is the first node
+      x = FIRST_NODE_POSITION.x;
+      y = FIRST_NODE_POSITION.y;
+      rowHeight = getNodeHeight(newNode);
+      return {
+        ...newNode,
+        position: { x, y },
+      };
+    }
     const newNodeWidth = getNodeWidth(newNode);
     const newNodeHeight = getNodeHeight(newNode);
 
     if (x + newNodeWidth + DEFAULT_NODE_SPACING > maxWidth) {
-      x = 0;
+      // start a new row
+      x = firstNodeOffsetX;
       y += rowHeight + DEFAULT_NODE_SPACING;
       rowHeight = 0;
+    } else {
+      // continue in the same row
+      x += newNodeWidth + DEFAULT_NODE_SPACING;
     }
 
-    x += newNodeWidth + DEFAULT_NODE_SPACING;
     rowHeight = Math.max(rowHeight, newNodeHeight);
 
     return {

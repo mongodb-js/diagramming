@@ -1,24 +1,13 @@
-import { addNodesWithinBounds, getCoordinatesForNewNode } from '@/utilities/add-nodes-within-bounds';
-import { NodeProps } from '@/types';
+import {
+  addNodesWithinBounds,
+  FIRST_NODE_POSITION,
+  getCoordinatesForNewNode,
+} from '@/utilities/add-nodes-within-bounds';
+import type { NodeProps } from '@/types';
+
+import { DEFAULT_NODE_SPACING } from './constants';
 
 describe('add-nodes-within-bounds', () => {
-  const nodes: NodeProps[] = [
-    {
-      title: 'orders',
-      fields: [],
-      measured: {
-        height: 100,
-        width: 244,
-      },
-      type: 'collection',
-      id: '1',
-      position: {
-        x: 12,
-        y: 12,
-      },
-    },
-  ];
-
   const newNodes: NodeProps[] = [
     {
       title: 'customers',
@@ -51,18 +40,36 @@ describe('add-nodes-within-bounds', () => {
   ];
 
   it('With no new nodes', () => {
-    const result = addNodesWithinBounds(nodes, []);
-    expect(result).toEqual(nodes);
+    const result = addNodesWithinBounds(newNodes, []);
+    expect(result).toEqual(newNodes);
   });
 
-  describe('With existing nodes and measures', () => {
+  describe('With 1 existing node and measures', () => {
+    const nodes: NodeProps[] = [
+      {
+        title: 'orders',
+        fields: [],
+        measured: {
+          height: 100,
+          width: 244,
+        },
+        type: 'collection',
+        id: '1',
+        position: {
+          x: 12,
+          y: 12,
+        },
+      },
+    ];
     const expectedPosition1 = {
-      x: 344,
-      y: 312,
+      // one row below the existing node
+      x: nodes[0].position.x,
+      y: nodes[0].position.y + DEFAULT_NODE_SPACING + (nodes[0]?.measured?.height || 0),
     };
     const expectedPosition2 = {
-      x: 344,
-      y: 512,
+      // one row below the first new node
+      x: expectedPosition1.x,
+      y: expectedPosition1.y + DEFAULT_NODE_SPACING + (newNodes[0]?.measured?.height || 0),
     };
     it('addNodesWithinBounds', () => {
       const result = addNodesWithinBounds(nodes, newNodes);
@@ -84,14 +91,76 @@ describe('add-nodes-within-bounds', () => {
     });
   });
 
-  describe('With no existing nodes', () => {
-    const expectedPosition = {
-      x: 344,
-      y: 200,
+  describe('With multiple existing nodes, with measures', () => {
+    const nodes: NodeProps[] = [
+      {
+        title: 'orders',
+        fields: [],
+        type: 'collection',
+        id: '1',
+        measured: {
+          height: 100,
+          width: 300,
+        },
+        position: {
+          x: 12,
+          y: 12,
+        },
+      },
+      {
+        title: 'customers',
+        fields: [],
+        type: 'collection',
+        id: '1',
+        measured: {
+          height: 150,
+          width: 300,
+        },
+        position: {
+          x: 412,
+          y: 12,
+        },
+      },
+    ];
+    const expectedPosition1 = {
+      // one row below the existing nodes
+      x: nodes[0].position.x,
+      y: nodes[0].position.y + DEFAULT_NODE_SPACING + 150, // height of the taller existing node
     };
     const expectedPosition2 = {
-      x: 344,
-      y: 400,
+      // to the right of the first new node
+      x: expectedPosition1.x + DEFAULT_NODE_SPACING + (newNodes[0]?.measured?.width || 0),
+      y: expectedPosition1.y,
+    };
+    it('addNodesWithinBounds', () => {
+      const result = addNodesWithinBounds(nodes, newNodes);
+      expect(result).toEqual([
+        ...nodes,
+        {
+          ...newNodes[0],
+          position: expectedPosition1,
+        },
+        {
+          ...newNodes[1],
+          position: expectedPosition2,
+        },
+      ]);
+    });
+    it('getCoordinatesForNewNode', () => {
+      const result = getCoordinatesForNewNode(nodes, newNodes[0]);
+      expect(result).toEqual(expectedPosition1);
+    });
+  });
+
+  describe('With no existing nodes, with measures', () => {
+    const expectedPosition = {
+      // in the initial position
+      ...FIRST_NODE_POSITION,
+    };
+    const expectedPosition2 = {
+      // one row below the first new node
+      x: expectedPosition.x,
+      y: expectedPosition.y + DEFAULT_NODE_SPACING + (newNodes[0]?.measured?.height || 0),
     };
 
     it('addNodesWithinBounds', () => {
@@ -120,12 +189,13 @@ describe('add-nodes-within-bounds', () => {
       measured: undefined,
     }));
     const expectedPosition = {
-      x: 344,
-      y: 200,
+      // in the initial position
+      ...FIRST_NODE_POSITION,
     };
     const expectedPosition2 = {
-      x: 344,
-      y: 346,
+      // one row below the first new node
+      x: expectedPosition.x,
+      y: expectedPosition.y + DEFAULT_NODE_SPACING + 46,
     };
     it('addNodesWithinBounds', () => {
       const result = addNodesWithinBounds([] as NodeProps[], newNotMeasuredNodes);
