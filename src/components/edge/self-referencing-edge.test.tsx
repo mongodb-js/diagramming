@@ -53,7 +53,7 @@ describe('self-referencing-edge', () => {
       renderComponent();
       const path = screen.getByTestId('self-referencing-edge-employees-to-employees');
       expect(path).toHaveAttribute('id', 'employees-to-employees');
-      expect(path).toHaveAttribute('d', 'M422,292.5L422,262.5L584,262.5L584,355.5L551.5,355.5');
+      expect(path).toHaveAttribute('d', 'M422,292.5L422,262.5L584,262.5L584,351.5L551.5,351.5');
     });
   });
 
