@@ -3,6 +3,8 @@ import { ReactFlowProvider } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
 import { Node } from '@/components/node/node';
+import { NodeIdProvider } from '@/hooks/use-node-id';
+import { FieldSelectionProvider } from '@/hooks/use-field-selection';
 
 const INTERNAL_NODE: InternalNode = {
   id: 'orders',
@@ -33,9 +35,13 @@ const nodeStory: Meta<typeof Node> = {
   decorators: [
     Story => (
       <ReactFlowProvider>
-        <div style={{ padding: '100px' }}>
-          <Story />
-        </div>
+        <FieldSelectionProvider>
+          <NodeIdProvider nodeId={INTERNAL_NODE.id}>
+            <div style={{ padding: '100px' }}>
+              <Story />
+            </div>
+          </NodeIdProvider>
+        </FieldSelectionProvider>
       </ReactFlowProvider>
     ),
   ],
@@ -474,6 +480,51 @@ export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
           type: 'string',
           depth: 2,
           variant: 'preview',
+        },
+      ],
+    },
+  },
+};
+
+export const NodeWithSelectedFields: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: '_id',
+          type: 'objectid',
+          glyphs: ['key'],
+        },
+        {
+          name: 'customer',
+          type: '{}',
+          selected: true,
+        },
+        {
+          name: 'customerId',
+          type: 'string',
+          depth: 1,
+        },
+        {
+          name: 'addresses',
+          type: '[]',
+          depth: 1,
+        },
+        {
+          name: 'streetName',
+          type: 'string',
+          depth: 2,
+        },
+        {
+          name: 'source',
+          type: 'string',
+        },
+        {
+          name: 'orderedAt',
+          type: 'date',
+          selected: true,
         },
       ],
     },
