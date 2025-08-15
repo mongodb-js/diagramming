@@ -49,6 +49,7 @@ const FieldWrapper = styled.div<{
 
     &::before {
       content: '';
+      pointer-events: none;
       position: absolute;
       outline: 2px solid ${palette.blue.base};
       width: calc(100% + ${SELECTED_FIELD_BORDER_PADDING * 2}px);

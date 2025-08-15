@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@leafygreen-ui/tokens';
 
@@ -24,8 +25,10 @@ export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
   const { enabled: isFieldSelectionEnabled } = useFieldSelection();
 
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
-  const previewGroupArea = getPreviewGroupArea(fields);
-  const selectedGroupHeight = isFieldSelectionEnabled ? getSelectedFieldGroupHeight(fields) : undefined;
+  const previewGroupArea = useMemo(() => getPreviewGroupArea(fields), [fields]);
+  const selectedGroupHeight = useMemo(() => {
+    return isFieldSelectionEnabled ? getSelectedFieldGroupHeight(fields) : undefined;
+  }, [fields, isFieldSelectionEnabled]);
   return (
     <NodeFieldWrapper>
       {fields.map(({ name, type: fieldType, ...rest }, i) => (
