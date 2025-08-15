@@ -2,13 +2,21 @@ import { palette } from '@leafygreen-ui/palette';
 import { ComponentProps } from 'react';
 
 import { render, screen } from '@/mocks/testing-utils';
-import { Field } from '@/components/field/field';
+import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
+import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+
+const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
+  <FieldSelectionProvider>
+    <FieldComponent {...props} />
+  </FieldSelectionProvider>
+);
 
 describe('field', () => {
   const DEFAULT_PROPS: ComponentProps<typeof Field> = {
     nodeType: 'collection',
     name: 'ordersId',
+    nodeId: 'pineapple',
     type: 'objectId',
     glyphs: ['key', 'link'],
     previewGroupArea: DEFAULT_PREVIEW_GROUP_AREA,

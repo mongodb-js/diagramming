@@ -4,12 +4,14 @@ import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { useTheme } from '@emotion/react';
+import { MouseEvent as ReactMouseEvent, useMemo } from 'react';
 
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
+import { useFieldSelection } from '@/hooks/use-field-selection';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -19,12 +21,44 @@ const GlyphToIcon: Record<NodeGlyph, string> = {
   link: 'Link',
 };
 
-const FieldWrapper = styled.div<{ color: string }>`
+const SELECTED_FIELD_BORDER_PADDING = spacing[100];
+
+const FieldWrapper = styled.div<{
+  color: string;
+  selectableHoverBackgroundColor?: string;
+  selectable?: boolean;
+  selected?: boolean;
+  selectedGroupHeight: number;
+}>`
   display: flex;
   align-items: center;
   width: auto;
   height: ${DEFAULT_FIELD_HEIGHT}px;
   color: ${props => props.color};
+  ${props =>
+    props.selectable &&
+    `&:hover {
+    cursor: pointer;
+    background-color: ${props.selectableHoverBackgroundColor};
+    box-shadow: -${spacing[100]}px 0px 0px 0px ${props.selectableHoverBackgroundColor}, ${spacing[100]}px 0px 0px 0px ${props.selectableHoverBackgroundColor};
+  }`}
+  ${props =>
+    props.selected &&
+    `
+    position: relative;
+
+    &::before {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      outline: 2px solid ${palette.blue.base};
+      width: calc(100% + ${SELECTED_FIELD_BORDER_PADDING * 2}px);
+      border-radius: ${spacing[50]}px;
+      height: ${props.selectedGroupHeight * DEFAULT_FIELD_HEIGHT}px;
+      left: -${SELECTED_FIELD_BORDER_PADDING}px;
+      top: 0px;
+    }
+`}
 `;
 
 const InnerFieldWrapper = styled.div<{ width: number }>`
@@ -90,30 +124,55 @@ const IconWrapper = styled(Icon)`
 `;
 
 interface Props extends NodeField {
+  nodeId: string;
   nodeType: NodeType;
   spacing: number;
   isHovering?: boolean;
   previewGroupArea: PreviewGroupArea;
+  selectedGroupHeight?: number;
 }
 
 export const Field = ({
   hoverVariant,
   isHovering = false,
   name,
+  nodeId,
+  id = name,
   depth = 0,
   type,
   nodeType,
   glyphs = [],
+  selectedGroupHeight = 0,
   previewGroupArea,
   glyphSize = LGSpacing[300],
   spacing = 0,
+  selectable = false,
+  selected = false,
   variant,
 }: Props) => {
   const { theme } = useDarkMode();
 
+  const { fieldProps } = useFieldSelection();
+
   const internalTheme = useTheme();
 
   const isDisabled = variant === 'disabled' && !(hoverVariant === 'default' && isHovering);
+
+  const getSelectableHoverBackgroundColor = () => {
+    return fieldSelectionProps?.selectable ? color[theme].background.primary.hover : undefined;
+  };
+
+  /**
+   * Create the field selection props when the field is selectable.
+   */
+  const fieldSelectionProps = useMemo(() => {
+    return selectable && fieldProps
+      ? {
+          selectable: true,
+          onClick: (event: ReactMouseEvent) => fieldProps.onClick(event, { id, nodeId }),
+        }
+      : undefined;
+  }, [fieldProps, selectable, id, nodeId]);
 
   const getTextColor = () => {
     if (isDisabled) {
@@ -188,7 +247,13 @@ export const Field = ({
   const previewBorderLeft = `${depth * DEFAULT_DEPTH_SPACING - previewWidthGlyphOffset}px`;
 
   return (
-    <FieldWrapper color={getTextColor()}>
+    <FieldWrapper
+      selected={selected}
+      color={getTextColor()}
+      selectableHoverBackgroundColor={getSelectableHoverBackgroundColor()}
+      selectedGroupHeight={selectedGroupHeight}
+      {...fieldSelectionProps}
+    >
       <InnerFieldWrapper width={spacing}>
         {glyphs.map(glyph => (
           <IconWrapper key={glyph} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} size={glyphSize} />

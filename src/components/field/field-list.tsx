@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@leafygreen-ui/tokens';
 
@@ -5,6 +6,8 @@ import { Field } from '@/components/field/field';
 import { NodeField, NodeType } from '@/types';
 import { DEFAULT_PREVIEW_GROUP_AREA, getPreviewGroupArea, getPreviewId } from '@/utilities/get-preview-group-area';
 import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
+import { useFieldSelection } from '@/hooks/use-field-selection';
+import { getSelectedFieldGroupHeight, getSelectedId } from '@/utilities/get-selected-field-group-height';
 
 const NodeFieldWrapper = styled.div`
   padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
@@ -14,21 +17,29 @@ const NodeFieldWrapper = styled.div`
 interface Props {
   nodeType: NodeType;
   isHovering?: boolean;
+  nodeId: string;
   fields: NodeField[];
 }
 
-export const FieldList = ({ fields, nodeType, isHovering }: Props) => {
+export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
+  const { enabled: isFieldSelectionEnabled } = useFieldSelection();
+
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
-  const previewGroupArea = getPreviewGroupArea(fields);
+  const previewGroupArea = useMemo(() => getPreviewGroupArea(fields), [fields]);
+  const selectedGroupHeight = useMemo(() => {
+    return isFieldSelectionEnabled ? getSelectedFieldGroupHeight(fields) : undefined;
+  }, [fields, isFieldSelectionEnabled]);
   return (
     <NodeFieldWrapper>
       {fields.map(({ name, type: fieldType, ...rest }, i) => (
         <Field
           key={i}
           name={name}
+          nodeId={nodeId}
           nodeType={nodeType}
           isHovering={isHovering}
           previewGroupArea={previewGroupArea[getPreviewId(i, name)] || DEFAULT_PREVIEW_GROUP_AREA}
+          selectedGroupHeight={selectedGroupHeight?.[getSelectedId(i, name)]}
           type={fieldType}
           spacing={spacing}
           {...rest}
