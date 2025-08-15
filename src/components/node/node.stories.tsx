@@ -3,7 +3,6 @@ import { ReactFlowProvider } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
 import { Node } from '@/components/node/node';
-import { NodeIdProvider } from '@/hooks/use-node-id';
 import { FieldSelectionProvider } from '@/hooks/use-field-selection';
 
 const INTERNAL_NODE: InternalNode = {
@@ -36,11 +35,9 @@ const nodeStory: Meta<typeof Node> = {
     Story => (
       <ReactFlowProvider>
         <FieldSelectionProvider>
-          <NodeIdProvider nodeId={INTERNAL_NODE.id}>
-            <div style={{ padding: '100px' }}>
-              <Story />
-            </div>
-          </NodeIdProvider>
+          <div style={{ padding: '100px' }}>
+            <Story />
+          </div>
         </FieldSelectionProvider>
       </ReactFlowProvider>
     ),
