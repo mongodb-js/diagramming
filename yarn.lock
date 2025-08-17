@@ -1123,13 +1123,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@leafygreen-ui/hooks@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@leafygreen-ui/hooks@npm:9.0.0"
+"@leafygreen-ui/hooks@npm:^9.1.1":
+  version: 9.1.1
+  resolution: "@leafygreen-ui/hooks@npm:9.1.1"
   dependencies:
-    "@leafygreen-ui/lib": "npm:^15.0.0"
+    "@leafygreen-ui/lib": "npm:^15.2.0"
+    "@leafygreen-ui/tokens": "npm:^3.1.2"
     lodash: "npm:^4.17.21"
-  checksum: 10c0/a7ead5870aff29d53690ee480d24be9aade18ce64cd4dfd543da95c35d23602c4928a0f8e18529b37e0e55e4a9455731864771acd253defc103fa2143488f0a4
+  checksum: 10c0/66c316cbe8297588036e5bc64091197866481ff8f972db217f2bc429423398d502aeea1f78c4dc4a447480202e6b705fc661fff4a23bc2b6360625a4a8a95f31
   languageName: node
   linkType: hard
 
@@ -1144,13 +1145,13 @@ __metadata:
   linkType: hard
 
 "@leafygreen-ui/leafygreen-provider@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@leafygreen-ui/leafygreen-provider@npm:5.0.0"
+  version: 5.0.2
+  resolution: "@leafygreen-ui/leafygreen-provider@npm:5.0.2"
   dependencies:
-    "@leafygreen-ui/hooks": "npm:^9.0.0"
-    "@leafygreen-ui/lib": "npm:^15.0.0"
+    "@leafygreen-ui/hooks": "npm:^9.1.1"
+    "@leafygreen-ui/lib": "npm:^15.2.0"
     react-transition-group: "npm:^4.4.5"
-  checksum: 10c0/2f4f7ab5a6eab5495e6d2c7d093e16b64d250d24713cfa867dccf02e98f090c47fbf9929c0c50a165c88e1d35d14683303edeaf2c84c3708891ececa53669242
+  checksum: 10c0/4b4849efe8ead2b7a2ae00c179fa194aae209acb0d1bc471c3c461a3c72aa3de3ed5f759100b32dce254b81fc3b4ad2e6e6e9850f9292be354c6c6ea7a0fb887
   languageName: node
   linkType: hard
 
@@ -1173,6 +1174,17 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
   checksum: 10c0/d9290694d56d8ad90315fe747002117d82790c8137a508171974965a953e742fb2921ef6f81814de7bdadd34f9b262a95fd1cbee867bcfbaec63ebe6b3fc0fe4
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/lib@npm:^15.2.0":
+  version: 15.2.0
+  resolution: "@leafygreen-ui/lib@npm:15.2.0"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 10c0/c320eac59541fd1fdcec3acf5c068d1a4459a14973d824118ddb98d3ce1704a0eab213f5bb946616e263553b72010d584dbfc15242672d9df2af0c1189072425
   languageName: node
   linkType: hard
 
@@ -1221,6 +1233,18 @@ __metadata:
     "@leafygreen-ui/palette": "npm:^5.0.0"
     polished: "npm:^4.2.2"
   checksum: 10c0/8bd6e6f99c4e0cd2ee6302479b6a2fe0171e44dd567bb6d7fd713e199c007a17a86d5608a6f372837741930d4bd65d5ab77e2bcea6fa13f3974e4ba99641bcab
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/tokens@npm:^3.1.2":
+  version: 3.2.1
+  resolution: "@leafygreen-ui/tokens@npm:3.2.1"
+  dependencies:
+    "@leafygreen-ui/emotion": "npm:^5.0.0"
+    "@leafygreen-ui/lib": "npm:^15.2.0"
+    "@leafygreen-ui/palette": "npm:^5.0.0"
+    polished: "npm:^4.2.2"
+  checksum: 10c0/5719a0c8ad60d886437407a303444c6d0925287a75140d35ad86c428ff6a612ddfea77bd4f7d181ea2cc74b873547ec3921a98855ab753fbe7150257e8d789bc
   languageName: node
   linkType: hard
 
