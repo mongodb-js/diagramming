@@ -174,12 +174,12 @@ export interface NodeField {
   hoverVariant?: NodeFieldHoverVariant;
 
   /**
-   * Indicates if the node can be selected.
+   * Indicates if the field can be selected.
    */
   selectable?: boolean;
 
   /**
-   * Indicates if the node is currently selected.
+   * Indicates if the field is currently selected.
    */
   selected?: boolean;
 }

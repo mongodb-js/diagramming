@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useMemo, ReactNode } from 'react';
 
-import { FieldId } from '@/types';
+import { OnFieldClickHandler } from '@/types';
 
 interface FieldSelectionContextType {
   enabled: boolean;
   fieldProps:
     | {
-        onClick: (event: React.MouseEvent, params: { id: FieldId; nodeId: string }) => void;
+        onClick: OnFieldClickHandler;
       }
     | undefined;
 }
@@ -15,7 +15,7 @@ const FieldSelectionContext = createContext<FieldSelectionContextType | undefine
 
 interface FieldSelectionProviderProps {
   children: ReactNode;
-  onFieldClick?: (event: React.MouseEvent, params: { id: FieldId; nodeId: string }) => void;
+  onFieldClick?: OnFieldClickHandler;
 }
 
 export const FieldSelectionProvider: React.FC<FieldSelectionProviderProps> = ({ children, onFieldClick }) => {

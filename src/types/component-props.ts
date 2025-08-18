@@ -10,6 +10,17 @@ import { NodeProps, FieldId } from '@/types/node';
 export type OnConnectHandler = (connection: Connection) => void;
 
 /**
+ * Called when a selectable field is clicked.
+ */
+export type OnFieldClickHandler = (
+  event: ReactMouseEvent,
+  params: {
+    id: FieldId;
+    nodeId: string;
+  },
+) => void;
+
+/**
  * Called when the canvas (pane) is clicked.
  */
 export type OnPaneClickHandler = (event: ReactMouseEvent) => void;
@@ -151,13 +162,7 @@ export interface DiagramProps {
   /**
    * Callback when the user clicks on a selectable field.
    */
-  onFieldClick?: (
-    event: ReactMouseEvent,
-    params: {
-      id: FieldId;
-      nodeId: string;
-    },
-  ) => void;
+  onFieldClick?: OnFieldClickHandler;
 
   /**
    * Whether the diagram should pan when dragging elements.
