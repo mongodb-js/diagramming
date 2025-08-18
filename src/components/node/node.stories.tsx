@@ -480,6 +480,23 @@ export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
   },
 };
 
+export const NodeWithAction: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'orderId',
+          type: 'string',
+          glyphs: ['key'],
+        },
+      ],
+      actions: <button>Action</button>,
+    },
+  },
+};
+
 export const SelectedBorder: Story = {
   args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
 };
