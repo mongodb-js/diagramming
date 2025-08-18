@@ -492,7 +492,7 @@ export const NodeWithAction: Story = {
           glyphs: ['key'],
         },
       ],
-      actions: <button>Action</button>,
+      actions: <button style={{ marginLeft: 'auto' }}>Action</button>,
     },
   },
 };
