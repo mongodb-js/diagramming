@@ -45,7 +45,8 @@
     "coverage": "vitest run --coverage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy-storybook": "gh-pages -d storybook-static"
+    "deploy-storybook": "gh-pages -d storybook-static",
+    "sync-to-compass": "ts-node scripts/sync-to-compass.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -94,6 +95,7 @@
     "jsdom": "20.0.3",
     "prettier": "3.6.2",
     "storybook": "^9.0.10",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "vite": "6.3.5",
     "vite-plugin-css-injected-by-js": "^3.5.2",
