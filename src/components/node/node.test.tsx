@@ -3,7 +3,14 @@ import { NodeProps, useViewport } from '@xyflow/react';
 
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
-import { Node } from '@/components/node/node';
+import { Node as NodeComponent } from '@/components/node/node';
+import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+
+const Node = (props: React.ComponentProps<typeof NodeComponent>) => (
+  <FieldSelectionProvider>
+    <NodeComponent {...props} />
+  </FieldSelectionProvider>
+);
 
 vi.mock('@xyflow/react', async () => {
   const actual = await vi.importActual<typeof import('@xyflow/react')>('@xyflow/react');

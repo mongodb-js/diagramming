@@ -53,6 +53,8 @@ export interface Measured {
   height?: number;
 }
 
+export type FieldId = string | string[];
+
 export interface NodeProps {
   /**
    * Unique identifier for the node.
@@ -136,6 +138,12 @@ export interface NodeField {
   name: string;
 
   /**
+   * Unique identifier for the field. Passed in field click events.
+   * Defaults to `name` when not supplied.
+   */
+  id?: FieldId;
+
+  /**
    * The type of the field, for example "objectId".
    */
   type?: string | React.ReactNode;
@@ -164,4 +172,14 @@ export interface NodeField {
    * The variant (color and style) of the hover state of the field and its glyphs.
    */
   hoverVariant?: NodeFieldHoverVariant;
+
+  /**
+   * Indicates if the field can be selected.
+   */
+  selectable?: boolean;
+
+  /**
+   * Indicates if the field is currently selected.
+   */
+  selected?: boolean;
 }
