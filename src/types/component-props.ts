@@ -2,12 +2,23 @@ import { Connection, FitViewOptions, HandleType } from '@xyflow/react';
 import { MouseEvent as ReactMouseEvent } from 'react';
 
 import { EdgeProps } from '@/types/edge';
-import { NodeProps } from '@/types/node';
+import { NodeProps, FieldId } from '@/types/node';
 
 /**
  * Called when a new connection is made between two nodes.
  */
 export type OnConnectHandler = (connection: Connection) => void;
+
+/**
+ * Called when a selectable field is clicked.
+ */
+export type OnFieldClickHandler = (
+  event: ReactMouseEvent,
+  params: {
+    id: FieldId;
+    nodeId: string;
+  },
+) => void;
 
 /**
  * Called when the canvas (pane) is clicked.
@@ -147,6 +158,11 @@ export interface DiagramProps {
    * Callback when a new connection starts (e.g. user begins dragging from a handle).
    */
   onConnectStart?: OnConnectStartHandler;
+
+  /**
+   * Callback when the user clicks on a selectable field.
+   */
+  onFieldClick?: OnFieldClickHandler;
 
   /**
    * Whether the diagram should pan when dragging elements.

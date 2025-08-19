@@ -98,6 +98,7 @@ const NodeWithFields = styled.div<{ visibility: string }>`
 `;
 
 export const Node = ({
+  id,
   type,
   selected,
   isConnectable,
@@ -184,7 +185,7 @@ export const Node = ({
               <NodeHeaderTitle>{title}</NodeHeaderTitle>
               {actions}
             </NodeHeader>
-            <FieldList nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
+            <FieldList nodeId={id} nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
           </NodeWithFields>
         </NodeWrapper>
       </NodeBorder>
