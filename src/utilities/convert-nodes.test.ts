@@ -74,6 +74,7 @@ describe('convert-nodes', () => {
     it('Should convert node props to internal node', () => {
       const node = {
         id: 'node-1',
+        actions: 'pineapple',
         type: 'table' as const,
         position: { x: 100, y: 200 },
         title: 'some-title',
@@ -87,6 +88,7 @@ describe('convert-nodes', () => {
         position: { x: 100, y: 200 },
         connectable: false,
         data: {
+          actions: 'pineapple',
           title: 'some-title',
           fields: [],
           borderVariant: undefined,
