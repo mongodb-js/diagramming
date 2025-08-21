@@ -65,6 +65,12 @@ export interface NodeProps {
    * The title of the node, usually a collection or table name.
    */
   title: string;
+
+  /**
+   * Actions to display in the node header, optional.
+   */
+  actions?: React.ReactNode;
+
   /**
    * Whether the node is disabled.
    */

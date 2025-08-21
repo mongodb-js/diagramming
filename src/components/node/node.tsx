@@ -102,7 +102,7 @@ export const Node = ({
   type,
   selected,
   isConnectable,
-  data: { title, fields, borderVariant, disabled },
+  data: { actions, title, fields, borderVariant, disabled },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
@@ -183,6 +183,7 @@ export const Node = ({
                 <Icon fill={theme.node.headerIcon} glyph="Drag" />
               </NodeHeaderIcon>
               <NodeHeaderTitle>{title}</NodeHeaderTitle>
+              {actions}
             </NodeHeader>
             <FieldList nodeId={id} nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
           </NodeWithFields>
