@@ -1,0 +1,1 @@
+import{r as n}from"./index-CkuBAfog.js";import"./iframe-DJ_eZUuo.js";var p=async(e,r)=>new Promise(o=>{n.render(e,r,()=>o(null))}),u=e=>{n.unmountComponentAtNode(e)};export{p as renderElement,u as unmountElement};
