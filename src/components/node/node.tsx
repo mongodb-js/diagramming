@@ -66,7 +66,7 @@ const NodeHeader = styled.div<{ background?: string }>`
   line-height: 20px;
   font-weight: bold;
   min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
-  padding: ${spacing[100]}px ${spacing[400]}px ${spacing[100]}px ${spacing[200]}px;
+  padding: 0px ${spacing[400]}px 0px ${spacing[200]}px;
   background: ${props => props.background};
 `;
 
