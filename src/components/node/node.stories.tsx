@@ -246,6 +246,33 @@ export const NodeWithCustomTypeField: Story = {
   },
 };
 
+export const NodeWithCustomFieldNameRender: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders',
+      fields: [
+        {
+          name: 'customerId',
+          renderName: (
+            <div style={{ background: 'orange', width: '100%' }}>
+              <input
+                type="text"
+                onSubmit={e => e.preventDefault()}
+                defaultValue="Custom name"
+                style={{ marginLeft: 5, marginRight: 5, width: '90px' }}
+              />
+            </div>
+          ),
+          type: 'string',
+          variant: 'default',
+          glyphs: ['key'],
+        },
+      ],
+    },
+  },
+};
+
 export const NodeWithPrimaryField: Story = {
   args: {
     ...INTERNAL_NODE,

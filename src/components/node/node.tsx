@@ -66,7 +66,8 @@ const NodeHeader = styled.div<{ background?: string }>`
   line-height: 20px;
   font-weight: bold;
   min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
-  padding: 0px ${spacing[400]}px 0px ${spacing[200]}px;
+  padding: 0px;
+  padding-left: ${spacing[200]}px;
   background: ${props => props.background};
 `;
 
@@ -79,6 +80,7 @@ const NodeHeaderIcon = styled.div`
 export const NodeHeaderTitle = styled.div`
   overflow-wrap: break-word;
   min-width: 0;
+  margin-right: ${spacing[200]}px;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`

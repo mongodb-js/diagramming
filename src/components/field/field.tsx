@@ -145,6 +145,7 @@ export const Field = ({
   selectedGroupHeight = 0,
   previewGroupArea,
   glyphSize = LGSpacing[300],
+  renderName,
   spacing = 0,
   selectable = false,
   selected = false,
@@ -168,6 +169,7 @@ export const Field = ({
   const fieldSelectionProps = useMemo(() => {
     return selectable && fieldProps
       ? {
+          'data-testid': `selectable-field-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`,
           selectable: true,
           onClick: (event: ReactMouseEvent) => fieldProps.onClick(event, { id, nodeId }),
         }
@@ -213,7 +215,7 @@ export const Field = ({
     <>
       <FieldName>
         <FieldDepth depth={depth} />
-        <InnerFieldName>{name}</InnerFieldName>
+        <InnerFieldName>{renderName || name}</InnerFieldName>
       </FieldName>
       <FieldType color={getSecondaryTextColor()}>{type}</FieldType>
     </>

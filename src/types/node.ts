@@ -144,6 +144,11 @@ export interface NodeField {
   name: string;
 
   /**
+   * Optional custom rendering for the field name. If not provided, `name` will be used.
+   */
+  renderName?: React.ReactNode;
+
+  /**
    * Unique identifier for the field. Passed in field click events.
    * Defaults to `name` when not supplied.
    */
