@@ -39,6 +39,11 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   test: {
+    server: {
+      deps: {
+        inline: [/xyflow/]
+      }
+    },
     include: ['**/*.test.{ts,tsx}'],
     environment: 'jsdom',
     globals: true,
