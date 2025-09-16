@@ -5313,14 +5313,14 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-storybook@npm:^9.1.1":
-  version: 9.1.1
-  resolution: "eslint-plugin-storybook@npm:9.1.1"
+  version: 9.1.5
+  resolution: "eslint-plugin-storybook@npm:9.1.5"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.8.1"
   peerDependencies:
     eslint: ">=8"
-    storybook: ^9.1.1
-  checksum: 10c0/4cf80aa078633021b153a3a5b790a39c9919b5fa7203727c15d8ae066e75d6e134d7d718e66a6a5db9815275f32942a2deae1979aeb36be2543572507faced2c
+    storybook: ^9.1.5
+  checksum: 10c0/aa8f0a3a7b4d8e90c958889603351ca62837af13f8ac596c643a47f7197d586f93a8d9525d1e11b449d7579dc1de5315fdb8f97c0d6a18eac81fdb4e815961df
   languageName: node
   linkType: hard
 
