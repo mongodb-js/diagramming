@@ -13,7 +13,14 @@ function stringArrayCompare(a: string[], b: string[]): boolean {
   return true;
 }
 
-export const DiagramSelectableFieldsDecorator: Decorator<DiagramProps> = (Story, context) => {
+function newField() {
+  return {
+    name: `new-field-${Math.floor(Math.random() * 100_000)}`,
+    type: 'string',
+  };
+}
+
+export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
   const [nodes, setNodes] = useState<NodeProps[]>(context.args.nodes);
 
   const onFieldClick = useCallback(
@@ -24,7 +31,7 @@ export const DiagramSelectableFieldsDecorator: Decorator<DiagramProps> = (Story,
         id: FieldId;
       },
     ) => {
-      setNodes(
+      setNodes(nodes =>
         nodes.map(node => ({
           ...node,
           fields: node.fields.map(field => ({
@@ -39,8 +46,21 @@ export const DiagramSelectableFieldsDecorator: Decorator<DiagramProps> = (Story,
         })),
       );
     },
-    [nodes],
+    [],
   );
+
+  const onAddFieldToNodeClick = useCallback((event: ReactMouseEvent, nodeId: string) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id !== nodeId
+          ? node
+          : {
+              ...node,
+              fields: [...node.fields, newField()],
+            },
+      ),
+    );
+  }, []);
 
   return Story({
     ...context,
@@ -48,6 +68,7 @@ export const DiagramSelectableFieldsDecorator: Decorator<DiagramProps> = (Story,
       ...context.args,
       nodes,
       onFieldClick,
+      onAddFieldToNodeClick,
     },
   });
 };

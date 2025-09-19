@@ -3,13 +3,16 @@ import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
-import { useState } from 'react';
+import IconButton from '@leafygreen-ui/icon-button';
+import { useMemo, useState } from 'react';
 
 import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
+import { PlusWithSquare } from '@/components/icons/plus-with-square';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
+import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
 const NodeZoomedOut = styled.div`
   display: flex;
@@ -99,17 +102,43 @@ const NodeWithFields = styled.div<{ visibility: string }>`
   visibility: ${props => props.visibility};
 `;
 
+const AddNewFieldIconButtonButton = styled(IconButton)`
+  margin-left: auto;
+  margin-right: ${spacing[100]}px;
+`;
+
 export const Node = ({
   id,
   type,
   selected,
   isConnectable,
-  data: { actions, title, fields, borderVariant, disabled },
+  data: { title, fields, borderVariant, disabled },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
 
   const [isHovering, setHovering] = useState(false);
+
+  const { onClickAddFieldToNode } = useEditableDiagramInteractions();
+
+  const actions = useMemo(() => {
+    if (!onClickAddFieldToNode) {
+      return;
+    }
+
+    return (
+      <AddNewFieldIconButtonButton
+        aria-label="Add Field"
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+          event.stopPropagation();
+          onClickAddFieldToNode(event, id);
+        }}
+        title="Add Field"
+      >
+        <PlusWithSquare />
+      </AddNewFieldIconButtonButton>
+    );
+  }, [onClickAddFieldToNode, id]);
 
   const getAccent = () => {
     if (disabled && !isHovering) {

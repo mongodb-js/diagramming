@@ -11,7 +11,7 @@ import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constan
 import { FieldDepth } from '@/components/field/field-depth';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
-import { useFieldSelection } from '@/hooks/use-field-selection';
+import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -153,7 +153,7 @@ export const Field = ({
 }: Props) => {
   const { theme } = useDarkMode();
 
-  const { fieldProps } = useFieldSelection();
+  const { onClickField } = useEditableDiagramInteractions();
 
   const internalTheme = useTheme();
 
@@ -167,14 +167,14 @@ export const Field = ({
    * Create the field selection props when the field is selectable.
    */
   const fieldSelectionProps = useMemo(() => {
-    return selectable && fieldProps
+    return selectable && !!onClickField
       ? {
           'data-testid': `selectable-field-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`,
           selectable: true,
-          onClick: (event: ReactMouseEvent) => fieldProps.onClick(event, { id, nodeId }),
+          onClick: (event: ReactMouseEvent) => onClickField(event, { id, nodeId }),
         }
       : undefined;
-  }, [fieldProps, selectable, id, nodeId]);
+  }, [onClickField, selectable, id, nodeId]);
 
   const getTextColor = () => {
     if (isDisabled) {

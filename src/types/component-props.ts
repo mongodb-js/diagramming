@@ -21,6 +21,16 @@ export type OnFieldClickHandler = (
 ) => void;
 
 /**
+ * Called when the button to add a new field is clicked on a node.
+ */
+export type OnAddFieldToNodeClickHandler = (event: ReactMouseEvent, nodeId: string) => void;
+
+/**
+ * Called when the button to add a new field is clicked on an object type field in a node.
+ */
+export type OnAddFieldToObjectFieldClickHandler = (event: ReactMouseEvent, nodeId: string) => void;
+
+/**
  * Called when the canvas (pane) is clicked.
  */
 export type OnPaneClickHandler = (event: ReactMouseEvent) => void;
@@ -163,6 +173,16 @@ export interface DiagramProps {
    * Callback when the user clicks on a selectable field.
    */
   onFieldClick?: OnFieldClickHandler;
+
+  /**
+   * Callback when the user clicks the button to add a new field to a node.
+   */
+  onAddFieldToNodeClick?: OnAddFieldToNodeClickHandler;
+
+  /**
+   * Callback when the user clicks to add a new field to an object type field in a node.
+   */
+  onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
 
   /**
    * Whether the diagram should pan when dragging elements.

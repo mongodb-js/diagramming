@@ -21,7 +21,7 @@ import { MarkerList } from '@/components/markers/marker-list';
 import { ConnectionLine } from '@/components/line/connection-line';
 import { convertToExternalNode, convertToExternalNodes, convertToInternalNodes } from '@/utilities/convert-nodes';
 import { convertToExternalEdge, convertToExternalEdges, convertToInternalEdges } from '@/utilities/convert-edges';
-import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -57,6 +57,8 @@ export const Canvas = ({
   edges: externalEdges,
   onConnect,
   id,
+  onAddFieldToNodeClick,
+  onAddFieldToObjectFieldClick,
   onFieldClick,
   onNodeContextMenu,
   onNodeDrag,
@@ -141,7 +143,11 @@ export const Canvas = ({
   );
 
   return (
-    <FieldSelectionProvider onFieldClick={onFieldClick}>
+    <EditableDiagramInteractionsProvider
+      onFieldClick={onFieldClick}
+      onAddFieldToNodeClick={onAddFieldToNodeClick}
+      onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
+    >
       <ReactFlowWrapper>
         <ReactFlow
           id={id}
@@ -177,6 +183,6 @@ export const Canvas = ({
           <MiniMap />
         </ReactFlow>
       </ReactFlowWrapper>
-    </FieldSelectionProvider>
+    </EditableDiagramInteractionsProvider>
   );
 };

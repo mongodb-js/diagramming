@@ -510,23 +510,6 @@ export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
   },
 };
 
-export const NodeWithAction: Story = {
-  args: {
-    ...INTERNAL_NODE,
-    data: {
-      title: 'orders',
-      fields: [
-        {
-          name: 'orderId',
-          type: 'string',
-          glyphs: ['key'],
-        },
-      ],
-      actions: <button style={{ marginLeft: 'auto' }}>Action</button>,
-    },
-  },
-};
-
 export const NodeWithSelectedFields: Story = {
   args: {
     ...INTERNAL_NODE,
