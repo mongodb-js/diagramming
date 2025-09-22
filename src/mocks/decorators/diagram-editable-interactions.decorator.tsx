@@ -25,7 +25,6 @@ const newField = (parentFieldPath?: string[]) => {
   };
 };
 
-// Note: This currently only adds fields to one or no level, not nested levels.
 function addFieldToNode(existingFields: NodeField[], parentFieldPath: string[]) {
   if (parentFieldPath.length === 0) {
     return [...existingFields, newField()];
@@ -41,7 +40,7 @@ function addFieldToNode(existingFields: NodeField[], parentFieldPath: string[]) 
     return stringArrayCompare(field.id, parentFieldPath);
   });
 
-  if (indexToAddFieldTo === 0) {
+  if (indexToAddFieldTo === -1) {
     throw new Error('Field to add to not found');
   }
 
