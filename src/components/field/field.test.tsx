@@ -4,11 +4,13 @@ import { ComponentProps } from 'react';
 import { render, screen } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
-import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+import { FieldSelectionProvider, SelectedFieldsProvider } from '@/hooks/use-field-selection';
 
 const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
   <FieldSelectionProvider>
-    <FieldComponent {...props} />
+    <SelectedFieldsProvider>
+      <FieldComponent {...props} />
+    </SelectedFieldsProvider>
   </FieldSelectionProvider>
 );
 

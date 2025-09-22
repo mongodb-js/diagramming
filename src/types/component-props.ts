@@ -2,7 +2,7 @@ import { Connection, FitViewOptions, HandleType } from '@xyflow/react';
 import { MouseEvent as ReactMouseEvent } from 'react';
 
 import { EdgeProps } from '@/types/edge';
-import { NodeProps, FieldId } from '@/types/node';
+import { NodeProps } from '@/types/node';
 
 /**
  * Called when a new connection is made between two nodes.
@@ -15,7 +15,7 @@ export type OnConnectHandler = (connection: Connection) => void;
 export type OnFieldClickHandler = (
   event: ReactMouseEvent,
   params: {
-    id: FieldId;
+    id: string[];
     nodeId: string;
   },
 ) => void;
@@ -218,4 +218,6 @@ export interface DiagramProps {
    * @default 1
    */
   nodeDragThreshold?: number;
+
+  selectedFields?: { nodeId: string; fieldId: string[] }[];
 }

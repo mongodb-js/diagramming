@@ -4,11 +4,13 @@ import { NodeProps, useViewport } from '@xyflow/react';
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
 import { Node as NodeComponent } from '@/components/node/node';
-import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+import { FieldSelectionProvider, SelectedFieldsProvider } from '@/hooks/use-field-selection';
 
 const Node = (props: React.ComponentProps<typeof NodeComponent>) => (
   <FieldSelectionProvider>
-    <NodeComponent {...props} />
+    <SelectedFieldsProvider>
+      <NodeComponent {...props} />
+    </SelectedFieldsProvider>
   </FieldSelectionProvider>
 );
 
