@@ -1,7 +1,7 @@
 import { useCallback, useState, MouseEvent as ReactMouseEvent } from 'react';
 import { Decorator } from '@storybook/react';
 
-import { DiagramProps, FieldId, NodeProps } from '@/types';
+import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
 
 function stringArrayCompare(a: string[], b: string[]): boolean {
   if (a.length !== b.length) return false;
@@ -13,11 +13,41 @@ function stringArrayCompare(a: string[], b: string[]): boolean {
   return true;
 }
 
-function newField() {
+const newField = (parentFieldPath?: string[]) => {
+  const name = `newField${Math.floor(Math.random() * 100_000)}`;
+
   return {
-    name: `new-field-${Math.floor(Math.random() * 100_000)}`,
+    name,
     type: 'string',
+    selectable: true,
+    depth: parentFieldPath ? parentFieldPath.length : 0,
+    id: parentFieldPath ? [...parentFieldPath, name] : [name],
   };
+};
+
+// Note: This currently only adds fields to one or no level, not nested levels.
+function addFieldToNode(existingFields: NodeField[], parentFieldPath: string[]) {
+  if (parentFieldPath.length === 0) {
+    return [...existingFields, newField()];
+  }
+
+  const fields = [...existingFields];
+
+  const indexToAddFieldTo = fields.findIndex((field: NodeField) => {
+    if (typeof field.id !== 'object') {
+      throw new Error('Invalid field to add to');
+    }
+
+    return stringArrayCompare(field.id, parentFieldPath);
+  });
+
+  if (indexToAddFieldTo === 0) {
+    throw new Error('Field to add to not found');
+  }
+
+  fields.splice(indexToAddFieldTo + 1, 0, newField(parentFieldPath));
+
+  return fields;
 }
 
 export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
@@ -62,6 +92,22 @@ export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (St
     );
   }, []);
 
+  const onAddFieldToObjectFieldClick = useCallback(
+    (event: ReactMouseEvent, nodeId: string, parentFieldPath: string[]) => {
+      setNodes(nodes =>
+        nodes.map(node =>
+          node.id === nodeId
+            ? {
+                ...node,
+                fields: addFieldToNode(node.fields, parentFieldPath),
+              }
+            : node,
+        ),
+      );
+    },
+    [],
+  );
+
   return Story({
     ...context,
     args: {
@@ -69,6 +115,7 @@ export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (St
       nodes,
       onFieldClick,
       onAddFieldToNodeClick,
+      onAddFieldToObjectFieldClick,
     },
   });
 };

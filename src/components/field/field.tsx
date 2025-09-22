@@ -9,6 +9,7 @@ import { MouseEvent as ReactMouseEvent, useMemo } from 'react';
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
+import { ObjectFieldType } from '@/components/field/object-field-type';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
@@ -132,6 +133,38 @@ interface Props extends NodeField {
   selectedGroupHeight?: number;
 }
 
+function FieldTypeContent({
+  type,
+  nodeId,
+  id,
+}: {
+  id: string | string[];
+} & Pick<Props, 'type' | 'nodeId'>) {
+  const { onClickAddFieldToObjectField: _onClickAddFieldToObjectField } = useEditableDiagramInteractions();
+
+  const onClickAddFieldToObject = useMemo(
+    () =>
+      _onClickAddFieldToObjectField && Array.isArray(id)
+        ? (event: React.MouseEvent<HTMLButtonElement>) => {
+            event.stopPropagation();
+            _onClickAddFieldToObjectField(event, nodeId, id);
+          }
+        : undefined,
+    [_onClickAddFieldToObjectField, nodeId, id],
+  );
+
+  if (type === 'object' && !!onClickAddFieldToObject) {
+    return (
+      <ObjectFieldType
+        data-testid={`object-field-type-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
+        onClickAddFieldToObject={onClickAddFieldToObject}
+      />
+    );
+  }
+
+  return <>{type}</>;
+}
+
 export const Field = ({
   hoverVariant,
   isHovering = false,
@@ -145,7 +178,6 @@ export const Field = ({
   selectedGroupHeight = 0,
   previewGroupArea,
   glyphSize = LGSpacing[300],
-  renderName,
   spacing = 0,
   selectable = false,
   selected = false,
@@ -215,9 +247,11 @@ export const Field = ({
     <>
       <FieldName>
         <FieldDepth depth={depth} />
-        <InnerFieldName>{renderName || name}</InnerFieldName>
+        <InnerFieldName>{name}</InnerFieldName>
       </FieldName>
-      <FieldType color={getSecondaryTextColor()}>{type}</FieldType>
+      <FieldType color={getSecondaryTextColor()}>
+        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
+      </FieldType>
     </>
   );
 

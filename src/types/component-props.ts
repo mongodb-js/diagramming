@@ -28,7 +28,7 @@ export type OnAddFieldToNodeClickHandler = (event: ReactMouseEvent, nodeId: stri
 /**
  * Called when the button to add a new field is clicked on an object type field in a node.
  */
-export type OnAddFieldToObjectFieldClickHandler = (event: ReactMouseEvent, nodeId: string) => void;
+export type OnAddFieldToObjectFieldClickHandler = (event: ReactMouseEvent, nodeId: string, fieldPath: string[]) => void;
 
 /**
  * Called when the canvas (pane) is clicked.

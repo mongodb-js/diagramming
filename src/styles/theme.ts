@@ -27,6 +27,9 @@ declare module '@emotion/react' {
       disabledHeader: string;
       disabledColor: string;
       headerIcon: string;
+      fieldIconButton: string;
+      fieldIconButtonHover: string;
+      fieldIconButtonHoverBackground: string;
     };
   }
 }

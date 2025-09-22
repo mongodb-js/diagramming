@@ -31,5 +31,8 @@ export const DARK_THEME: Theme = {
     disabledHeader: palette.gray.dark3,
     disabledColor: palette.gray.dark1,
     headerIcon: palette.gray.light2,
+    fieldIconButton: palette.gray.light1,
+    fieldIconButtonHover: palette.black,
+    fieldIconButtonHoverBackground: hexToRgb(palette.gray.light2, 0.1),
   },
 };

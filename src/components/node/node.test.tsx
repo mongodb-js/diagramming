@@ -4,12 +4,12 @@ import { NodeProps, useViewport } from '@xyflow/react';
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
 import { Node as NodeComponent } from '@/components/node/node';
-import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
 const Node = (props: React.ComponentProps<typeof NodeComponent>) => (
-  <FieldSelectionProvider>
+  <EditableDiagramInteractionsProvider>
     <NodeComponent {...props} />
-  </FieldSelectionProvider>
+  </EditableDiagramInteractionsProvider>
 );
 
 vi.mock('@xyflow/react', async () => {

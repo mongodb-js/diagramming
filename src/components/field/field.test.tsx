@@ -4,12 +4,26 @@ import { ComponentProps } from 'react';
 import { render, screen } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
-import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
 const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
-  <FieldSelectionProvider>
+  <EditableDiagramInteractionsProvider>
     <FieldComponent {...props} />
-  </FieldSelectionProvider>
+  </EditableDiagramInteractionsProvider>
+);
+
+const noop = () => {
+  /* no operation */
+};
+
+const FieldWithEditableInteractions = (props: React.ComponentProps<typeof FieldComponent>) => (
+  <EditableDiagramInteractionsProvider
+    onFieldClick={noop}
+    onAddFieldToNodeClick={noop}
+    onAddFieldToObjectFieldClick={noop}
+  >
+    <FieldComponent {...props} />
+  </EditableDiagramInteractionsProvider>
 );
 
 describe('field', () => {
@@ -29,6 +43,24 @@ describe('field', () => {
     expect(screen.getByText('objectId')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Key Icon' })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Link Icon' })).toBeInTheDocument();
+  });
+  it('Should not have a button to add a field on an object type', () => {
+    render(<Field {...DEFAULT_PROPS} type={'object'} id={['ordersId']} />);
+    expect(screen.getByText('ordersId')).toBeInTheDocument();
+    expect(screen.getByText('object')).toBeInTheDocument();
+    const button = screen.queryByRole('button');
+    expect(button).not.toBeInTheDocument();
+  });
+  describe('With editable interactions supplied', () => {
+    it('Should have a button to add a field on an object type', () => {
+      render(<FieldWithEditableInteractions {...DEFAULT_PROPS} type={'object'} id={['ordersId']} />);
+      expect(screen.getByText('ordersId')).toBeInTheDocument();
+      expect(screen.getByText('{}')).toBeInTheDocument();
+      const button = screen.getByRole('button');
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('data-testid', 'object-field-type-pineapple-ordersId');
+      expect(button).toHaveAttribute('title', 'Add Field');
+    });
   });
   describe('With glyphs', () => {
     it('With disabled', () => {
