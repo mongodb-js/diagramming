@@ -1125,6 +1125,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/emotion@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@leafygreen-ui/emotion@npm:5.0.2"
+  dependencies:
+    "@emotion/css": "npm:^11.1.3"
+    "@emotion/server": "npm:^11.4.0"
+  checksum: 10c0/e70f3a89086a655952fef7bdb80593a0ed808b45b88b337b7a36a9313e60aa846e137a9bfa037fcff96512662e24051fc1c8630969f38b7e69c0559ac354aff1
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/hooks@npm:^9.1.1":
   version: 9.1.1
   resolution: "@leafygreen-ui/hooks@npm:9.1.1"
@@ -1168,10 +1178,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/lib@npm:^15.3.0":
+  version: 15.3.0
+  resolution: "@leafygreen-ui/lib@npm:15.3.0"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 10c0/f8b9f37ecfbcc652c8503183c30f6c5a317798482c67a310af32b9cd799590f53d24992508ff6be4dcc18a4fbb686c65b8ee23ad9e586304d6ef0d55761f01c8
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/palette@npm:^5.0.0":
   version: 5.0.0
   resolution: "@leafygreen-ui/palette@npm:5.0.0"
   checksum: 10c0/9242bf9e4798f35a3ca0a58f7c600f7b8e098b9afc4d018e7f07993bc90ebadf9381a27c9c94425a07753dcbd6c62db2ef475ee5e60435b524763a4c9663e60f
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/palette@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@leafygreen-ui/palette@npm:5.0.2"
+  checksum: 10c0/4ba4ad32098bb7b6b790b982450c8859c867667534e5ebc332bb06c146b136e1a00e4343954fab8a9e0b6e94809876634006937dc18d56ab94af1f909938ba4e
   languageName: node
   linkType: hard
 
@@ -1186,14 +1214,14 @@ __metadata:
   linkType: hard
 
 "@leafygreen-ui/tokens@npm:^3.1.2, @leafygreen-ui/tokens@npm:^3.2.0, @leafygreen-ui/tokens@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "@leafygreen-ui/tokens@npm:3.2.1"
+  version: 3.2.4
+  resolution: "@leafygreen-ui/tokens@npm:3.2.4"
   dependencies:
-    "@leafygreen-ui/emotion": "npm:^5.0.0"
-    "@leafygreen-ui/lib": "npm:^15.2.0"
-    "@leafygreen-ui/palette": "npm:^5.0.0"
+    "@leafygreen-ui/emotion": "npm:^5.0.2"
+    "@leafygreen-ui/lib": "npm:^15.3.0"
+    "@leafygreen-ui/palette": "npm:^5.0.2"
     polished: "npm:^4.2.2"
-  checksum: 10c0/5719a0c8ad60d886437407a303444c6d0925287a75140d35ad86c428ff6a612ddfea77bd4f7d181ea2cc74b873547ec3921a98855ab753fbe7150257e8d789bc
+  checksum: 10c0/bf3e063004ed7671771d11da9196ba9025f38548086025c431f47e9033595bdc880d50d36d2fd63ac0dd453976fccedbdf1527a99a58094965591b9f099b6071
   languageName: node
   linkType: hard
 
