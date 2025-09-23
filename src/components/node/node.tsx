@@ -4,7 +4,7 @@ import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
 import IconButton from '@leafygreen-ui/icon-button';
-import { useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
@@ -119,26 +119,15 @@ export const Node = ({
 
   const [isHovering, setHovering] = useState(false);
 
-  const { onClickAddFieldToNode } = useEditableDiagramInteractions();
+  const { onClickAddFieldToNode: addFieldToNodeClickHandler } = useEditableDiagramInteractions();
 
-  const actions = useMemo(() => {
-    if (!onClickAddFieldToNode) {
-      return;
-    }
-
-    return (
-      <AddNewFieldIconButtonButton
-        aria-label="Add Field"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-          event.stopPropagation();
-          onClickAddFieldToNode(event, id);
-        }}
-        title="Add Field"
-      >
-        <PlusWithSquare />
-      </AddNewFieldIconButtonButton>
-    );
-  }, [onClickAddFieldToNode, id]);
+  const onClickAddFieldToNode = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      addFieldToNodeClickHandler?.(event, id);
+    },
+    [addFieldToNodeClickHandler, id],
+  );
 
   const getAccent = () => {
     if (disabled && !isHovering) {
@@ -214,7 +203,11 @@ export const Node = ({
                 <Icon fill={theme.node.headerIcon} glyph="Drag" />
               </NodeHeaderIcon>
               <NodeHeaderTitle>{title}</NodeHeaderTitle>
-              {actions}
+              {addFieldToNodeClickHandler && (
+                <AddNewFieldIconButtonButton aria-label="Add Field" onClick={onClickAddFieldToNode} title="Add Field">
+                  <PlusWithSquare />
+                </AddNewFieldIconButtonButton>
+              )}
             </NodeHeader>
             <FieldList nodeId={id} nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
           </NodeWithFields>

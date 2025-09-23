@@ -1387,6 +1387,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.6.3"
     "@testing-library/react": "npm:^12.1.5"
     "@testing-library/react-hooks": "npm:^8.0.1"
+    "@testing-library/user-event": "npm:^14.6.1"
     "@types/d3-path": "npm:^3"
     "@types/jest": "npm:30.0.0"
     "@types/node": "npm:22.15.29"

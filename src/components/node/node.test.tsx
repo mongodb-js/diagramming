@@ -1,13 +1,19 @@
 import { screen } from '@testing-library/react';
 import { NodeProps, useViewport } from '@xyflow/react';
+import { userEvent } from '@testing-library/user-event';
 
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
 import { Node as NodeComponent } from '@/components/node/node';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
-const Node = (props: React.ComponentProps<typeof NodeComponent>) => (
-  <EditableDiagramInteractionsProvider>
+const Node = ({
+  onAddFieldToNodeClick,
+  ...props
+}: React.ComponentProps<typeof NodeComponent> & {
+  onAddFieldToNodeClick?: () => void;
+}) => (
+  <EditableDiagramInteractionsProvider onAddFieldToNodeClick={onAddFieldToNodeClick}>
     <NodeComponent {...props} />
   </EditableDiagramInteractionsProvider>
 );
@@ -67,6 +73,8 @@ describe('node', () => {
     expect(screen.getByText('employees')).toBeInTheDocument();
     expect(screen.getByText('employeeId')).toBeInTheDocument();
     expect(screen.getByText('string')).toBeInTheDocument();
+    const button = screen.queryByRole('button', { name: 'Add Field' });
+    expect(button).not.toBeInTheDocument();
   });
 
   it('Should show contextual zoom', () => {
@@ -83,5 +91,17 @@ describe('node', () => {
     expect(screen.getAllByText('employees')).toHaveLength(2);
     expect(screen.queryByText('employeeId')).not.toBeVisible();
     expect(screen.queryByText('string')).not.toBeVisible();
+  });
+
+  it('Should show a clickable button to add a field when add field is supplied', async () => {
+    const onAddFieldToNodeClickMock = vi.fn();
+
+    render(<Node {...DEFAULT_PROPS} onAddFieldToNodeClick={onAddFieldToNodeClickMock} />);
+    const button = screen.getByRole('button', { name: 'Add Field' });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('title', 'Add Field');
+    expect(onAddFieldToNodeClickMock).not.toHaveBeenCalled();
+    await userEvent.click(button);
+    expect(onAddFieldToNodeClickMock).toHaveBeenCalled();
   });
 });

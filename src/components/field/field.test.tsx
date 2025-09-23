@@ -1,5 +1,6 @@
 import { palette } from '@leafygreen-ui/palette';
 import { ComponentProps } from 'react';
+import { userEvent } from '@testing-library/user-event';
 
 import { render, screen } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
@@ -12,19 +13,18 @@ const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
   </EditableDiagramInteractionsProvider>
 );
 
-const noop = () => {
-  /* no operation */
+const FieldWithEditableInteractions = ({
+  onAddFieldToObjectFieldClick,
+  ...fieldProps
+}: React.ComponentProps<typeof FieldComponent> & {
+  onAddFieldToObjectFieldClick?: () => void;
+}) => {
+  return (
+    <EditableDiagramInteractionsProvider onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}>
+      <FieldComponent {...fieldProps} />
+    </EditableDiagramInteractionsProvider>
+  );
 };
-
-const FieldWithEditableInteractions = (props: React.ComponentProps<typeof FieldComponent>) => (
-  <EditableDiagramInteractionsProvider
-    onFieldClick={noop}
-    onAddFieldToNodeClick={noop}
-    onAddFieldToObjectFieldClick={noop}
-  >
-    <FieldComponent {...props} />
-  </EditableDiagramInteractionsProvider>
-);
 
 describe('field', () => {
   const DEFAULT_PROPS: ComponentProps<typeof Field> = {
@@ -52,14 +52,34 @@ describe('field', () => {
     expect(button).not.toBeInTheDocument();
   });
   describe('With editable interactions supplied', () => {
-    it('Should have a button to add a field on an object type', () => {
-      render(<FieldWithEditableInteractions {...DEFAULT_PROPS} type={'object'} id={['ordersId']} />);
+    it('Should have a button to add a field on an object type', async () => {
+      const onAddFieldToObjectFieldClickMock = vi.fn();
+
+      render(
+        <FieldWithEditableInteractions
+          {...DEFAULT_PROPS}
+          type={'object'}
+          id={['ordersId']}
+          onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClickMock}
+        />,
+      );
       expect(screen.getByText('ordersId')).toBeInTheDocument();
       expect(screen.getByText('{}')).toBeInTheDocument();
       const button = screen.getByRole('button');
       expect(button).toBeInTheDocument();
       expect(button).toHaveAttribute('data-testid', 'object-field-type-pineapple-ordersId');
       expect(button).toHaveAttribute('title', 'Add Field');
+      expect(onAddFieldToObjectFieldClickMock).not.toHaveBeenCalled();
+      await userEvent.click(button);
+      expect(onAddFieldToObjectFieldClickMock).toHaveBeenCalled();
+    });
+
+    it('Should not have a button to add a field with non-object types', () => {
+      render(<FieldWithEditableInteractions {...DEFAULT_PROPS} id={['ordersId']} />);
+      expect(screen.getByText('ordersId')).toBeInTheDocument();
+      expect(screen.getByText('objectId')).toBeInTheDocument();
+      const button = screen.queryByRole('button');
+      expect(button).not.toBeInTheDocument();
     });
   });
   describe('With glyphs', () => {

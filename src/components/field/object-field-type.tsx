@@ -50,7 +50,7 @@ const AddNestedFieldIconButton = styled.button`
   &[data-hover='true'],
   &:focus-visible,
   &[data-focus='true'] {
-    color: ${props => props.theme.node.fieldIconButtonHover};
+    color: ${palette.black};
 
     &::before {
       background-color: ${props => props.theme.node.fieldIconButtonHoverBackground};

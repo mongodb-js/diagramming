@@ -4,12 +4,12 @@ import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { useTheme } from '@emotion/react';
-import { MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
-import { ObjectFieldType } from '@/components/field/object-field-type';
+import { FieldTypeContent } from '@/components/field/field-type-content';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
@@ -133,38 +133,6 @@ interface Props extends NodeField {
   selectedGroupHeight?: number;
 }
 
-function FieldTypeContent({
-  type,
-  nodeId,
-  id,
-}: {
-  id: string | string[];
-} & Pick<Props, 'type' | 'nodeId'>) {
-  const { onClickAddFieldToObjectField: _onClickAddFieldToObjectField } = useEditableDiagramInteractions();
-
-  const onClickAddFieldToObject = useMemo(
-    () =>
-      _onClickAddFieldToObjectField && Array.isArray(id)
-        ? (event: React.MouseEvent<HTMLButtonElement>) => {
-            event.stopPropagation();
-            _onClickAddFieldToObjectField(event, nodeId, id);
-          }
-        : undefined,
-    [_onClickAddFieldToObjectField, nodeId, id],
-  );
-
-  if (type === 'object' && !!onClickAddFieldToObject) {
-    return (
-      <ObjectFieldType
-        data-testid={`object-field-type-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
-        onClickAddFieldToObject={onClickAddFieldToObject}
-      />
-    );
-  }
-
-  return <>{type}</>;
-}
-
 export const Field = ({
   hoverVariant,
   isHovering = false,
@@ -203,7 +171,7 @@ export const Field = ({
       ? {
           'data-testid': `selectable-field-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`,
           selectable: true,
-          onClick: (event: ReactMouseEvent) => onClickField(event, { id, nodeId }),
+          onClick: (event: React.MouseEvent) => onClickField(event, { id, nodeId }),
         }
       : undefined;
   }, [onClickField, selectable, id, nodeId]);
