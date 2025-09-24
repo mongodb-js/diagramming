@@ -82,6 +82,14 @@ describe('field', () => {
       expect(button).not.toBeInTheDocument();
     });
   });
+  describe('With specific types', () => {
+    it('shows [] with "array"', () => {
+      render(<Field {...DEFAULT_PROPS} type="array" />);
+      expect(screen.getByText('[]')).toBeInTheDocument();
+      expect(screen.queryByText('array')).not.toBeInTheDocument();
+    });
+  });
+
   describe('With glyphs', () => {
     it('With disabled', () => {
       render(<Field {...DEFAULT_PROPS} variant={'disabled'} />);

@@ -119,5 +119,9 @@ export const FieldTypeContent = ({
     );
   }
 
+  if (type === 'array') {
+    return '[]';
+  }
+
   return <>{type}</>;
 };
