@@ -4,6 +4,7 @@ import { ReactFlowProvider } from '@xyflow/react';
 import { InternalNode } from '@/types/internal';
 import { Node } from '@/components/node/node';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
+import { SelectedFieldsProvider } from '@/hooks/use-field-selection';
 
 const INTERNAL_NODE: InternalNode = {
   id: 'orders',
@@ -35,9 +36,11 @@ const nodeStory: Meta<typeof Node> = {
     Story => (
       <ReactFlowProvider>
         <EditableDiagramInteractionsProvider>
-          <div style={{ padding: '100px' }}>
-            <Story />
-          </div>
+          <SelectedFieldsProvider>
+            <div style={{ padding: '100px' }}>
+              <Story />
+            </div>
+          </SelectedFieldsProvider>
         </EditableDiagramInteractionsProvider>
       </ReactFlowProvider>
     ),
@@ -477,51 +480,6 @@ export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
           type: 'string',
           depth: 2,
           variant: 'preview',
-        },
-      ],
-    },
-  },
-};
-
-export const NodeWithSelectedFields: Story = {
-  args: {
-    ...INTERNAL_NODE,
-    data: {
-      title: 'orders',
-      fields: [
-        {
-          name: '_id',
-          type: 'objectid',
-          glyphs: ['key'],
-        },
-        {
-          name: 'customer',
-          type: '{}',
-          selected: true,
-        },
-        {
-          name: 'customerId',
-          type: 'string',
-          depth: 1,
-        },
-        {
-          name: 'addresses',
-          type: '[]',
-          depth: 1,
-        },
-        {
-          name: 'streetName',
-          type: 'string',
-          depth: 2,
-        },
-        {
-          name: 'source',
-          type: 'string',
-        },
-        {
-          name: 'orderedAt',
-          type: 'date',
-          selected: true,
         },
       ],
     },

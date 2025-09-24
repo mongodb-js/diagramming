@@ -13,6 +13,7 @@ import { FieldTypeContent } from '@/components/field/field-type-content';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
+import { useIsFieldSelected } from '@/hooks/use-field-selection';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -138,7 +139,7 @@ export const Field = ({
   isHovering = false,
   name,
   nodeId,
-  id = name,
+  id = [name],
   depth = 0,
   type,
   nodeType,
@@ -148,7 +149,6 @@ export const Field = ({
   glyphSize = LGSpacing[300],
   spacing = 0,
   selectable = false,
-  selected = false,
   variant,
 }: Props) => {
   const { theme } = useDarkMode();
@@ -156,6 +156,8 @@ export const Field = ({
   const { onClickField } = useEditableDiagramInteractions();
 
   const internalTheme = useTheme();
+
+  const isFieldSelected = useIsFieldSelected(nodeId, id);
 
   const isDisabled = variant === 'disabled' && !(hoverVariant === 'default' && isHovering);
 
@@ -169,7 +171,7 @@ export const Field = ({
   const fieldSelectionProps = useMemo(() => {
     return selectable && !!onClickField
       ? {
-          'data-testid': `selectable-field-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`,
+          'data-testid': `selectable-field-${nodeId}-${id.join('.')}`,
           selectable: true,
           onClick: (event: React.MouseEvent) => onClickField(event, { id, nodeId }),
         }
@@ -252,7 +254,7 @@ export const Field = ({
 
   return (
     <FieldWrapper
-      selected={selected}
+      selected={isFieldSelected}
       color={getTextColor()}
       selectableHoverBackgroundColor={getSelectableHoverBackgroundColor()}
       selectedGroupHeight={selectedGroupHeight}

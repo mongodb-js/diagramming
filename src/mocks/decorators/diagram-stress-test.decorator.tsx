@@ -17,45 +17,76 @@ const names = [
   'api_keys',
 ];
 
-export const DiagramStressTestDecorator: Decorator<DiagramProps> = (Story, context) => {
+const types = ['string', 'number', 'boolean', 'date', 'object', 'array'];
+
+let previousWasObject = false;
+let previousDepth = 0;
+function getRandomTypeAndDepth(i: number) {
+  if (i === 0) {
+    previousWasObject = false;
+    previousDepth = 0;
+  }
+  const type = types[Math.floor(Math.random() * types.length)];
+
+  const depth = previousWasObject
+    ? Math.random() > 0.25
+      ? previousDepth + 1
+      : previousDepth
+    : previousDepth > 0 && Math.random() > 0.2
+      ? previousDepth
+      : 0;
+
+  previousWasObject = type === 'object';
+
+  previousDepth = depth || 0;
+
+  return {
+    type,
+    depth,
+  };
+}
+
+const generateNodes = (count: number): NodeProps[] => {
+  return Array.from(Array(count).keys()).map((nodeIndex: number) => ({
+    id: `node_${nodeIndex}`,
+    type: 'table',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    title: names[Math.floor(Math.random() * names.length)],
+    fields: Array.from(Array(1 + (nodeIndex % 9)).keys()).map((fieldIndex: number) => ({
+      name: `${names[Math.floor(Math.random() * names.length)]}-${fieldIndex}`,
+      ...getRandomTypeAndDepth(fieldIndex),
+    })),
+  }));
+};
+
+export const useStressTestNodesAndEdges = (nodeCount: number) => {
   const [nodes, setNodes] = useState<NodeProps[]>([]);
   const [edges, setEdges] = useState<EdgeProps[]>([]);
 
   useEffect(() => {
-    const nodes = generateNodes(100);
-    const edges = generateEdges(nodes);
-
-    applyLayout<NodeProps, EdgeProps>(nodes, edges, 'STAR').then(result => {
-      setNodes(result.nodes);
-      setEdges(result.edges);
-    });
-  }, []);
-
-  const generateEdges = (nodes: NodeProps[]): EdgeProps[] => {
-    return nodes.map(node => ({
+    const nodes = generateNodes(nodeCount);
+    const edges: EdgeProps[] = nodes.map(node => ({
       id: `edge_${node.id}`,
       source: nodes[Math.floor(Math.random() * nodes.length)].id,
       target: nodes[Math.floor(Math.random() * nodes.length)].id,
       markerStart: 'many',
       markerEnd: 'one',
     }));
-  };
 
-  const generateNodes = (count: number): NodeProps[] => {
-    return Array.from(Array(count).keys()).map(i => ({
-      id: `node_${i}`,
-      type: 'table',
-      position: {
-        x: 0,
-        y: 0,
-      },
-      title: names[Math.floor(Math.random() * names.length)],
-      fields: Array.from(Array(1 + (i % 9)).keys()).map(_ => ({
-        name: names[Math.floor(Math.random() * names.length)],
-        type: 'varchar',
-      })),
-    }));
-  };
+    applyLayout<NodeProps, EdgeProps>(nodes, edges, 'STAR').then(result => {
+      setNodes(result.nodes);
+      setEdges(result.edges);
+    });
+  }, [nodeCount]);
+
+  return { nodes, edges };
+};
+
+export const DiagramStressTestDecorator: Decorator<DiagramProps> = (Story, context) => {
+  const { nodes, edges } = useStressTestNodesAndEdges(100);
 
   return Story({
     ...context,

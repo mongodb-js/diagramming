@@ -6,6 +6,7 @@ import { Field } from '@/components/field/field';
 import { NodeField, NodeType } from '@/types';
 import { DEFAULT_PREVIEW_GROUP_AREA, getPreviewGroupArea, getPreviewId } from '@/utilities/get-preview-group-area';
 import { DEFAULT_FIELD_PADDING } from '@/utilities/constants';
+import { useSelectedFieldsInNode } from '@/hooks/use-field-selection';
 import { getSelectedFieldGroupHeight, getSelectedId } from '@/utilities/get-selected-field-group-height';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
@@ -27,9 +28,13 @@ export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
 
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
   const previewGroupArea = useMemo(() => getPreviewGroupArea(fields), [fields]);
+
+  const selectedFieldsInNode = useSelectedFieldsInNode(nodeId);
+
   const selectedGroupHeight = useMemo(() => {
-    return isFieldSelectionEnabled ? getSelectedFieldGroupHeight(fields) : undefined;
-  }, [fields, isFieldSelectionEnabled]);
+    return isFieldSelectionEnabled ? getSelectedFieldGroupHeight(fields, selectedFieldsInNode) : undefined;
+  }, [fields, isFieldSelectionEnabled, selectedFieldsInNode]);
+
   return (
     <NodeFieldWrapper>
       {fields.map(({ name, type: fieldType, ...rest }, i) => (

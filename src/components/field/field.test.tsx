@@ -6,10 +6,13 @@ import { render, screen } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
+import { SelectedFieldsProvider } from '@/hooks/use-field-selection';
 
 const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
   <EditableDiagramInteractionsProvider>
-    <FieldComponent {...props} />
+    <SelectedFieldsProvider>
+      <FieldComponent {...props} />
+    </SelectedFieldsProvider>
   </EditableDiagramInteractionsProvider>
 );
 
