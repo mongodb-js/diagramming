@@ -14,6 +14,8 @@ import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
+import { FieldNameContent } from './field-name-content';
+
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
 
@@ -105,10 +107,6 @@ const FieldName = styled.div`
   ${ellipsisTruncation}
 `;
 
-const InnerFieldName = styled.div`
-  ${ellipsisTruncation}
-`;
-
 const FieldType = styled.div`
   color: ${props => props.color};
   flex: 0 0 ${LGSpacing[200] * 10}px;
@@ -149,11 +147,12 @@ export const Field = ({
   spacing = 0,
   selectable = false,
   selected = false,
+  editable = false,
   variant,
 }: Props) => {
   const { theme } = useDarkMode();
 
-  const { onClickField } = useEditableDiagramInteractions();
+  const { onClickField, onChangeFieldName } = useEditableDiagramInteractions();
 
   const internalTheme = useTheme();
 
@@ -215,7 +214,15 @@ export const Field = ({
     <>
       <FieldName>
         <FieldDepth depth={depth} />
-        <InnerFieldName>{name}</InnerFieldName>
+        <FieldNameContent
+          name={name}
+          isEditable={editable}
+          onChange={
+            onChangeFieldName
+              ? (newName: string) => onChangeFieldName(nodeId, Array.isArray(id) ? id : [id], newName)
+              : undefined
+          }
+        />
       </FieldName>
       <FieldType color={getSecondaryTextColor()}>
         <FieldTypeContent type={type} nodeId={nodeId} id={id} />
