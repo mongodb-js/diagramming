@@ -1,11 +1,17 @@
 import React, { createContext, useContext, useMemo, ReactNode } from 'react';
 
-import { OnFieldClickHandler, OnAddFieldToNodeClickHandler, OnAddFieldToObjectFieldClickHandler } from '@/types';
+import {
+  OnFieldClickHandler,
+  OnAddFieldToNodeClickHandler,
+  OnAddFieldToObjectFieldClickHandler,
+  OnFieldNameChangeHandler,
+} from '@/types';
 
 interface EditableDiagramInteractionsContextType {
   onClickField?: OnFieldClickHandler;
   onClickAddFieldToNode?: OnAddFieldToNodeClickHandler;
   onClickAddFieldToObjectField?: OnAddFieldToObjectFieldClickHandler;
+  onChangeFieldName?: OnFieldNameChangeHandler;
 }
 
 const EditableDiagramInteractionsContext = createContext<EditableDiagramInteractionsContextType | undefined>(undefined);
@@ -15,6 +21,7 @@ interface EditableDiagramInteractionsProviderProps {
   onFieldClick?: OnFieldClickHandler;
   onAddFieldToNodeClick?: OnAddFieldToNodeClickHandler;
   onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
+  onFieldNameChange?: OnFieldNameChangeHandler;
 }
 
 export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramInteractionsProviderProps> = ({
@@ -22,6 +29,7 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
   onFieldClick,
   onAddFieldToNodeClick,
   onAddFieldToObjectFieldClick,
+  onFieldNameChange,
 }) => {
   const value: EditableDiagramInteractionsContextType = useMemo(() => {
     return {
@@ -40,8 +48,13 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
             onClickAddFieldToObjectField: onAddFieldToObjectFieldClick,
           }
         : undefined),
+      ...(onFieldNameChange
+        ? {
+            onChangeFieldName: onFieldNameChange,
+          }
+        : undefined),
     };
-  }, [onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick]);
+  }, [onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick, onFieldNameChange]);
 
   return (
     <EditableDiagramInteractionsContext.Provider value={value}>{children}</EditableDiagramInteractionsContext.Provider>

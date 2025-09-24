@@ -59,6 +59,7 @@ export const Canvas = ({
   id,
   onAddFieldToNodeClick,
   onAddFieldToObjectFieldClick,
+  onFieldNameChange,
   onFieldClick,
   onNodeContextMenu,
   onNodeDrag,
@@ -147,6 +148,7 @@ export const Canvas = ({
       onFieldClick={onFieldClick}
       onAddFieldToNodeClick={onAddFieldToNodeClick}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
+      onFieldNameChange={onFieldNameChange}
     >
       <ReactFlowWrapper>
         <ReactFlow

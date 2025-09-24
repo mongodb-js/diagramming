@@ -49,6 +49,14 @@ function addFieldToNode(existingFields: NodeField[], parentFieldPath: string[]) 
   return fields;
 }
 
+function renameField(existingFields: NodeField[], fieldPath: string[], newName: string) {
+  const fields = existingFields.map(field => {
+    if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
+    return { ...field, name: newName, id: [...fieldPath.slice(0, -1), newName] };
+  });
+  return fields;
+}
+
 let idAccumulator: string[];
 let lastDepth = 0;
 // Used to build a string array id based on field depth.
@@ -164,7 +172,20 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     [],
   );
 
-  return { nodes, onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick };
+  const onFieldNameChange = useCallback((nodeId: string, fieldPath: string[], newName: string) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: renameField(node.fields, fieldPath, newName),
+            }
+          : node,
+      ),
+    );
+  }, []);
+
+  return { nodes, onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick, onFieldNameChange };
 };
 
 export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
