@@ -15,12 +15,17 @@ const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
 
 const FieldWithEditableInteractions = ({
   onAddFieldToObjectFieldClick,
+  onFieldNameChange,
   ...fieldProps
 }: React.ComponentProps<typeof FieldComponent> & {
   onAddFieldToObjectFieldClick?: () => void;
+  onFieldNameChange?: (newName: string) => void;
 }) => {
   return (
-    <EditableDiagramInteractionsProvider onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}>
+    <EditableDiagramInteractionsProvider
+      onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
+      onFieldNameChange={onFieldNameChange}
+    >
       <FieldComponent {...fieldProps} />
     </EditableDiagramInteractionsProvider>
   );
@@ -81,7 +86,63 @@ describe('field', () => {
       const button = screen.queryByRole('button');
       expect(button).not.toBeInTheDocument();
     });
+
+    it('Should allow field name editing an editable field', async () => {
+      const onFieldNameChangeMock = vi.fn();
+
+      const fieldId = ['ordersId'];
+      const newFieldName = 'newFieldName';
+      render(
+        <FieldWithEditableInteractions
+          {...DEFAULT_PROPS}
+          id={fieldId}
+          editable={true}
+          onFieldNameChange={onFieldNameChangeMock}
+        />,
+      );
+      const fieldName = screen.getByText('ordersId');
+      expect(fieldName).toBeInTheDocument();
+      await userEvent.dblClick(fieldName);
+      const input = screen.getByDisplayValue('ordersId');
+      expect(input).toBeInTheDocument();
+      await userEvent.clear(input);
+      await userEvent.type(input, newFieldName);
+      expect(input).toHaveValue(newFieldName);
+      expect(onFieldNameChangeMock).not.toHaveBeenCalled();
+      await userEvent.type(input, '{enter}');
+      expect(onFieldNameChangeMock).toHaveBeenCalledWith(DEFAULT_PROPS.nodeId, fieldId, newFieldName);
+    });
+
+    it('Should not allow field name editing if a field is not editable', async () => {
+      const onFieldNameChangeMock = vi.fn();
+
+      const fieldId = ['ordersId'];
+      render(
+        <FieldWithEditableInteractions
+          {...DEFAULT_PROPS}
+          id={fieldId}
+          editable={false}
+          onFieldNameChange={onFieldNameChangeMock}
+        />,
+      );
+      const fieldName = screen.getByText('ordersId');
+      expect(fieldName).toBeInTheDocument();
+      await userEvent.dblClick(fieldName);
+      expect(screen.queryByDisplayValue('ordersId')).not.toBeUndefined();
+    });
+
+    it('Should not allow editing if there is no callback', async () => {
+      const fieldId = ['ordersId'];
+      render(
+        <FieldWithEditableInteractions {...DEFAULT_PROPS} id={fieldId} editable={true} onFieldNameChange={undefined} />,
+      );
+      const fieldName = screen.getByText('ordersId');
+      expect(fieldName).toBeInTheDocument();
+      await userEvent.dblClick(fieldName);
+      expect(screen.queryByDisplayValue('ordersId')).not.toBeUndefined();
+    });
   });
+
   describe('With specific types', () => {
     it('shows [] with "array"', () => {
       render(<Field {...DEFAULT_PROPS} type="array" />);
