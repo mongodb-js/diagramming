@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
-import IconButton from '@leafygreen-ui/icon-button';
 import { useCallback, useState } from 'react';
 
 import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
@@ -13,6 +12,7 @@ import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
+import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 
 const NodeZoomedOut = styled.div`
   display: flex;
@@ -102,9 +102,9 @@ const NodeWithFields = styled.div<{ visibility: string }>`
   visibility: ${props => props.visibility};
 `;
 
-const AddNewFieldIconButtonButton = styled(IconButton)`
+const AddNewFieldIconButtonButton = styled(DiagramIconButton)`
   margin-left: auto;
-  margin-right: ${spacing[100]}px;
+  margin-right: ${spacing[200]}px;
 `;
 
 export const Node = ({

@@ -164,8 +164,6 @@ export interface DiagramProps {
    */
   onNodeDragStop?: OnNodeDragStopHandler;
 
-  onNodesHaveChanged?: () => void;
-
   /**
    * Callback when a new connection starts (e.g. user begins dragging from a handle).
    */

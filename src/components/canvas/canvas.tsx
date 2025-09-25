@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import {
   Background,
   ConnectionMode,
-  NodeChange,
   ProOptions,
   ReactFlow,
   SelectionMode,
@@ -64,7 +63,6 @@ export const Canvas = ({
   onAddFieldToObjectFieldClick,
   onFieldClick,
   onNodeContextMenu,
-  onNodesHaveChanged,
   onNodeDrag,
   onNodeDragStop,
   onEdgeClick,
@@ -79,14 +77,6 @@ export const Canvas = ({
 
   const [nodes, setNodes, onNodesChange] = useNodesState<InternalNode>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState<InternalEdge>(initialEdges);
-
-  const onNodesChange2 = useCallback(
-    (changes: NodeChange<InternalNode>[]) => {
-      onNodesHaveChanged?.();
-      onNodesChange(changes);
-    },
-    [onNodesChange, onNodesHaveChanged],
-  );
 
   useEffect(() => {
     setNodes(initialNodes);
@@ -175,7 +165,7 @@ export const Canvas = ({
             edges={edges}
             connectionLineComponent={ConnectionLine}
             connectionMode={ConnectionMode.Loose}
-            onNodesChange={onNodesChange2}
+            onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             selectionMode={SelectionMode.Partial}
             nodesDraggable={true}

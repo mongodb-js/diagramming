@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { palette } from '@leafygreen-ui/palette';
 import { ComponentProps } from 'react';
 import { userEvent } from '@testing-library/user-event';
@@ -18,13 +19,26 @@ const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
 
 const FieldWithEditableInteractions = ({
   onAddFieldToObjectFieldClick,
+  onFieldClick,
   ...fieldProps
 }: React.ComponentProps<typeof FieldComponent> & {
   onAddFieldToObjectFieldClick?: () => void;
+  onFieldClick?: (
+    event: React.MouseEvent,
+    params: {
+      id: string[];
+      nodeId: string;
+    },
+  ) => void;
 }) => {
   return (
-    <EditableDiagramInteractionsProvider onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}>
-      <FieldComponent {...fieldProps} />
+    <EditableDiagramInteractionsProvider
+      onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
+      onFieldClick={onFieldClick}
+    >
+      <SelectedFieldsProvider>
+        <FieldComponent {...fieldProps} />
+      </SelectedFieldsProvider>
     </EditableDiagramInteractionsProvider>
   );
 };
@@ -50,7 +64,7 @@ describe('field', () => {
   it('Should not have a button to add a field on an object type', () => {
     render(<Field {...DEFAULT_PROPS} type={'object'} id={['ordersId']} />);
     expect(screen.getByText('ordersId')).toBeInTheDocument();
-    expect(screen.getByText('object')).toBeInTheDocument();
+    expect(screen.getByText('{}')).toBeInTheDocument();
     const button = screen.queryByRole('button');
     expect(button).not.toBeInTheDocument();
   });
@@ -78,11 +92,44 @@ describe('field', () => {
     });
 
     it('Should not have a button to add a field with non-object types', () => {
-      render(<FieldWithEditableInteractions {...DEFAULT_PROPS} id={['ordersId']} />);
+      const onAddFieldToObjectFieldClickMock = vi.fn();
+
+      render(
+        <FieldWithEditableInteractions
+          {...DEFAULT_PROPS}
+          id={['ordersId']}
+          onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClickMock}
+        />,
+      );
       expect(screen.getByText('ordersId')).toBeInTheDocument();
       expect(screen.getByText('objectId')).toBeInTheDocument();
       const button = screen.queryByRole('button');
       expect(button).not.toBeInTheDocument();
+    });
+
+    it('Should call onFieldClick when a selectable field is clicked', async () => {
+      const onFieldClickMock = vi.fn();
+
+      render(<FieldWithEditableInteractions {...DEFAULT_PROPS} onFieldClick={onFieldClickMock} selectable />);
+      const field = screen.getByText('ordersId');
+      expect(field).toBeInTheDocument();
+      expect(onFieldClickMock).not.toHaveBeenCalled();
+      await userEvent.click(field);
+      expect(onFieldClickMock).toHaveBeenCalledWith(expect.any(Object), {
+        id: ['ordersId'],
+        nodeId: 'pineapple',
+      });
+    });
+
+    it('Should not call onFieldClick when a non-selectable field is clicked', async () => {
+      const onFieldClickMock = vi.fn();
+
+      render(<FieldWithEditableInteractions {...DEFAULT_PROPS} onFieldClick={onFieldClickMock} selectable={false} />);
+      const field = screen.getByText('ordersId');
+      expect(field).toBeInTheDocument();
+      expect(onFieldClickMock).not.toHaveBeenCalled();
+      await userEvent.click(field);
+      expect(onFieldClickMock).not.toHaveBeenCalled();
     });
   });
   describe('With specific types', () => {
