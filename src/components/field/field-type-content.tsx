@@ -1,83 +1,15 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { spacing, transitionDuration } from '@leafygreen-ui/tokens';
-import { palette } from '@leafygreen-ui/palette';
 
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
+import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 
 const ObjectTypeContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
   line-height: 20px;
-`;
-
-const AddNestedFieldIconButton = styled.button`
-  background: none;
-  border: none;
-  outline: none;
-  padding: ${spacing[100]}px;
-  margin: 0;
-  margin-left: ${spacing[100]}px;
-  cursor: pointer;
-  color: inherit;
-  display: flex;
-  position: relative;
-  color: ${props => props.theme.node.fieldIconButton};
-
-  &::before {
-    content: '';
-    transition: ${transitionDuration.default}ms all ease-in-out;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 100%;
-    transform: scale(0.8);
-  }
-
-  &:active::before,
-  &:hover::before,
-  &:focus::before,
-  &[data-hover='true']::before,
-  &[data-focus='true']::before {
-    transform: scale(1);
-  }
-
-  &:active,
-  &:hover,
-  &[data-hover='true'],
-  &:focus-visible,
-  &[data-focus='true'] {
-    color: ${palette.black};
-
-    &::before {
-      background-color: ${props => props.theme.node.fieldIconButtonHoverBackground};
-    }
-  }
-
-  // Focus ring styles.
-  &::after {
-    position: absolute;
-    content: '';
-    pointer-events: none;
-    top: 3px;
-    right: 3px;
-    bottom: 3px;
-    left: 3px;
-    border-radius: ${spacing[100]}px;
-    box-shadow: 0 0 0 0 transparent;
-    transition: box-shadow 0.16s ease-in;
-    z-index: 1;
-  }
-  &:focus-visible {
-    &::after {
-      box-shadow: 0 0 0 3px ${palette.blue.light1} !important;
-      transition-timing-function: ease-out;
-    }
-  }
 `;
 
 export const FieldTypeContent = ({
@@ -107,14 +39,14 @@ export const FieldTypeContent = ({
     return (
       <ObjectTypeContainer>
         {'{}'}
-        <AddNestedFieldIconButton
+        <DiagramIconButton
           data-testid={`object-field-type-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
           onClick={onClickAddFieldToObject}
           aria-label="Add new field"
           title="Add Field"
         >
           <PlusWithSquare />
-        </AddNestedFieldIconButton>
+        </DiagramIconButton>
       </ObjectTypeContainer>
     );
   }
