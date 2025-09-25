@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
+import LeafyGreenInlineDefinition from '@leafygreen-ui/inline-definition';
+import { Body } from '@leafygreen-ui/typography';
 
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
@@ -12,6 +14,19 @@ const ObjectTypeContainer = styled.div`
   line-height: 20px;
 `;
 
+const MixedTypeTooltipContentStyles = styled(Body)`
+  overflow-wrap: anywhere;
+  text-wrap: wrap;
+  text-align: left;
+  font-style: normal;
+`;
+
+const InlineDefinition = styled(LeafyGreenInlineDefinition)`
+  font-style: italic;
+  text-decoration-color: inherit;
+  text-underline-offset: 0.25em;
+`;
+
 export const FieldTypeContent = ({
   type,
   nodeId,
@@ -19,7 +34,7 @@ export const FieldTypeContent = ({
 }: {
   id: string | string[];
   nodeId: string;
-  type: React.ReactNode;
+  type?: string | string[];
 }) => {
   const { onClickAddFieldToObjectField: _onClickAddFieldToObjectField } = useEditableDiagramInteractions();
 
@@ -55,6 +70,29 @@ export const FieldTypeContent = ({
 
   if (type === 'array') {
     return '[]';
+  }
+
+  if (Array.isArray(type)) {
+    if (type.length === 0) {
+      return 'unknown';
+    }
+
+    if (type.length === 1) {
+      return <>{type}</>;
+    }
+
+    const typesString = type.join(', ');
+
+    // We show `mixed` with a tooltip when multiple bsonTypes were found.
+    return (
+      <InlineDefinition
+        definition={
+          <MixedTypeTooltipContentStyles>Multiple types found in sample: {typesString}</MixedTypeTooltipContentStyles>
+        }
+      >
+        (mixed)
+      </InlineDefinition>
+    );
   }
 
   return <>{type}</>;
