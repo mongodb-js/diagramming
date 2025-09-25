@@ -82,7 +82,6 @@ export const Canvas = ({
 
   const onNodesChange2 = useCallback(
     (changes: NodeChange<InternalNode>[]) => {
-      console.log('onNodesChange2213', changes);
       onNodesHaveChanged?.();
       onNodesChange(changes);
     },

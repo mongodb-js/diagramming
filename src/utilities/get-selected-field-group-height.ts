@@ -7,7 +7,7 @@ export const getSelectedId = (id: number, name: string) => {
   return `${id}.${name}`;
 };
 
-// Constant for performance optimization.
+// Using a constant lets react know it doesn't need to re-render.
 const NO_SELECTED_FIELDS = {};
 
 /**

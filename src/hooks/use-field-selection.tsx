@@ -34,7 +34,8 @@ export const useIsFieldSelected = (nodeId: string, fieldId: string[]): boolean =
   return isSelected;
 };
 
-const noSelection: string[][] = [];
+// Using a constant lets react know it doesn't need to re-render.
+const NO_SELECTION: string[][] = [];
 export const useSelectedFieldsInNode = (nodeId: string): string[][] => {
   const context = useContext(SelectedFieldsContext);
 
@@ -45,8 +46,7 @@ export const useSelectedFieldsInNode = (nodeId: string): string[][] => {
   const useSelectedFieldsInNode = useMemo(() => {
     const selectedFieldInNode = context.filter(field => field.nodeId === nodeId).map(field => field.fieldId);
     if (selectedFieldInNode.length === 0) {
-      // Performance optimization, return a constant empty array.
-      return noSelection;
+      return NO_SELECTION;
     }
     return selectedFieldInNode;
   }, [context, nodeId]);
