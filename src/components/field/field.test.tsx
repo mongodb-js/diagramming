@@ -96,11 +96,10 @@ describe('field', () => {
 
       // When hovering the (mixed) text, the tooltip content is present in the document.
       await userEvent.hover(screen.getByText('(mixed)'));
-      await screen.findByText('Multiple types found in sample: string, number, array');
+      const tooltipText = 'Multiple types: string, number, array';
+      await screen.findByText(tooltipText);
       await userEvent.unhover(screen.getByText('(mixed)'));
-      await waitFor(() =>
-        expect(screen.queryByText('Multiple types found in sample: string, number, array')).not.toBeInTheDocument(),
-      );
+      await waitFor(() => expect(screen.queryByText(tooltipText)).not.toBeInTheDocument());
     });
 
     it('shows type when a single type in an array is provided', () => {

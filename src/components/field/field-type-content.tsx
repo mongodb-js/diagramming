@@ -83,12 +83,10 @@ export const FieldTypeContent = ({
 
     const typesString = type.join(', ');
 
-    // We show `mixed` with a tooltip when multiple bsonTypes were found.
+    // We show `mixed` with a tooltip when multiple types exist.
     return (
       <InlineDefinition
-        definition={
-          <MixedTypeTooltipContentStyles>Multiple types found in sample: {typesString}</MixedTypeTooltipContentStyles>
-        }
+        definition={<MixedTypeTooltipContentStyles>Multiple types: {typesString}</MixedTypeTooltipContentStyles>}
       >
         (mixed)
       </InlineDefinition>
