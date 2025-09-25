@@ -35,18 +35,20 @@ export const FieldTypeContent = ({
     [_onClickAddFieldToObjectField, nodeId, id],
   );
 
-  if (type === 'object' && !!onClickAddFieldToObject) {
+  if (type === 'object') {
     return (
       <ObjectTypeContainer>
         {'{}'}
-        <DiagramIconButton
-          data-testid={`object-field-type-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
-          onClick={onClickAddFieldToObject}
-          aria-label="Add new field"
-          title="Add Field"
-        >
-          <PlusWithSquare />
-        </DiagramIconButton>
+        {onClickAddFieldToObject && (
+          <DiagramIconButton
+            data-testid={`object-field-type-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
+            onClick={onClickAddFieldToObject}
+            aria-label="Add new field"
+            title="Add Field"
+          >
+            <PlusWithSquare />
+          </DiagramIconButton>
+        )}
       </ObjectTypeContainer>
     );
   }

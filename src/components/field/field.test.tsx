@@ -47,7 +47,7 @@ describe('field', () => {
   it('Should not have a button to add a field on an object type', () => {
     render(<Field {...DEFAULT_PROPS} type={'object'} id={['ordersId']} />);
     expect(screen.getByText('ordersId')).toBeInTheDocument();
-    expect(screen.getByText('object')).toBeInTheDocument();
+    expect(screen.getByText('{}')).toBeInTheDocument();
     const button = screen.queryByRole('button');
     expect(button).not.toBeInTheDocument();
   });
