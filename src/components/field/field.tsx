@@ -4,14 +4,15 @@ import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { useTheme } from '@emotion/react';
-import { MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
+import { FieldTypeContent } from '@/components/field/field-type-content';
 import { NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
-import { useFieldSelection } from '@/hooks/use-field-selection';
+import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -145,7 +146,6 @@ export const Field = ({
   selectedGroupHeight = 0,
   previewGroupArea,
   glyphSize = LGSpacing[300],
-  renderName,
   spacing = 0,
   selectable = false,
   selected = false,
@@ -153,7 +153,7 @@ export const Field = ({
 }: Props) => {
   const { theme } = useDarkMode();
 
-  const { fieldProps } = useFieldSelection();
+  const { onClickField } = useEditableDiagramInteractions();
 
   const internalTheme = useTheme();
 
@@ -167,14 +167,14 @@ export const Field = ({
    * Create the field selection props when the field is selectable.
    */
   const fieldSelectionProps = useMemo(() => {
-    return selectable && fieldProps
+    return selectable && !!onClickField
       ? {
           'data-testid': `selectable-field-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`,
           selectable: true,
-          onClick: (event: ReactMouseEvent) => fieldProps.onClick(event, { id, nodeId }),
+          onClick: (event: React.MouseEvent) => onClickField(event, { id, nodeId }),
         }
       : undefined;
-  }, [fieldProps, selectable, id, nodeId]);
+  }, [onClickField, selectable, id, nodeId]);
 
   const getTextColor = () => {
     if (isDisabled) {
@@ -215,9 +215,11 @@ export const Field = ({
     <>
       <FieldName>
         <FieldDepth depth={depth} />
-        <InnerFieldName>{renderName || name}</InnerFieldName>
+        <InnerFieldName>{name}</InnerFieldName>
       </FieldName>
-      <FieldType color={getSecondaryTextColor()}>{type}</FieldType>
+      <FieldType color={getSecondaryTextColor()}>
+        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
+      </FieldType>
     </>
   );
 

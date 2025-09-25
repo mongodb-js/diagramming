@@ -1,5 +1,6 @@
 import { Theme } from '@emotion/react';
 import { palette } from '@leafygreen-ui/palette';
+import { color } from '@leafygreen-ui/tokens';
 
 import { hexToRgb } from '@/styles/utils';
 
@@ -31,5 +32,7 @@ export const DARK_THEME: Theme = {
     disabledHeader: palette.gray.dark3,
     disabledColor: palette.gray.dark1,
     headerIcon: palette.gray.light2,
+    fieldIconButton: color.dark.icon.primary.default,
+    fieldIconButtonHoverBackground: hexToRgb(palette.gray.light2, 0.1),
   },
 };

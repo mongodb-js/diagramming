@@ -3,13 +3,16 @@ import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
+import { PlusWithSquare } from '@/components/icons/plus-with-square';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
+import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
+import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 
 const NodeZoomedOut = styled.div`
   display: flex;
@@ -99,17 +102,32 @@ const NodeWithFields = styled.div<{ visibility: string }>`
   visibility: ${props => props.visibility};
 `;
 
+const AddNewFieldIconButtonButton = styled(DiagramIconButton)`
+  margin-left: auto;
+  margin-right: ${spacing[200]}px;
+`;
+
 export const Node = ({
   id,
   type,
   selected,
   isConnectable,
-  data: { actions, title, fields, borderVariant, disabled },
+  data: { title, fields, borderVariant, disabled },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
 
   const [isHovering, setHovering] = useState(false);
+
+  const { onClickAddFieldToNode: addFieldToNodeClickHandler } = useEditableDiagramInteractions();
+
+  const onClickAddFieldToNode = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      addFieldToNodeClickHandler?.(event, id);
+    },
+    [addFieldToNodeClickHandler, id],
+  );
 
   const getAccent = () => {
     if (disabled && !isHovering) {
@@ -185,7 +203,11 @@ export const Node = ({
                 <Icon fill={theme.node.headerIcon} glyph="Drag" />
               </NodeHeaderIcon>
               <NodeHeaderTitle>{title}</NodeHeaderTitle>
-              {actions}
+              {addFieldToNodeClickHandler && (
+                <AddNewFieldIconButtonButton aria-label="Add Field" onClick={onClickAddFieldToNode} title="Add Field">
+                  <PlusWithSquare />
+                </AddNewFieldIconButtonButton>
+              )}
             </NodeHeader>
             <FieldList nodeId={id} nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
           </NodeWithFields>

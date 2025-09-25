@@ -74,7 +74,6 @@ describe('convert-nodes', () => {
     it('Should convert node props to internal node', () => {
       const node = {
         id: 'node-1',
-        actions: 'pineapple',
         type: 'table' as const,
         position: { x: 100, y: 200 },
         title: 'some-title',
@@ -88,7 +87,6 @@ describe('convert-nodes', () => {
         position: { x: 100, y: 200 },
         connectable: false,
         data: {
-          actions: 'pineapple',
           title: 'some-title',
           fields: [],
           borderVariant: undefined,
@@ -191,7 +189,7 @@ describe('convert-nodes', () => {
           data: {
             fields: [
               { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
-              { name: 'employeeDetail', type: '{}' },
+              { name: 'employeeDetail', type: 'object' },
               { name: 'firstName', type: 'string', depth: 1 },
               { name: 'lastName', type: 'string', depth: 1 },
             ],

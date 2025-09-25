@@ -3,7 +3,7 @@ import { ReactFlowProvider } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
 import { Node } from '@/components/node/node';
-import { FieldSelectionProvider } from '@/hooks/use-field-selection';
+import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
 const INTERNAL_NODE: InternalNode = {
   id: 'orders',
@@ -34,11 +34,11 @@ const nodeStory: Meta<typeof Node> = {
   decorators: [
     Story => (
       <ReactFlowProvider>
-        <FieldSelectionProvider>
+        <EditableDiagramInteractionsProvider>
           <div style={{ padding: '100px' }}>
             <Story />
           </div>
-        </FieldSelectionProvider>
+        </EditableDiagramInteractionsProvider>
       </ReactFlowProvider>
     ),
   ],
@@ -238,33 +238,6 @@ export const NodeWithCustomTypeField: Story = {
               <strong>custom type display</strong>
             </span>
           ),
-          variant: 'default',
-          glyphs: ['key'],
-        },
-      ],
-    },
-  },
-};
-
-export const NodeWithCustomFieldNameRender: Story = {
-  args: {
-    ...INTERNAL_NODE,
-    data: {
-      title: 'orders',
-      fields: [
-        {
-          name: 'customerId',
-          renderName: (
-            <div style={{ background: 'orange', width: '100%' }}>
-              <input
-                type="text"
-                onSubmit={e => e.preventDefault()}
-                defaultValue="Custom name"
-                style={{ marginLeft: 5, marginRight: 5, width: '90px' }}
-              />
-            </div>
-          ),
-          type: 'string',
           variant: 'default',
           glyphs: ['key'],
         },
@@ -506,23 +479,6 @@ export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
           variant: 'preview',
         },
       ],
-    },
-  },
-};
-
-export const NodeWithAction: Story = {
-  args: {
-    ...INTERNAL_NODE,
-    data: {
-      title: 'orders',
-      fields: [
-        {
-          name: 'orderId',
-          type: 'string',
-          glyphs: ['key'],
-        },
-      ],
-      actions: <button style={{ marginLeft: 'auto' }}>Action</button>,
     },
   },
 };

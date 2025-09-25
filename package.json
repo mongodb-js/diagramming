@@ -73,6 +73,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.6.1",
     "@types/d3-path": "^3",
     "@types/jest": "30.0.0",
     "@types/node": "22.15.29",

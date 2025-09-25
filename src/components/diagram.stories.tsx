@@ -5,7 +5,7 @@ import { EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/
 import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
 import { DiagramStressTestDecorator } from '@/mocks/decorators/diagram-stress-test.decorator';
 import { DiagramConnectableDecorator } from '@/mocks/decorators/diagram-connectable.decorator';
-import { DiagramSelectableFieldsDecorator } from '@/mocks/decorators/diagram-selectable-fields.decorator';
+import { DiagramEditableInteractionsDecorator } from '@/mocks/decorators/diagram-editable-interactions.decorator';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
@@ -51,8 +51,8 @@ function idFromDepthAccumulator(name: string, depth?: number) {
   lastDepth = depth ?? 0;
   return [...idAccumulator];
 }
-export const DiagramWithSelectableFields: Story = {
-  decorators: [DiagramSelectableFieldsDecorator],
+export const DiagramWithEditInteractions: Story = {
+  decorators: [DiagramEditableInteractionsDecorator],
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
