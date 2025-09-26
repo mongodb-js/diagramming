@@ -4,7 +4,7 @@ import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { useTheme } from '@emotion/react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
@@ -210,6 +210,11 @@ export const Field = ({
     return internalTheme.node.mongoDBAccent;
   };
 
+  const handleNameChange = useCallback(
+    (newName: string) => onChangeFieldName?.(nodeId, Array.isArray(id) ? id : [id], newName),
+    [onChangeFieldName, id, nodeId],
+  );
+
   const content = (
     <>
       <FieldName>
@@ -217,11 +222,7 @@ export const Field = ({
         <FieldNameContent
           name={name}
           isEditable={editable}
-          onChange={
-            onChangeFieldName
-              ? (newName: string) => onChangeFieldName(nodeId, Array.isArray(id) ? id : [id], newName)
-              : undefined
-          }
+          onChange={onChangeFieldName ? handleNameChange : undefined}
         />
       </FieldName>
       <FieldType color={getSecondaryTextColor()}>
