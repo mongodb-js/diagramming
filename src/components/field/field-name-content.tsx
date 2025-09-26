@@ -1,5 +1,5 @@
 import { styled } from 'storybook/internal/theming';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
@@ -28,14 +28,25 @@ interface FieldNameProps {
 export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(name);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = useCallback(() => {
     setIsEditing(false);
     onChange?.(value);
   }, [value, onChange]);
 
+  useEffect(() => {
+    if (isEditing) {
+      setTimeout(() => {
+        textareaRef.current?.focus();
+        textareaRef.current?.select();
+      });
+    }
+  }, [isEditing]);
+
   return isEditing ? (
     <InlineTextarea
+      ref={textareaRef}
       value={value}
       onChange={e => {
         setValue(e.target.value);
@@ -45,6 +56,7 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
         if (e.key === 'Enter') handleSubmit();
         if (e.key === 'Escape') setIsEditing(false);
       }}
+      title="Edit field name"
     />
   ) : (
     <InnerFieldName
