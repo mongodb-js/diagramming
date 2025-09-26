@@ -225,7 +225,7 @@ export const DisabledWithHoverVariant: Story = {
   },
 };
 
-export const NodeWithCustomTypeField: Story = {
+export const NodeWithMultipleTypesField: Story = {
   args: {
     ...INTERNAL_NODE,
     data: {
@@ -233,13 +233,13 @@ export const NodeWithCustomTypeField: Story = {
       fields: [
         {
           name: 'customerId',
-          type: (
-            <span>
-              <strong>custom type display</strong>
-            </span>
-          ),
+          type: ['string', 'number'],
           variant: 'default',
           glyphs: ['key'],
+        },
+        {
+          name: 'customerId',
+          type: ['string', 'number', 'objectId', 'array', 'date', 'boolean', 'null', 'decimal', 'object', 'regex'],
         },
       ],
     },

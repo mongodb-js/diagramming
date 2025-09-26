@@ -2,7 +2,7 @@ import { palette } from '@leafygreen-ui/palette';
 import { ComponentProps } from 'react';
 import { userEvent } from '@testing-library/user-event';
 
-import { render, screen } from '@/mocks/testing-utils';
+import { render, screen, waitFor } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
@@ -87,6 +87,31 @@ describe('field', () => {
       render(<Field {...DEFAULT_PROPS} type="array" />);
       expect(screen.getByText('[]')).toBeInTheDocument();
       expect(screen.queryByText('array')).not.toBeInTheDocument();
+    });
+
+    it('shows (mixed) with multiple types with a tooltip with more info', async () => {
+      render(<Field {...DEFAULT_PROPS} type={['string', 'number', 'array']} />);
+      expect(screen.getByText('(mixed)')).toBeInTheDocument();
+      expect(screen.queryByText('string')).not.toBeInTheDocument();
+
+      // When hovering the (mixed) text, the tooltip content is present in the document.
+      await userEvent.hover(screen.getByText('(mixed)'));
+      const tooltipText = 'Multiple types: string, number, array';
+      await screen.findByText(tooltipText);
+      await userEvent.unhover(screen.getByText('(mixed)'));
+      await waitFor(() => expect(screen.queryByText(tooltipText)).not.toBeInTheDocument());
+    });
+
+    it('shows type when a single type in an array is provided', () => {
+      render(<Field {...DEFAULT_PROPS} type={['string']} />);
+      expect(screen.getByText('string')).toBeInTheDocument();
+      expect(screen.queryByText('(mixed)')).not.toBeInTheDocument();
+    });
+
+    it('shows unknown when an empty array type is provided', () => {
+      render(<Field {...DEFAULT_PROPS} type={[]} />);
+      expect(screen.getByText('unknown')).toBeInTheDocument();
+      expect(screen.queryByText('(mixed)')).not.toBeInTheDocument();
     });
   });
 
