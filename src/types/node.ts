@@ -53,8 +53,6 @@ export interface Measured {
   height?: number;
 }
 
-export type FieldId = string | string[];
-
 export interface NodeProps {
   /**
    * Unique identifier for the node.
@@ -145,9 +143,9 @@ export interface NodeField {
 
   /**
    * Unique identifier for the field. Passed in field click events.
-   * Defaults to `name` when not supplied.
+   * Defaults to [`name`] when not supplied.
    */
-  id?: FieldId;
+  id?: string[];
 
   /**
    * The type of the field, for example "objectId".
@@ -183,9 +181,4 @@ export interface NodeField {
    * Indicates if the field can be selected.
    */
   selectable?: boolean;
-
-  /**
-   * Indicates if the field is currently selected.
-   */
-  selected?: boolean;
 }

@@ -6,6 +6,7 @@ import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
 import { Node as NodeComponent } from '@/components/node/node';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
+import { SelectedFieldsProvider } from '@/hooks/use-field-selection';
 
 const Node = ({
   onAddFieldToNodeClick,
@@ -14,7 +15,9 @@ const Node = ({
   onAddFieldToNodeClick?: () => void;
 }) => (
   <EditableDiagramInteractionsProvider onAddFieldToNodeClick={onAddFieldToNodeClick}>
-    <NodeComponent {...props} />
+    <SelectedFieldsProvider>
+      <NodeComponent {...props} />
+    </SelectedFieldsProvider>
   </EditableDiagramInteractionsProvider>
 );
 

@@ -22,6 +22,7 @@ import { ConnectionLine } from '@/components/line/connection-line';
 import { convertToExternalNode, convertToExternalNodes, convertToInternalNodes } from '@/utilities/convert-nodes';
 import { convertToExternalEdge, convertToExternalEdges, convertToInternalEdges } from '@/utilities/convert-edges';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
+import { SelectedFieldsProvider } from '@/hooks/use-field-selection';
 
 const MAX_ZOOM = 3;
 const MIN_ZOOM = 0.1;
@@ -55,6 +56,7 @@ export const Canvas = ({
   title,
   nodes: externalNodes,
   edges: externalEdges,
+  selectedFields,
   onConnect,
   id,
   onAddFieldToNodeClick,
@@ -148,41 +150,43 @@ export const Canvas = ({
       onAddFieldToNodeClick={onAddFieldToNodeClick}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
     >
-      <ReactFlowWrapper>
-        <ReactFlow
-          id={id}
-          deleteKeyCode={null}
-          proOptions={PRO_OPTIONS}
-          maxZoom={MAX_ZOOM}
-          minZoom={MIN_ZOOM}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          nodes={nodes}
-          onlyRenderVisibleElements={true}
-          edges={edges}
-          connectionLineComponent={ConnectionLine}
-          connectionMode={ConnectionMode.Loose}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          selectionMode={SelectionMode.Partial}
-          nodesDraggable={true}
-          onConnect={onConnect}
-          onNodeContextMenu={_onNodeContextMenu}
-          onNodeDrag={_onNodeDrag}
-          onNodeDragStop={_onNodeDragStop}
-          onSelectionDragStop={_onSelectionDragStop}
-          onEdgeClick={_onEdgeClick}
-          onNodeClick={_onNodeClick}
-          onSelectionContextMenu={_onSelectionContextMenu}
-          onSelectionChange={_onSelectionChange}
-          {...rest}
-        >
-          <MarkerList />
-          <Background id={id} />
-          <Controls title={title} />
-          <MiniMap />
-        </ReactFlow>
-      </ReactFlowWrapper>
+      <SelectedFieldsProvider selectedFields={selectedFields}>
+        <ReactFlowWrapper>
+          <ReactFlow
+            id={id}
+            deleteKeyCode={null}
+            proOptions={PRO_OPTIONS}
+            maxZoom={MAX_ZOOM}
+            minZoom={MIN_ZOOM}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            nodes={nodes}
+            onlyRenderVisibleElements={true}
+            edges={edges}
+            connectionLineComponent={ConnectionLine}
+            connectionMode={ConnectionMode.Loose}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            selectionMode={SelectionMode.Partial}
+            nodesDraggable={true}
+            onConnect={onConnect}
+            onNodeContextMenu={_onNodeContextMenu}
+            onNodeDrag={_onNodeDrag}
+            onNodeDragStop={_onNodeDragStop}
+            onSelectionDragStop={_onSelectionDragStop}
+            onEdgeClick={_onEdgeClick}
+            onNodeClick={_onNodeClick}
+            onSelectionContextMenu={_onSelectionContextMenu}
+            onSelectionChange={_onSelectionChange}
+            {...rest}
+          >
+            <MarkerList />
+            <Background id={id} />
+            <Controls title={title} />
+            <MiniMap />
+          </ReactFlow>
+        </ReactFlowWrapper>
+      </SelectedFieldsProvider>
     </EditableDiagramInteractionsProvider>
   );
 };

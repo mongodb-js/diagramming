@@ -6,6 +6,7 @@ import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/d
 import { DiagramStressTestDecorator } from '@/mocks/decorators/diagram-stress-test.decorator';
 import { DiagramConnectableDecorator } from '@/mocks/decorators/diagram-connectable.decorator';
 import { DiagramEditableInteractionsDecorator } from '@/mocks/decorators/diagram-editable-interactions.decorator';
+import { DiagramEditableStressTestDecorator } from '@/mocks/decorators/diagram-editable-stress-test.decorator';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
@@ -34,56 +35,28 @@ export const DiagramWithConnectableNodes: Story = {
   },
 };
 
-let idAccumulator: string[];
-let lastDepth = 0;
-// Used to build a string array id based on field depth.
-function idFromDepthAccumulator(name: string, depth?: number) {
-  if (!depth) {
-    idAccumulator = [name];
-  } else if (depth > lastDepth) {
-    idAccumulator.push(name);
-  } else if (depth === lastDepth) {
-    idAccumulator[idAccumulator.length - 1] = name;
-  } else {
-    idAccumulator = idAccumulator.slice(0, depth);
-    idAccumulator[depth] = name;
-  }
-  lastDepth = depth ?? 0;
-  return [...idAccumulator];
-}
 export const DiagramWithEditInteractions: Story = {
   decorators: [DiagramEditableInteractionsDecorator],
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
     edges: [],
-    nodes: [
-      {
-        ...ORDERS_NODE,
-        fields: [
-          ...ORDERS_NODE.fields.map(field => ({
-            ...field,
-            id: idFromDepthAccumulator(field.name, field.depth),
-            selectable: true,
-          })),
-        ],
-      },
-      {
-        ...EMPLOYEES_NODE,
-        fields: [
-          ...EMPLOYEES_NODE.fields.map(field => ({
-            ...field,
-            id: idFromDepthAccumulator(field.name, field.depth),
-            selectable: true,
-          })),
-        ],
-      },
-    ],
+    nodes: [ORDERS_NODE, EMPLOYEES_NODE],
   },
 };
 
 export const DiagramStressTest: Story = {
   decorators: [DiagramStressTestDecorator],
+  args: {
+    title: 'MongoDB Diagram',
+    isDarkMode: true,
+    edges: [],
+    nodes: [],
+  },
+};
+
+export const DiagramEditableStressTest: Story = {
+  decorators: [DiagramEditableStressTestDecorator],
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
