@@ -54,7 +54,6 @@ function renameField(existingFields: NodeField[], fieldPath: string[], newName: 
     if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
     return { ...field, name: newName, id: [...fieldPath.slice(0, -1), newName] };
   });
-  console.log('Renamed fields:', fields);
   return fields;
 }
 
