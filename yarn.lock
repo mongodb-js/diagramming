@@ -5133,14 +5133,14 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-storybook@npm:^9.1.1":
-  version: 9.1.5
-  resolution: "eslint-plugin-storybook@npm:9.1.5"
+  version: 9.1.8
+  resolution: "eslint-plugin-storybook@npm:9.1.8"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.8.1"
   peerDependencies:
     eslint: ">=8"
-    storybook: ^9.1.5
-  checksum: 10c0/aa8f0a3a7b4d8e90c958889603351ca62837af13f8ac596c643a47f7197d586f93a8d9525d1e11b449d7579dc1de5315fdb8f97c0d6a18eac81fdb4e815961df
+    storybook: ^9.1.8
+  checksum: 10c0/625822966707d51d8f25f27bc3217868578de1d8117468b1a082f81864688c88bc669ad4a70231810a406db96441c05f4244cd57b1ad2cfe8b397853a3c7e303
   languageName: node
   linkType: hard
 
