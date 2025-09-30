@@ -49,6 +49,14 @@ function addFieldToNode(existingFields: NodeField[], parentFieldPath: string[]) 
   return fields;
 }
 
+function renameField(existingFields: NodeField[], fieldPath: string[], newName: string) {
+  const fields = existingFields.map(field => {
+    if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
+    return { ...field, name: newName, id: [...fieldPath.slice(0, -1), newName] };
+  });
+  return fields;
+}
+
 export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
   const [nodes, setNodes] = useState<NodeProps[]>(context.args.nodes);
 
@@ -107,6 +115,19 @@ export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (St
     [],
   );
 
+  const onFieldNameChange = useCallback((nodeId: string, fieldPath: string[], newName: string) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: renameField(node.fields, fieldPath, newName),
+            }
+          : node,
+      ),
+    );
+  }, []);
+
   return Story({
     ...context,
     args: {
@@ -115,6 +136,7 @@ export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (St
       onFieldClick,
       onAddFieldToNodeClick,
       onAddFieldToObjectFieldClick,
+      onFieldNameChange,
     },
   });
 };

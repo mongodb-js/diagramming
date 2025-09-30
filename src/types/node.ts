@@ -188,4 +188,9 @@ export interface NodeField {
    * Indicates if the field is currently selected.
    */
   selected?: boolean;
+
+  /**
+   * Indicates if the field is editable (name and type can be changed).
+   */
+  editable?: boolean;
 }
