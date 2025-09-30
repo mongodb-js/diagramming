@@ -5,10 +5,12 @@ import { ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 
 const InnerFieldName = styled.div`
+  width: 100%;
+  min-height: ${DEFAULT_FIELD_HEIGHT}px;
   ${ellipsisTruncation}
 `;
 
-const InlineTextarea = styled.textarea`
+const InlineInput = styled.input`
   border: none;
   background: none;
   height: ${DEFAULT_FIELD_HEIGHT}px;
@@ -28,7 +30,7 @@ interface FieldNameProps {
 export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(name);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = useCallback(() => {
     setIsEditing(false);
@@ -38,15 +40,16 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
   useEffect(() => {
     if (isEditing) {
       setTimeout(() => {
-        textareaRef.current?.focus();
-        textareaRef.current?.select();
+        textInputRef.current?.focus();
+        textInputRef.current?.select();
       });
     }
   }, [isEditing]);
 
   return isEditing ? (
-    <InlineTextarea
-      ref={textareaRef}
+    <InlineInput
+      type="text"
+      ref={textInputRef}
       value={value}
       onChange={e => {
         setValue(e.target.value);
