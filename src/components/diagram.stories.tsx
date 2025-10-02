@@ -6,6 +6,7 @@ import { EMPLOYEES_TO_EMPLOYEES_EDGE, ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/d
 import { DiagramStressTestDecorator } from '@/mocks/decorators/diagram-stress-test.decorator';
 import { DiagramConnectableDecorator } from '@/mocks/decorators/diagram-connectable.decorator';
 import { DiagramEditableInteractionsDecorator } from '@/mocks/decorators/diagram-editable-interactions.decorator';
+import { DiagramEditableStressTestDecorator } from '@/mocks/decorators/diagram-editable-stress-test.decorator';
 
 const diagram: Meta<typeof Diagram> = {
   title: 'Diagram',
@@ -84,6 +85,16 @@ export const DiagramWithEditInteractions: Story = {
 
 export const DiagramStressTest: Story = {
   decorators: [DiagramStressTestDecorator],
+  args: {
+    title: 'MongoDB Diagram',
+    isDarkMode: true,
+    edges: [],
+    nodes: [],
+  },
+};
+
+export const DiagramEditableStressTest: Story = {
+  decorators: [DiagramEditableStressTestDecorator],
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,

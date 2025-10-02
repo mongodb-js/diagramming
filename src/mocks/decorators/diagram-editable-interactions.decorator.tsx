@@ -1,4 +1,4 @@
-import { useCallback, useState, MouseEvent as ReactMouseEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from 'react';
 import { Decorator } from '@storybook/react';
 
 import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
@@ -49,8 +49,51 @@ function addFieldToNode(existingFields: NodeField[], parentFieldPath: string[]) 
   return fields;
 }
 
-export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
-  const [nodes, setNodes] = useState<NodeProps[]>(context.args.nodes);
+let idAccumulator: string[];
+let lastDepth = 0;
+// Used to build a string array id based on field depth.
+function idFromDepthAccumulator(name: string, depth?: number) {
+  if (!depth) {
+    idAccumulator = [name];
+  } else if (depth > lastDepth) {
+    idAccumulator.push(name);
+  } else if (depth === lastDepth) {
+    idAccumulator[idAccumulator.length - 1] = name;
+  } else {
+    idAccumulator = idAccumulator.slice(0, depth);
+    idAccumulator[depth] = name;
+  }
+  lastDepth = depth ?? 0;
+  return [...idAccumulator];
+}
+function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
+  return nodes.map(node => ({
+    ...node,
+    type: 'collection',
+    fields: node.fields.map(field => ({
+      ...field,
+      selectable: true,
+      id: idFromDepthAccumulator(field.name, field.depth),
+    })),
+  }));
+}
+
+export const useEditableNodes = (initialNodes: NodeProps[]) => {
+  const [nodes, setNodes] = useState<NodeProps[]>([]);
+
+  const hasInitialized = useRef(false);
+  useEffect(() => {
+    if (hasInitialized.current) {
+      return;
+    }
+
+    if (!initialNodes || initialNodes.length === 0) {
+      return;
+    }
+
+    hasInitialized.current = true;
+    setNodes(editableNodesFromNodes(initialNodes));
+  }, [initialNodes]);
 
   const onFieldClick = useCallback(
     (
@@ -61,18 +104,32 @@ export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (St
       },
     ) => {
       setNodes(nodes =>
-        nodes.map(node => ({
-          ...node,
-          fields: node.fields.map(field => ({
-            ...field,
-            selected:
+        nodes.map(node => {
+          let nodeFieldDidChange = false;
+          const fields = node.fields.map(field => {
+            const selected =
               params.nodeId === node.id &&
               !!field.id &&
               typeof field.id !== 'string' &&
               typeof params.id !== 'string' &&
-              stringArrayCompare(params.id, field.id),
-          })),
-        })),
+              stringArrayCompare(params.id, field.id);
+            if (field.selected !== selected) {
+              nodeFieldDidChange = true;
+            }
+            return {
+              ...field,
+              selected,
+            };
+          });
+
+          if (!nodeFieldDidChange) {
+            return node;
+          }
+          return {
+            ...node,
+            fields,
+          };
+        }),
       );
     },
     [],
@@ -107,14 +164,17 @@ export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (St
     [],
   );
 
+  return { nodes, onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick };
+};
+
+export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
+  const editableArgs = useEditableNodes(context.args.nodes || []);
+
   return Story({
     ...context,
     args: {
       ...context.args,
-      nodes,
-      onFieldClick,
-      onAddFieldToNodeClick,
-      onAddFieldToObjectFieldClick,
+      ...editableArgs,
     },
   });
 };
