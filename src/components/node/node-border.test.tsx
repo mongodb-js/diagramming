@@ -16,7 +16,9 @@ describe('node-border', () => {
   it('Should have animated preview border', () => {
     renderComponent({ variant: 'preview' });
     const result = screen.getByText('child');
-    expect(getComputedStyle(result).animation).not.toBeEmpty();
+    const animationValue = getComputedStyle(result).animation;
+    expect(animationValue).toBeTruthy();
+    expect(animationValue).not.toBe('none');
   });
 
   it('Should have subtle border', () => {

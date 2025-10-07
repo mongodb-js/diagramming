@@ -46,14 +46,16 @@ export const NodeBorder = ({ children, variant }: PropsWithChildren<Props>) => {
   if (variant === 'preview') {
     return (
       <Border>
-        <AnimatedBorder>{children}</AnimatedBorder>
+        <AnimatedBorder data-testid="node-border">{children}</AnimatedBorder>
       </Border>
     );
   }
 
   return (
     <Border>
-      <BasicBorder outlineBorderColor={getBasicBorderColor()}>{children}</BasicBorder>
+      <BasicBorder data-testid="node-border" outlineBorderColor={getBasicBorderColor()}>
+        {children}
+      </BasicBorder>
     </Border>
   );
 };

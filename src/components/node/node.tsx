@@ -138,6 +138,13 @@ export const Node = ({
     return theme.node.mongoDBAccent;
   };
 
+  const getBorderVariant = () => {
+    if (borderVariant) {
+      return borderVariant;
+    }
+    return selected ? 'selected' : undefined;
+  };
+
   const getHeaderBackground = () => {
     if (disabled && !isHovering) {
       return theme.node.disabledHeader;
@@ -176,7 +183,7 @@ export const Node = ({
 
   return (
     <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <NodeBorder variant={selected ? 'selected' : borderVariant}>
+      <NodeBorder variant={getBorderVariant()}>
         <NodeHandle
           id="source"
           position={Position.Right}
