@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { NodeProps, useViewport } from '@xyflow/react';
 import { userEvent } from '@testing-library/user-event';
+import { palette } from '@leafygreen-ui/palette';
 
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
@@ -103,5 +104,12 @@ describe('node', () => {
     expect(onAddFieldToNodeClickMock).not.toHaveBeenCalled();
     await userEvent.click(button);
     expect(onAddFieldToNodeClickMock).toHaveBeenCalled();
+  });
+
+  it('Should prioritise borderVariant over selected prop when setting the border', () => {
+    render(
+      <Node {...DEFAULT_PROPS} selected type="collection" data={{ ...DEFAULT_PROPS.data, borderVariant: 'subtle' }} />,
+    );
+    expect(getComputedStyle(screen.getByTestId('node-border')).outline).toEqual(`2px solid ${palette.gray.base}`);
   });
 });
