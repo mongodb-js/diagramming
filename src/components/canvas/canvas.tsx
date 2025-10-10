@@ -17,6 +17,7 @@ import { Node } from '@/components/node/node';
 import { InternalEdge, InternalNode } from '@/types/internal';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
+import { FieldEdge } from '@/components/edge/field-edge';
 import { MarkerList } from '@/components/markers/marker-list';
 import { ConnectionLine } from '@/components/line/connection-line';
 import { convertToExternalNode, convertToExternalNodes, convertToInternalNodes } from '@/utilities/convert-nodes';
@@ -48,6 +49,7 @@ const nodeTypes = {
 
 const edgeTypes = {
   floatingEdge: FloatingEdge,
+  fieldEdge: FieldEdge,
   selfReferencingEdge: SelfReferencingEdge,
 };
 

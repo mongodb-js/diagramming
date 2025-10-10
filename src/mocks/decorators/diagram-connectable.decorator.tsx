@@ -3,7 +3,7 @@ import { Connection } from '@xyflow/react';
 import { Decorator } from '@storybook/react';
 
 import { DiagramProps, EdgeProps } from '@/types';
-import { ORDERS_TO_EMPLOYEES_EDGE } from '@/mocks/datasets/edges';
+import { EMPLOYEES_TO_ORDERS_EDGE } from '@/mocks/datasets/edges';
 
 export const DiagramConnectableDecorator: Decorator<DiagramProps> = (Story, context) => {
   const [edges, setEdges] = useState<EdgeProps[]>(context.args.edges);
@@ -11,7 +11,7 @@ export const DiagramConnectableDecorator: Decorator<DiagramProps> = (Story, cont
     setEdges([
       ...edges.filter(edge => edge.source === connection.source && edge.source === connection.target),
       {
-        ...ORDERS_TO_EMPLOYEES_EDGE,
+        ...EMPLOYEES_TO_ORDERS_EDGE,
         source: connection.source,
         target: connection.target,
         animated: true,
@@ -21,7 +21,7 @@ export const DiagramConnectableDecorator: Decorator<DiagramProps> = (Story, cont
   };
 
   const onPaneClick = () => {
-    setEdges(edges.filter(edge => edge.id !== ORDERS_TO_EMPLOYEES_EDGE.id));
+    setEdges(edges.filter(edge => edge.id !== EMPLOYEES_TO_ORDERS_EDGE.id));
   };
 
   return Story({

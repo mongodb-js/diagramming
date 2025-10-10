@@ -1,9 +1,9 @@
 import { Position, XYPosition } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
-import { DEFAULT_MARKER_SIZE } from '@/utilities/constants';
+import { DEFAULT_FIELD_HEIGHT, DEFAULT_MARKER_SIZE, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
-import { getNodeHeight, getNodeWidth } from './node-dimensions';
+import { getFieldYPosition, getNodeHeight, getNodeWidth } from './node-dimensions';
 
 /**
  * Returns the coordinates where a line connecting the centers of the source and target nodes intersects
@@ -33,6 +33,43 @@ const getNodeIntersection = (intersectionNode: InternalNode, targetNode: Interna
   const yy3 = a * yy1;
   const x = w * (xx3 + yy3) + x2;
   const y = h * (-xx3 + yy3) + y2;
+
+  return { x, y };
+};
+
+/**
+ * Returns the coordinates where the edge should connect to a specific field
+ * (on the left or right side of the node)
+ *
+ * @param intersectionNode The source node
+ * @param targetNode The target node
+ * @param intersectionFieldIndex The index of the field on the source node
+ */
+const getNodeIntersectionAtField = (
+  intersectionNode: InternalNode,
+  targetNode: InternalNode,
+  intersectionFieldIndex: number,
+): XYPosition => {
+  const intersectionNodeWidth = getNodeWidth(intersectionNode);
+  const intersectionNodeHeight = getNodeHeight(intersectionNode);
+
+  // horizontally, the edge intersects either on the right or the left edge of the node
+  const positionDiff = intersectionNode.position.x - targetNode.position.x;
+  const w =
+    // if the nodes are close enough, we connect the same sides
+    Math.abs(positionDiff) < DEFAULT_NODE_WIDTH / 2
+      ? intersectionNodeWidth
+      : // otherwise we connect the sides facing each other
+        positionDiff < 0
+        ? intersectionNodeWidth
+        : 0;
+
+  // vertical intersection is calculated based on the field index
+  const h = intersectionNodeHeight ? getFieldYPosition(intersectionFieldIndex) + DEFAULT_FIELD_HEIGHT / 2 : 0;
+
+  // the final position is added to the node position
+  const x = intersectionNode.position.x + w;
+  const y = intersectionNode.position.y + h;
 
   return { x, y };
 };
@@ -101,6 +138,37 @@ const offsetPosition = (position: Position, { x, y }: { x: number; y: number }) 
 export const getEdgeParams = (source: InternalNode, target: InternalNode) => {
   const sourceIntersectionPoint = getNodeIntersection(source, target);
   const targetIntersectionPoint = getNodeIntersection(target, source);
+
+  const sourcePos = getEdgePosition(source, sourceIntersectionPoint);
+  const targetPos = getEdgePosition(target, targetIntersectionPoint);
+
+  const sourceOffsetPosition = offsetPosition(sourcePos, sourceIntersectionPoint);
+  const targetOffsetPosition = offsetPosition(targetPos, targetIntersectionPoint);
+
+  return {
+    sx: sourceOffsetPosition.x,
+    sy: sourceOffsetPosition.y,
+    tx: targetOffsetPosition.x,
+    ty: targetOffsetPosition.y,
+    sourcePos,
+    targetPos,
+  };
+};
+
+/**
+ * Returns the coordinates where a line connecting the fields of the source and target nodes intersects
+ *
+ * @param source The source node
+ * @param target The target node
+ */
+export const getFieldEdgeParams = (
+  source: InternalNode,
+  target: InternalNode,
+  sourceFieldIndex: number,
+  targetFieldIndex: number,
+) => {
+  const sourceIntersectionPoint = getNodeIntersectionAtField(source, target, sourceFieldIndex);
+  const targetIntersectionPoint = getNodeIntersectionAtField(target, source, targetFieldIndex);
 
   const sourcePos = getEdgePosition(source, sourceIntersectionPoint);
   const targetPos = getEdgePosition(target, targetIntersectionPoint);
