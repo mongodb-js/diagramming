@@ -37,6 +37,25 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
     onChange?.(value);
   }, [value, onChange]);
 
+  const handleKeyboardEvent = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') handleSubmit();
+      if (e.key === 'Escape') {
+        setValue(name);
+        setIsEditing(false);
+      }
+    },
+    [handleSubmit, name],
+  );
+
+  const handleNameDoubleClick = useCallback(() => {
+    setIsEditing(true);
+  }, []);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  }, []);
+
   useEffect(() => {
     if (isEditing) {
       setTimeout(() => {
@@ -51,27 +70,12 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
       type="text"
       ref={textInputRef}
       value={value}
-      onChange={e => {
-        setValue(e.target.value);
-      }}
+      onChange={handleChange}
       onBlur={handleSubmit}
-      onKeyDown={e => {
-        if (e.key === 'Enter') handleSubmit();
-        if (e.key === 'Escape') setIsEditing(false);
-      }}
+      onKeyDown={handleKeyboardEvent}
       title="Edit field name"
     />
   ) : (
-    <InnerFieldName
-      onDoubleClick={
-        onChange && isEditable
-          ? () => {
-              setIsEditing(true);
-            }
-          : undefined
-      }
-    >
-      {value}
-    </InnerFieldName>
+    <InnerFieldName onDoubleClick={onChange && isEditable ? handleNameDoubleClick : undefined}>{value}</InnerFieldName>
   );
 };
