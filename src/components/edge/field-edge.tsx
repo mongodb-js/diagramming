@@ -47,7 +47,7 @@ export const FieldEdge = ({
 
   return (
     <Edge
-      data-testid={`floating-edge-${id}`}
+      data-testid={`field-edge-${id}`}
       markerEnd={markerEnd}
       markerStart={markerStart}
       path={path}
