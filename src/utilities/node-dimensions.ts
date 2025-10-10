@@ -26,10 +26,12 @@ export const getNodeHeight = <
       fieldCount = internalNode.data.fields.length;
     }
   }
-  const calculatedHeight =
-    DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING * 2 + fieldCount * DEFAULT_FIELD_HEIGHT + 2;
+  const calculatedHeight = getFieldYPosition(fieldCount) + DEFAULT_FIELD_PADDING;
   return calculatedHeight;
 };
+
+export const getFieldYPosition = (fieldIndex: number) =>
+  DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING + 2 + fieldIndex * DEFAULT_FIELD_HEIGHT;
 
 export const getNodeWidth = <N extends Pick<BaseNode, 'measured'> | Pick<InternalNode, 'width'>>(node: N) => {
   if ('width' in node && typeof node.width === 'number') return node.width;
