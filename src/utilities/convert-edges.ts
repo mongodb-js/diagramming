@@ -20,7 +20,16 @@ export const convertToInternalEdge = (edge: EdgeProps): InternalEdge => {
     ...edge,
     markerStart: `start-${edge.markerStart}`,
     markerEnd: `end-${edge.markerEnd}`,
-    type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
+    type:
+      edge.source === edge.target
+        ? 'selfReferencingEdge'
+        : edge.sourceFieldIndex !== undefined && edge.targetFieldIndex !== undefined
+          ? 'fieldEdge'
+          : 'floatingEdge',
+    data: {
+      sourceFieldIndex: edge.sourceFieldIndex,
+      targetFieldIndex: edge.targetFieldIndex,
+    },
   };
 };
 

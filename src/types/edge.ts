@@ -20,6 +20,16 @@ export interface EdgeProps {
   target: string;
 
   /**
+   * Index of the field in the source node this edge connects from (if applicable).
+   */
+  sourceFieldIndex?: number;
+
+  /**
+   * Index of the field in the target node this edge connects to (if applicable).
+   */
+  targetFieldIndex?: number;
+
+  /**
    * Whether the edge should be hidden from view.
    */
   hidden?: boolean;
