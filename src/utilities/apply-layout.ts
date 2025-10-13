@@ -25,7 +25,7 @@ const STAR = {
 };
 
 const RECTANGLE = {
-  'elk.algorithm': 'box',
+  'elk.algorithm': 'rectpacking',
   'elk.padding': '12',
   'spacing.nodeNode': `${DEFAULT_NODE_SPACING}`,
 };
