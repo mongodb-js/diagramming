@@ -30,8 +30,8 @@ export const convertToInternalEdge = (edge: EdgeProps): InternalEdge => {
           ? 'fieldEdge'
           : 'floatingEdge',
     data: {
-      ...(sourceFieldIndex ? { sourceFieldIndex } : {}),
-      ...(targetFieldIndex ? { targetFieldIndex } : {}),
+      ...(sourceFieldIndex !== undefined ? { sourceFieldIndex } : {}),
+      ...(targetFieldIndex !== undefined ? { targetFieldIndex } : {}),
     },
   };
 };
