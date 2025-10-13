@@ -26,24 +26,35 @@ const STAR = {
 
 const RECTANGLE = {
   'elk.algorithm': 'rectpacking',
-  'elk.padding': '12',
   'spacing.nodeNode': `${DEFAULT_NODE_SPACING}`,
 };
 
-const getLayoutOptions = (direction: LayoutDirection): Record<string, string> => {
+const getLayoutOptions = (
+  direction: LayoutDirection,
+  options: Partial<Record<LayoutOptions, string>>,
+): Record<string, string> => {
+  let elkLayoutOptions: Record<string, string> = {};
   switch (direction) {
     case 'LEFT_RIGHT':
-      return LEFT_RIGHT;
+      elkLayoutOptions = LEFT_RIGHT;
+      break;
     case 'TOP_BOTTOM':
-      return TOP_BOTTOM;
+      elkLayoutOptions = TOP_BOTTOM;
+      break;
     case 'STAR':
-      return STAR;
+      elkLayoutOptions = STAR;
+      break;
     case 'RECTANGLE':
-      return RECTANGLE;
-    default:
-      return {};
+      elkLayoutOptions = RECTANGLE;
+      break;
   }
+  if (options.aspectRatio) {
+    elkLayoutOptions['elk.aspectRatio'] = options.aspectRatio;
+  }
+  return elkLayoutOptions;
 };
+
+type LayoutOptions = 'aspectRatio';
 
 /**
  * Applies a layout to a graph of nodes using the ELK layout engine.
@@ -51,31 +62,51 @@ const getLayoutOptions = (direction: LayoutDirection): Record<string, string> =>
  *
  * @param nodes A list of nodes.
  */
-export function applyLayout<N extends BaseNode>(nodes: N[]): Promise<ApplyLayout<N, never>>;
+export function applyLayout<N extends BaseNode>({
+  nodes,
+  options,
+}: {
+  nodes: N[];
+  options?: Partial<Record<LayoutOptions, string>>;
+}): Promise<ApplyLayout<N, never>>;
 
 /**
  * Applies a layout to a graph of nodes and edges using the ELK layout engine.
- * When edges array is empty, defaults to RECTANGLE layout. When edges are present,
- * directional layouts (LEFT_RIGHT, TOP_BOTTOM, STAR) are available.
- *
+ * Use LEFT_RIGHT, TOP_BOTTOM, STAR layout for diagrams with edges,
+ * and RECTANGLE for grid arrangement of unconnected nodes.
  * @param nodes A list of nodes.
  * @param edges A list of edges.
  * @param direction The layout direction to use.
  */
-export function applyLayout<N extends BaseNode, E extends BaseEdge>(
-  nodes: N[],
-  edges: E[],
-  direction?: LayoutDirection,
-): Promise<ApplyLayout<N, E>>;
+export function applyLayout<N extends BaseNode, E extends BaseEdge>({
+  nodes,
+  edges,
+  direction,
+  options,
+}: {
+  nodes: N[];
+  edges: E[];
+  direction?: LayoutDirection;
+  options?: Partial<Record<LayoutOptions, string>>;
+}): Promise<ApplyLayout<N, E>>;
 
-export function applyLayout<N extends BaseNode, E extends BaseEdge>(
-  nodes: N[],
-  edges?: E[],
-  direction?: LayoutDirection,
-): Promise<ApplyLayout<N, E>> {
+export function applyLayout<N extends BaseNode, E extends BaseEdge>({
+  nodes,
+  edges,
+  direction,
+  options = {},
+}: {
+  nodes: N[];
+  edges?: E[];
+  direction?: LayoutDirection;
+  options?: Partial<Record<LayoutOptions, string>>;
+}): Promise<ApplyLayout<N, E>> {
   // If no edges are provided, use RECTANGLE layout for grid arrangement
   // Otherwise, use the specified direction or default to TOP_BOTTOM
-  const layoutOptions = typeof edges === 'undefined' ? 'RECTANGLE' : (direction ?? 'TOP_BOTTOM');
+  const layoutType = typeof edges === 'undefined' ? 'RECTANGLE' : (direction ?? 'TOP_BOTTOM');
+  const layoutOptions = {
+    ...getLayoutOptions(layoutType, options),
+  };
   const transformedNodes = nodes.map<N>(node => ({
     ...node,
     height: getNodeHeight(node),
@@ -98,7 +129,7 @@ export function applyLayout<N extends BaseNode, E extends BaseEdge>(
     .layout({
       id: 'root',
       children: transformedNodes,
-      layoutOptions: getLayoutOptions(layoutOptions),
+      layoutOptions,
       edges: transformedEdges,
     })
     .then(g => {

@@ -44,14 +44,14 @@ describe('apply-layout', () => {
     },
   ];
   it('With no nodes or edges', async () => {
-    const result = await applyLayout<NodeProps>([]);
+    const result = await applyLayout<NodeProps>({ nodes: [] });
     expect(result).toEqual({
       nodes: [],
       edges: [],
     });
   });
   it('With nodes (not measured, 0 fields)', async () => {
-    const result = await applyLayout<NodeProps>(nodes);
+    const result = await applyLayout<NodeProps>({ nodes });
     expect(result.nodes).toEqual([
       expect.objectContaining({
         ...nodes[0],
@@ -81,7 +81,7 @@ describe('apply-layout', () => {
       ...node,
       fields: [{ name: 'field1', type: 'string' }],
     }));
-    const result = await applyLayout<NodeProps>(nodesWithOneField);
+    const result = await applyLayout<NodeProps>({ nodes: nodesWithOneField });
     expect(result.nodes).toEqual([
       expect.objectContaining({
         ...nodesWithOneField[0],
@@ -111,7 +111,7 @@ describe('apply-layout', () => {
       ...node,
       fields: undefined,
     }));
-    const result = await applyLayout<BaseNode>(baseNodes);
+    const result = await applyLayout<BaseNode>({ nodes: baseNodes });
     expect(result.nodes).toEqual([
       expect.objectContaining({
         ...baseNodes[0],
@@ -140,11 +140,11 @@ describe('apply-layout', () => {
     const measuredNodes = nodes.map(node => ({
       ...node,
       measured: {
-        width: 100,
+        width: 200,
         height: 50,
       },
     }));
-    const result = await applyLayout<NodeProps>(measuredNodes);
+    const result = await applyLayout<NodeProps>({ nodes: measuredNodes });
     expect(result.nodes).toEqual([
       expect.objectContaining({
         ...measuredNodes[0],
@@ -170,7 +170,7 @@ describe('apply-layout', () => {
     ]);
   });
   it('With nodes and edges', async () => {
-    const result = await applyLayout<NodeProps, EdgeProps>(nodes, edges, 'TOP_BOTTOM');
+    const result = await applyLayout<NodeProps, EdgeProps>({ nodes, edges, direction: 'TOP_BOTTOM' });
     expect(result.edges).toEqual([
       expect.objectContaining({
         id: '1',

@@ -77,7 +77,7 @@ export const useStressTestNodesAndEdges = (nodeCount: number) => {
     }));
 
     let applyUpdate = true;
-    applyLayout<NodeProps, EdgeProps>(newNodes, newEdges, 'STAR').then(result => {
+    applyLayout<NodeProps, EdgeProps>({ nodes: newNodes, edges: newEdges, direction: 'STAR' }).then(result => {
       if (!applyUpdate) return;
       setNodes(result.nodes);
       setEdges(result.edges);
