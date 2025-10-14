@@ -10,11 +10,16 @@ import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagra
 
 const Node = ({
   onAddFieldToNodeClick,
+  onNodeExpandToggle,
   ...props
 }: React.ComponentProps<typeof NodeComponent> & {
   onAddFieldToNodeClick?: () => void;
+  onNodeExpandToggle?: () => void;
 }) => (
-  <EditableDiagramInteractionsProvider onAddFieldToNodeClick={onAddFieldToNodeClick}>
+  <EditableDiagramInteractionsProvider
+    onAddFieldToNodeClick={onAddFieldToNodeClick}
+    onNodeExpandToggle={onNodeExpandToggle}
+  >
     <NodeComponent {...props} />
   </EditableDiagramInteractionsProvider>
 );
@@ -104,6 +109,18 @@ describe('node', () => {
     expect(onAddFieldToNodeClickMock).not.toHaveBeenCalled();
     await userEvent.click(button);
     expect(onAddFieldToNodeClickMock).toHaveBeenCalled();
+  });
+
+  it('Should show a clickable button to toggle expand collapse when onNodeExpandToggle is supplied', async () => {
+    const onNodeExpandToggleMock = vi.fn();
+
+    render(<Node {...DEFAULT_PROPS} onNodeExpandToggle={onNodeExpandToggleMock} />);
+    const button = screen.getByRole('button', { name: 'Toggle Expand / Collapse Fields' });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('title', 'Toggle Expand / Collapse Fields');
+    expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
+    await userEvent.click(button);
+    expect(onNodeExpandToggleMock).toHaveBeenCalled();
   });
 
   it('Should prioritise borderVariant over selected prop when setting the border', () => {

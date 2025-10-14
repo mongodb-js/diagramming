@@ -9,7 +9,6 @@ const StyledDiagramIconButton = styled.button`
   outline: none;
   padding: ${spacing[100]}px;
   margin: 0;
-  margin-left: ${spacing[100]}px;
   cursor: pointer;
   color: inherit;
   display: flex;

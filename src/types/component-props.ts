@@ -26,6 +26,11 @@ export type OnFieldClickHandler = (
 export type OnAddFieldToNodeClickHandler = (event: ReactMouseEvent, nodeId: string) => void;
 
 /**
+ * Called when the button to expand / collapse all field is clicked in the node header.
+ */
+export type OnNodeExpandHandler = (event: ReactMouseEvent) => void;
+
+/**
  * Called when the button to add a new field is clicked on an object type field in a node.
  */
 export type OnAddFieldToObjectFieldClickHandler = (event: ReactMouseEvent, nodeId: string, fieldPath: string[]) => void;
@@ -183,6 +188,11 @@ export interface DiagramProps {
    * Callback when the user clicks the button to add a new field to a node.
    */
   onAddFieldToNodeClick?: OnAddFieldToNodeClickHandler;
+
+  /**
+   * Callback when the user clicks the button to expand / collapse all fields in the node.
+   */
+  onNodeExpandToggle?: OnNodeExpandHandler;
 
   /**
    * Callback when the user clicks to add a new field to an object type field in a node.
