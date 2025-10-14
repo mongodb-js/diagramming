@@ -3,7 +3,7 @@ import { Measured, Position } from '@/types/node';
 /**
  * Defines the available layout directions for a diagram.
  */
-export type LayoutDirection = 'LEFT_RIGHT' | 'TOP_BOTTOM' | 'STAR';
+export type LayoutDirection = 'LEFT_RIGHT' | 'TOP_BOTTOM' | 'STAR' | 'RECTANGLE';
 
 /**
  * A minimal representation of a node used during layout calculation.
