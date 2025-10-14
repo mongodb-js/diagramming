@@ -32,6 +32,10 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
   const [value, setValue] = useState(name);
   const textInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    setValue(name);
+  }, [name]);
+
   const handleSubmit = useCallback(() => {
     setIsEditing(false);
     onChange?.(value);

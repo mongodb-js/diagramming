@@ -141,6 +141,17 @@ describe('field', () => {
       await userEvent.dblClick(fieldName);
       expect(screen.queryByDisplayValue('ordersId')).not.toBeUndefined();
     });
+
+    it('Should sync with prop changes', async () => {
+      const originalName = 'originalName';
+      const newName = 'newName';
+      const { rerender } = render(
+        <FieldWithEditableInteractions {...DEFAULT_PROPS} editable={true} name={originalName} />,
+      );
+      expect(screen.getByText(originalName)).toBeInTheDocument();
+      await rerender(<FieldWithEditableInteractions {...DEFAULT_PROPS} editable={true} name={newName} />);
+      expect(screen.getByText(newName)).toBeInTheDocument();
+    });
   });
 
   describe('With specific types', () => {
