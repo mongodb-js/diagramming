@@ -135,6 +135,13 @@ export const Node = ({
     [addFieldToNodeClickHandler, id],
   );
 
+  const handleNodeExpandToggle = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      onNodeExpandToggle?.(event, id);
+    },
+    [onNodeExpandToggle, id],
+  );
+
   const getAccent = () => {
     if (disabled && !isHovering) {
       return theme.node.disabledAccent;
@@ -225,7 +232,7 @@ export const Node = ({
                 {onNodeExpandToggle && (
                   <DiagramIconButton
                     aria-label="Toggle Expand / Collapse Fields"
-                    onClick={onNodeExpandToggle}
+                    onClick={handleNodeExpandToggle}
                     title="Toggle Expand / Collapse Fields"
                   >
                     <ChevronCollapse />
