@@ -33,6 +33,7 @@ const FieldWithEditableInteractions = ({
 
 describe('field', () => {
   const DEFAULT_PROPS: ComponentProps<typeof Field> = {
+    id: 'ordersId',
     nodeType: 'collection',
     name: 'ordersId',
     nodeId: 'pineapple',

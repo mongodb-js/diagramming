@@ -10,7 +10,7 @@ import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
 import { FieldTypeContent } from '@/components/field/field-type-content';
-import { NodeField, NodeGlyph, NodeType } from '@/types';
+import { FieldId, NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
@@ -123,6 +123,7 @@ const IconWrapper = styled(Icon)`
 `;
 
 interface Props extends NodeField {
+  id: FieldId;
   nodeId: string;
   nodeType: NodeType;
   spacing: number;
@@ -136,7 +137,7 @@ export const Field = ({
   isHovering = false,
   name,
   nodeId,
-  id = name,
+  id,
   depth = 0,
   type,
   nodeType,

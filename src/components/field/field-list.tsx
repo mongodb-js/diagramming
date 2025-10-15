@@ -37,6 +37,7 @@ export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
         return (
           <Field
             key={key}
+            id={id ?? name}
             name={name}
             nodeId={nodeId}
             nodeType={nodeType}
