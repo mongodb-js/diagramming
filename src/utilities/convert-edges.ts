@@ -3,11 +3,13 @@ import { EdgeProps, Marker } from '@/types';
 
 export const convertToExternalEdge = (edge: InternalEdge): EdgeProps => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { markerStart, markerEnd, type, ...rest } = edge;
+  const { markerStart, markerEnd, type, data, ...rest } = edge;
   return {
     ...rest,
     markerStart: markerStart?.replace(/^start-/, '') as Marker,
     markerEnd: markerEnd?.replace(/^end-/, '') as Marker,
+    ...(data?.sourceFieldIndex !== undefined ? { sourceFieldIndex: data?.sourceFieldIndex } : {}),
+    ...(data?.targetFieldIndex !== undefined ? { targetFieldIndex: data?.targetFieldIndex } : {}),
   };
 };
 
@@ -16,11 +18,21 @@ export const convertToExternalEdges = (edges: InternalEdge[]): EdgeProps[] => {
 };
 
 export const convertToInternalEdge = (edge: EdgeProps): InternalEdge => {
+  const { sourceFieldIndex, targetFieldIndex, ...edgeProps } = edge;
   return {
-    ...edge,
+    ...edgeProps,
     markerStart: `start-${edge.markerStart}`,
     markerEnd: `end-${edge.markerEnd}`,
-    type: edge.source === edge.target ? 'selfReferencingEdge' : 'floatingEdge',
+    type:
+      edge.source === edge.target
+        ? 'selfReferencingEdge'
+        : sourceFieldIndex !== undefined && targetFieldIndex !== undefined
+          ? 'fieldEdge'
+          : 'floatingEdge',
+    data: {
+      ...(sourceFieldIndex !== undefined ? { sourceFieldIndex } : {}),
+      ...(targetFieldIndex !== undefined ? { targetFieldIndex } : {}),
+    },
   };
 };
 

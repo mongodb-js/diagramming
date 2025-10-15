@@ -9,7 +9,7 @@ import {
 
 describe('convert-edges', () => {
   describe('convertToExternalEdge', () => {
-    it('should convert a single internal edge to external by stripping prefixes', () => {
+    it('should convert a single internal edge to external by stripping prefixes, ignoring data and type', () => {
       const internalEdge: InternalEdge = {
         id: 'e1',
         source: 'node1',
@@ -17,12 +17,12 @@ describe('convert-edges', () => {
         markerStart: 'start-many',
         markerEnd: 'end-one',
         type: 'floatingEdge',
+        data: {},
       };
 
+      const { data: _data, type: _type, ...rest } = internalEdge;
       const expected: EdgeProps = {
-        id: 'e1',
-        source: 'node1',
-        target: 'node2',
+        ...rest,
         markerStart: 'many',
         markerEnd: 'one',
       };
@@ -42,6 +42,7 @@ describe('convert-edges', () => {
           markerStart: 'start-many',
           markerEnd: 'end-one',
           type: 'floatingEdge',
+          data: {},
         },
         {
           id: 'e2',
@@ -50,6 +51,19 @@ describe('convert-edges', () => {
           markerStart: 'start-many',
           markerEnd: 'end-many',
           type: 'floatingEdge',
+          data: {},
+        },
+        {
+          id: 'e3',
+          source: 'n2',
+          target: 'n3',
+          markerStart: 'start-many',
+          markerEnd: 'end-many',
+          type: 'fieldEdge',
+          data: {
+            sourceFieldIndex: 5,
+            targetFieldIndex: 2,
+          },
         },
       ];
 
@@ -69,43 +83,64 @@ describe('convert-edges', () => {
           markerStart: 'many',
           markerEnd: 'many',
         },
+        {
+          id: 'e3',
+          source: 'n2',
+          target: 'n3',
+          markerStart: 'many',
+          markerEnd: 'many',
+          sourceFieldIndex: 5,
+          targetFieldIndex: 2,
+        },
       ]);
     });
   });
 
   describe('convertToInternalEdge', () => {
-    it('Should convert edge props to internal edge', () => {
-      const result = convertToInternalEdge({
-        id: 'e1',
-        source: 'node1',
-        target: 'node2',
-        markerStart: 'many',
-        markerEnd: 'one',
-      });
-      expect(result).toEqual({
-        id: 'e1',
-        source: 'node1',
-        target: 'node2',
-        markerStart: 'start-many',
-        markerEnd: 'end-one',
-        type: 'floatingEdge',
+    const externalEdge: EdgeProps = {
+      id: 'e1',
+      source: 'node1',
+      target: 'node2',
+      markerStart: 'many',
+      markerEnd: 'one',
+    };
+    it('Should preserve edge properties, adding marker prefixes', () => {
+      const result = convertToInternalEdge(externalEdge);
+      const { markerStart, markerEnd, ...rest } = externalEdge;
+      expect(result).toMatchObject({
+        ...rest,
+        markerStart: `start-${markerStart}`,
+        markerEnd: `end-${markerEnd}`,
       });
     });
-    it('Should mark type as selfReferencingEdge if source and target are the same', () => {
+    it('Should apply floatingEdge if the source is different from the target', () => {
       const result = convertToInternalEdge({
-        id: 'e1',
+        ...externalEdge,
         source: 'node1',
-        target: 'node1',
-        markerStart: 'many',
-        markerEnd: 'one',
+        target: 'node2',
       });
-      expect(result).toEqual({
-        id: 'e1',
+      expect(result.type).toEqual('floatingEdge');
+    });
+    it('Should apply selfReferencingEdge if source and target are the same', () => {
+      const result = convertToInternalEdge({
+        ...externalEdge,
         source: 'node1',
         target: 'node1',
-        markerStart: 'start-many',
-        markerEnd: 'end-one',
-        type: 'selfReferencingEdge',
+      });
+      expect(result.type).toEqual('selfReferencingEdge');
+    });
+    it('Should apply fieldEdge if the field indices are provided', () => {
+      const result = convertToInternalEdge({
+        ...externalEdge,
+        sourceFieldIndex: 2,
+        targetFieldIndex: 4,
+      });
+      expect(result.type).toEqual('fieldEdge');
+      expect(result).not.toHaveProperty('sourceFieldIndex');
+      expect(result).not.toHaveProperty('targetFieldIndex');
+      expect(result.data).toEqual({
+        sourceFieldIndex: 2,
+        targetFieldIndex: 4,
       });
     });
   });
@@ -137,6 +172,7 @@ describe('convert-edges', () => {
           markerStart: 'start-many',
           markerEnd: 'end-one',
           type: 'floatingEdge',
+          data: {},
         },
         {
           id: 'e2',
@@ -145,6 +181,7 @@ describe('convert-edges', () => {
           markerStart: 'start-many',
           markerEnd: 'end-many',
           type: 'selfReferencingEdge',
+          data: {},
         },
       ]);
     });

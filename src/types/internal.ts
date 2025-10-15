@@ -15,5 +15,9 @@ export type InternalNode = ReactFlowNode<NodeData>;
 export interface InternalEdge extends Omit<EdgeProps, 'markerStart' | 'markerEnd'> {
   markerStart: 'start-one' | 'start-oneOrMany' | 'start-many';
   markerEnd: 'end-one' | 'end-oneOrMany' | 'end-many';
-  type: 'selfReferencingEdge' | 'floatingEdge';
+  type: 'selfReferencingEdge' | 'floatingEdge' | 'fieldEdge';
+  data: {
+    sourceFieldIndex?: number;
+    targetFieldIndex?: number;
+  };
 }
