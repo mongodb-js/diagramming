@@ -58,6 +58,7 @@ describe('Diagram', () => {
     expect(screen.getByText('field-b')).toBeInTheDocument();
     expect(screen.getByText('field-c')).toBeInTheDocument();
 
+    // Remove the field from the middle of the list
     const nodeWithFieldRemoved = {
       ...nodeWithFields,
       fields: [nodeWithFields.fields[0], nodeWithFields.fields[2]],
