@@ -33,7 +33,7 @@ export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
   return (
     <NodeFieldWrapper>
       {fields.map(({ id, name, type: fieldType, ...rest }, i) => {
-        const key = id ? (Array.isArray(id) ? id.join('#') : id) : i;
+        const key = id ? (Array.isArray(id) ? id.join('#') : id) : `${name}-${i}`;
         return (
           <Field
             key={key}
