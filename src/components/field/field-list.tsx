@@ -32,20 +32,23 @@ export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
   }, [fields, isFieldSelectionEnabled]);
   return (
     <NodeFieldWrapper>
-      {fields.map(({ name, type: fieldType, ...rest }, i) => (
-        <Field
-          key={i}
-          name={name}
-          nodeId={nodeId}
-          nodeType={nodeType}
-          isHovering={isHovering}
-          previewGroupArea={previewGroupArea[getPreviewId(i, name)] || DEFAULT_PREVIEW_GROUP_AREA}
-          selectedGroupHeight={selectedGroupHeight?.[getSelectedId(i, name)]}
-          type={fieldType}
-          spacing={spacing}
-          {...rest}
-        />
-      ))}
+      {fields.map(({ id, name, type: fieldType, ...rest }, i) => {
+        const key = id ? (Array.isArray(id) ? id.join('#') : id) : `${name}-${i}`;
+        return (
+          <Field
+            key={key}
+            name={name}
+            nodeId={nodeId}
+            nodeType={nodeType}
+            isHovering={isHovering}
+            previewGroupArea={previewGroupArea[getPreviewId(i, name)] || DEFAULT_PREVIEW_GROUP_AREA}
+            selectedGroupHeight={selectedGroupHeight?.[getSelectedId(i, name)]}
+            type={fieldType}
+            spacing={spacing}
+            {...rest}
+          />
+        );
+      })}
     </NodeFieldWrapper>
   );
 };
