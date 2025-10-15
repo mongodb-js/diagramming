@@ -8,6 +8,7 @@ import { useCallback, useState } from 'react';
 import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
+import { ChevronCollapse } from '@/components/icons/chevron-collapse';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
@@ -102,9 +103,14 @@ const NodeWithFields = styled.div<{ visibility: string }>`
   visibility: ${props => props.visibility};
 `;
 
-const AddNewFieldIconButtonButton = styled(DiagramIconButton)`
+const TitleControlsContainer = styled.div`
   margin-left: auto;
   margin-right: ${spacing[200]}px;
+  display: flex;
+  gap: ${spacing[50]}px;
+  & > * {
+    flex: 0 0 auto;
+  }
 `;
 
 export const Node = ({
@@ -119,7 +125,7 @@ export const Node = ({
 
   const [isHovering, setHovering] = useState(false);
 
-  const { onClickAddFieldToNode: addFieldToNodeClickHandler } = useEditableDiagramInteractions();
+  const { onClickAddFieldToNode: addFieldToNodeClickHandler, onNodeExpandToggle } = useEditableDiagramInteractions();
 
   const onClickAddFieldToNode = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -127,6 +133,13 @@ export const Node = ({
       addFieldToNodeClickHandler?.(event, id);
     },
     [addFieldToNodeClickHandler, id],
+  );
+
+  const handleNodeExpandToggle = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      onNodeExpandToggle?.(event, id);
+    },
+    [onNodeExpandToggle, id],
   );
 
   const getAccent = () => {
@@ -210,11 +223,22 @@ export const Node = ({
                 <Icon fill={theme.node.headerIcon} glyph="Drag" />
               </NodeHeaderIcon>
               <NodeHeaderTitle>{title}</NodeHeaderTitle>
-              {addFieldToNodeClickHandler && (
-                <AddNewFieldIconButtonButton aria-label="Add Field" onClick={onClickAddFieldToNode} title="Add Field">
-                  <PlusWithSquare />
-                </AddNewFieldIconButtonButton>
-              )}
+              <TitleControlsContainer>
+                {addFieldToNodeClickHandler && (
+                  <DiagramIconButton aria-label="Add Field" onClick={onClickAddFieldToNode} title="Add Field">
+                    <PlusWithSquare />
+                  </DiagramIconButton>
+                )}
+                {onNodeExpandToggle && (
+                  <DiagramIconButton
+                    aria-label="Toggle Expand / Collapse Fields"
+                    onClick={handleNodeExpandToggle}
+                    title="Toggle Expand / Collapse Fields"
+                  >
+                    <ChevronCollapse />
+                  </DiagramIconButton>
+                )}
+              </TitleControlsContainer>
             </NodeHeader>
             <FieldList nodeId={id} nodeType={type as NodeType} isHovering={isHovering} fields={fields} />
           </NodeWithFields>

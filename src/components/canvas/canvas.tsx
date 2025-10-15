@@ -58,6 +58,7 @@ export const Canvas = ({
   onConnect,
   id,
   onAddFieldToNodeClick,
+  onNodeExpandToggle,
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
   onFieldClick,
@@ -147,6 +148,7 @@ export const Canvas = ({
     <EditableDiagramInteractionsProvider
       onFieldClick={onFieldClick}
       onAddFieldToNodeClick={onAddFieldToNodeClick}
+      onNodeExpandToggle={onNodeExpandToggle}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
     >

@@ -3,6 +3,7 @@ import React, { createContext, useContext, useMemo, ReactNode } from 'react';
 import {
   OnFieldClickHandler,
   OnAddFieldToNodeClickHandler,
+  OnNodeExpandHandler,
   OnAddFieldToObjectFieldClickHandler,
   OnFieldNameChangeHandler,
 } from '@/types';
@@ -10,6 +11,7 @@ import {
 interface EditableDiagramInteractionsContextType {
   onClickField?: OnFieldClickHandler;
   onClickAddFieldToNode?: OnAddFieldToNodeClickHandler;
+  onNodeExpandToggle?: OnNodeExpandHandler;
   onClickAddFieldToObjectField?: OnAddFieldToObjectFieldClickHandler;
   onChangeFieldName?: OnFieldNameChangeHandler;
 }
@@ -20,6 +22,7 @@ interface EditableDiagramInteractionsProviderProps {
   children: ReactNode;
   onFieldClick?: OnFieldClickHandler;
   onAddFieldToNodeClick?: OnAddFieldToNodeClickHandler;
+  onNodeExpandToggle?: OnNodeExpandHandler;
   onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
   onFieldNameChange?: OnFieldNameChangeHandler;
 }
@@ -28,6 +31,7 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
   children,
   onFieldClick,
   onAddFieldToNodeClick,
+  onNodeExpandToggle,
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
 }) => {
@@ -43,6 +47,11 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
             onClickAddFieldToNode: onAddFieldToNodeClick,
           }
         : undefined),
+      ...(onNodeExpandToggle
+        ? {
+            onNodeExpandToggle: onNodeExpandToggle,
+          }
+        : undefined),
       ...(onAddFieldToObjectFieldClick
         ? {
             onClickAddFieldToObjectField: onAddFieldToObjectFieldClick,
@@ -54,7 +63,7 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
           }
         : undefined),
     };
-  }, [onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick, onFieldNameChange]);
+  }, [onFieldClick, onAddFieldToNodeClick, onNodeExpandToggle, onAddFieldToObjectFieldClick, onFieldNameChange]);
 
   return (
     <EditableDiagramInteractionsContext.Provider value={value}>{children}</EditableDiagramInteractionsContext.Provider>

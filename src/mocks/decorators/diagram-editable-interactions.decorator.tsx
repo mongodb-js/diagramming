@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, useMemo } from 'react';
 import { Decorator } from '@storybook/react';
 
 import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
@@ -88,6 +88,13 @@ function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
 
 export const useEditableNodes = (initialNodes: NodeProps[]) => {
   const [nodes, setNodes] = useState<NodeProps[]>([]);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
+    return Object.fromEntries(
+      nodes.map(node => {
+        return [node.id, true];
+      }),
+    );
+  });
 
   const hasInitialized = useRef(false);
   useEffect(() => {
@@ -185,7 +192,37 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
-  return { nodes, onFieldClick, onAddFieldToNodeClick, onAddFieldToObjectFieldClick, onFieldNameChange };
+  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string) => {
+    setExpanded(state => {
+      return {
+        ...state,
+        [nodeId]: !state[nodeId],
+      };
+    });
+  }, []);
+
+  const _nodes = useMemo(() => {
+    return nodes.map(node => {
+      if (expanded[node.id]) {
+        return node;
+      }
+      return {
+        ...node,
+        fields: node.fields.filter(field => {
+          return !field.depth || field.depth === 0;
+        }),
+      };
+    });
+  }, [nodes, expanded]);
+
+  return {
+    nodes: _nodes,
+    onFieldClick,
+    onAddFieldToNodeClick,
+    onNodeExpandToggle,
+    onAddFieldToObjectFieldClick,
+    onFieldNameChange,
+  };
 };
 
 export const DiagramEditableInteractionsDecorator: Decorator<DiagramProps> = (Story, context) => {
