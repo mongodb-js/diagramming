@@ -82,9 +82,11 @@ const NodeHeaderIcon = styled.div`
 `;
 
 export const NodeHeaderTitle = styled.div`
-  overflow-wrap: break-word;
   min-width: 0;
   margin-right: ${spacing[200]}px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
