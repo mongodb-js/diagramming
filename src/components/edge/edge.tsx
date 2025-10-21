@@ -1,6 +1,7 @@
 import { BaseEdge } from '@xyflow/react';
 import { palette } from '@leafygreen-ui/palette';
 import { SVGAttributes } from 'react';
+import React from 'react';
 
 interface Props extends SVGAttributes<SVGPathElement> {
   selected?: boolean;
@@ -13,11 +14,22 @@ const getMarker = (selected?: boolean, marker?: string) => {
 
 export const Edge = ({ markerStart, markerEnd, selected, ...rest }: Props) => {
   return (
-    <BaseEdge
-      markerEnd={getMarker(selected, markerEnd)}
-      markerStart={getMarker(selected, markerStart)}
-      style={{ stroke: selected ? palette.blue.base : palette.gray.base }}
-      {...rest}
-    />
+    <React.Fragment>
+      <BaseEdge
+        markerEnd={getMarker(selected, markerEnd)}
+        markerStart={getMarker(selected, markerStart)}
+        style={{ stroke: palette.gray.base }}
+        {...rest}
+      />
+      {selected && (
+        <BaseEdge
+          markerEnd={getMarker(selected, markerEnd)}
+          markerStart={getMarker(selected, markerStart)}
+          style={{ stroke: palette.blue.base }}
+          data-active-type="selected-edge"
+          {...rest}
+        />
+      )}
+    </React.Fragment>
   );
 };
