@@ -26,6 +26,20 @@ const GlyphToIcon: Record<NodeGlyph, string> = {
 
 const SELECTED_FIELD_BORDER_PADDING = spacing[100];
 
+const ActiveFieldIndicator = styled.div<{
+  selectedGroupHeight: number;
+}>`
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  outline: 2px solid ${palette.blue.base};
+  width: calc(100% + ${SELECTED_FIELD_BORDER_PADDING * 2}px);
+  border-radius: ${spacing[50]}px;
+  height: ${props => props.selectedGroupHeight * DEFAULT_FIELD_HEIGHT}px;
+  left: -${SELECTED_FIELD_BORDER_PADDING}px;
+  top: 0px;
+`;
+
 const FieldWrapper = styled.div<{
   color: string;
   selectableHoverBackgroundColor?: string;
@@ -49,18 +63,6 @@ const FieldWrapper = styled.div<{
     props.selected &&
     `
     position: relative;
-
-    &::before {
-      content: '';
-      pointer-events: none;
-      position: absolute;
-      outline: 2px solid ${palette.blue.base};
-      width: calc(100% + ${SELECTED_FIELD_BORDER_PADDING * 2}px);
-      border-radius: ${spacing[50]}px;
-      height: ${props.selectedGroupHeight * DEFAULT_FIELD_HEIGHT}px;
-      left: -${SELECTED_FIELD_BORDER_PADDING}px;
-      top: 0px;
-    }
 `}
 `;
 
@@ -72,24 +74,21 @@ const InnerFieldWrapper = styled.div<{ width: number }>`
 `;
 
 const FieldBorderAnimated = styled.div<{ height: string; left: string; width: string }>`
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    width: ${props => props.width};
-    height: ${props => props.height};
-    left: calc(${props => props.left} - ${FIELD_BORDER_ANIMATED_PADDING}px);
-    top: ${FIELD_BORDER_ANIMATED_PADDING / 2 - FIELD_BORDER_ANIMATED_PADDING}px;
-    ${animatedBlueBorder};
-  }
+  content: '';
+  position: absolute;
+  width: ${props => props.width};
+  height: ${props => props.height};
+  left: calc(${props => props.left} - ${FIELD_BORDER_ANIMATED_PADDING}px);
+  top: ${FIELD_BORDER_ANIMATED_PADDING / 2 - FIELD_BORDER_ANIMATED_PADDING}px;
+  ${animatedBlueBorder};
 `;
 
-const FieldBorder = styled(FieldBorderAnimated)`
+const FieldBorder = styled.div`
   display: flex;
   min-width: 0;
   flex: 1;
   align-items: center;
+  position: relative;
 `;
 
 const FieldRow = styled.div`
@@ -267,18 +266,20 @@ export const Field = ({
       selectedGroupHeight={selectedGroupHeight}
       {...fieldSelectionProps}
     >
+      {selected && <ActiveFieldIndicator data-active-type="selected-field" selectedGroupHeight={selectedGroupHeight} />}
       <InnerFieldWrapper width={spacing}>
         {glyphs.map(glyph => (
           <IconWrapper key={glyph} color={getIconColor(glyph)} glyph={GlyphToIcon[glyph]} size={glyphSize} />
         ))}
       </InnerFieldWrapper>
       {previewGroupArea.height ? (
-        <FieldBorder
-          data-testid={`preview-border-${name}`}
-          height={previewBorderHeight}
-          left={previewBorderLeft}
-          width={previewBorderWidth}
-        >
+        <FieldBorder data-testid={`preview-border-${name}`}>
+          <FieldBorderAnimated
+            data-active-type="preview-fields"
+            height={previewBorderHeight}
+            left={previewBorderLeft}
+            width={previewBorderWidth}
+          />
           {content}
         </FieldBorder>
       ) : (
