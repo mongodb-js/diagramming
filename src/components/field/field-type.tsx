@@ -81,38 +81,43 @@ export function FieldType({
         : undefined)}
       color={getSecondaryTextColor()}
     >
+      {/**
+       * Rendering hidden select first so that whenever popover shows it, its relative
+       * to the field type position. LG Select does not provide a way to set the
+       * position of the popover using refs.
+       */}
+      {isFieldTypeEditable && (
+        <StyledSelect
+          aria-label="Select field type"
+          size="xsmall"
+          renderMode="portal"
+          open={isSelectOpen}
+          setOpen={setIsSelectOpen}
+          onChange={val => {
+            if (val) {
+              onChangeFieldType?.(nodeId, Array.isArray(id) ? id : [id], val);
+            }
+          }}
+          // As its not multi-select, we can just use the first value
+          value={Array.isArray(type) ? type[0] : type || ''}
+          allowDeselect={false}
+          dropdownWidthBasis="option"
+          justify="middle"
+        >
+          {fieldTypes!.map(fieldType => (
+            <Option key={fieldType} value={fieldType}>
+              {fieldType}
+            </Option>
+          ))}
+        </StyledSelect>
+      )}
       <FieldContentWrapper>
         <FieldTypeContent type={type} nodeId={nodeId} id={id} />
       </FieldContentWrapper>
       {isFieldTypeEditable && (
-        <>
-          <StyledSelect
-            aria-label="Select field type"
-            size="xsmall"
-            renderMode="portal"
-            open={isSelectOpen}
-            setOpen={setIsSelectOpen}
-            onChange={val => {
-              if (val) {
-                onChangeFieldType?.(nodeId, Array.isArray(id) ? id : [id], val);
-              }
-            }}
-            // As its not multi-select, we can just use the first value
-            value={Array.isArray(type) ? type[0] : type || ''}
-            allowDeselect={false}
-            dropdownWidthBasis="option"
-            justify="middle"
-          >
-            {fieldTypes!.map(fieldType => (
-              <Option key={fieldType} value={fieldType}>
-                {fieldType}
-              </Option>
-            ))}
-          </StyledSelect>
-          <CaretIconWrapper title="Select field type">
-            <Icon glyph="CaretDown" />
-          </CaretIconWrapper>
-        </>
+        <CaretIconWrapper title="Select field type">
+          <Icon glyph="CaretDown" />
+        </CaretIconWrapper>
       )}
     </FieldTypeWrapper>
   );
