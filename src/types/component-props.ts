@@ -41,6 +41,11 @@ export type OnAddFieldToObjectFieldClickHandler = (event: ReactMouseEvent, nodeI
 export type OnFieldNameChangeHandler = (nodeId: string, fieldPath: string[], newName: string) => void;
 
 /**
+ * Called when a field's type is edited.
+ */
+export type OnFieldTypeChangeHandler = (nodeId: string, fieldPath: string[], newType: string) => void;
+
+/**
  * Called when the canvas (pane) is clicked.
  */
 export type OnPaneClickHandler = (event: ReactMouseEvent) => void;
@@ -203,6 +208,16 @@ export interface DiagramProps {
    * Callback when a field's name is changed.
    */
   onFieldNameChange?: OnFieldNameChangeHandler;
+
+  /**
+   * Callback when a field's type is changed.
+   */
+  onFieldTypeChange?: OnFieldTypeChangeHandler;
+
+  /**
+   * List of available field types for editing.
+   */
+  fieldTypes?: string[];
 
   /**
    * Whether the diagram should pan when dragging elements.

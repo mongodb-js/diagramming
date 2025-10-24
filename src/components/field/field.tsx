@@ -9,7 +9,7 @@ import { useCallback, useMemo } from 'react';
 import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
 import { FieldDepth } from '@/components/field/field-depth';
-import { FieldTypeContent } from '@/components/field/field-type-content';
+import { FieldType } from '@/components/field/field-type';
 import { FieldId, NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
@@ -107,16 +107,6 @@ const FieldName = styled.div`
   ${ellipsisTruncation}
 `;
 
-const FieldType = styled.div`
-  color: ${props => props.color};
-  flex: 0 0 ${LGSpacing[200] * 10}px;
-  font-weight: normal;
-  text-align: right;
-  padding-left:${LGSpacing[100]}px;
-  padding-right ${LGSpacing[50]}px; 
-  ${ellipsisTruncation}
-`;
-
 const IconWrapper = styled(Icon)`
   padding-right: ${spacing[100]}px;
   flex-shrink: 0;
@@ -184,14 +174,6 @@ export const Field = ({
     }
   };
 
-  const getSecondaryTextColor = () => {
-    if (isDisabled) {
-      return internalTheme.node.disabledColor;
-    } else {
-      return color[theme].text.secondary.default;
-    }
-  };
-
   const getIconColor = (glyph: NodeGlyph) => {
     if (isDisabled) {
       return color[theme].text.disabled.default;
@@ -226,9 +208,7 @@ export const Field = ({
           onChange={onChangeFieldName ? handleNameChange : undefined}
         />
       </FieldName>
-      <FieldType color={getSecondaryTextColor()}>
-        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
-      </FieldType>
+      <FieldType type={type} nodeId={nodeId} id={id} isDisabled={isDisabled} isSelected={selected} />
     </>
   );
 
