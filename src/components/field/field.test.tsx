@@ -16,15 +16,21 @@ const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
 const FieldWithEditableInteractions = ({
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
+  onFieldTypeChange,
+  fieldTypes,
   ...fieldProps
 }: React.ComponentProps<typeof FieldComponent> & {
   onAddFieldToObjectFieldClick?: () => void;
   onFieldNameChange?: (newName: string) => void;
+  onFieldTypeChange?: (nodeId: string, fieldPath: string[], newType: string) => void;
+  fieldTypes?: string[];
 }) => {
   return (
     <EditableDiagramInteractionsProvider
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
+      onFieldTypeChange={onFieldTypeChange}
+      fieldTypes={fieldTypes}
     >
       <FieldComponent {...fieldProps} />
     </EditableDiagramInteractionsProvider>
@@ -152,6 +158,107 @@ describe('field', () => {
       expect(screen.getByText(originalName)).toBeInTheDocument();
       await rerender(<FieldWithEditableInteractions {...DEFAULT_PROPS} editable={true} name={newName} />);
       expect(screen.getByText(newName)).toBeInTheDocument();
+    });
+
+    describe('Field type editing', () => {
+      it('Should not allow editing when field is not selected', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={false}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={vi.fn()}
+            fieldTypes={['string']}
+          />,
+        );
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should not allow editing when field is disabled', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="disabled"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={vi.fn()}
+            fieldTypes={['string']}
+          />,
+        );
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should not allow editing when no callback is provided', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            fieldTypes={['string']}
+          />,
+        );
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should not allow editing when no fieldTypes are provided', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={vi.fn()}
+            fieldTypes={[]}
+          />,
+        );
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should allow editing', async () => {
+        const onFieldTypeChangeMock = vi.fn();
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={onFieldTypeChangeMock}
+            fieldTypes={['objectId', 'string', 'number']}
+          />,
+        );
+        const caretWrapper = screen.getByLabelText('Select field type');
+        expect(caretWrapper).toBeInTheDocument();
+        await userEvent.click(caretWrapper);
+
+        expect(onFieldTypeChangeMock).not.toHaveBeenCalled();
+        const stringOption = screen.getByRole('option', { name: 'string' });
+        await userEvent.click(stringOption);
+        expect(onFieldTypeChangeMock).toHaveBeenCalledWith(
+          DEFAULT_PROPS.nodeId,
+          Array.isArray(DEFAULT_PROPS.id) ? DEFAULT_PROPS.id : [DEFAULT_PROPS.id],
+          'string',
+        );
+        expect(onFieldTypeChangeMock).toHaveBeenCalledTimes(1);
+
+        // Try changing to number type
+        await userEvent.click(caretWrapper);
+        const numberOption = screen.getByRole('option', { name: 'number' });
+        await userEvent.click(numberOption);
+        expect(onFieldTypeChangeMock).toHaveBeenCalledWith(
+          DEFAULT_PROPS.nodeId,
+          Array.isArray(DEFAULT_PROPS.id) ? DEFAULT_PROPS.id : [DEFAULT_PROPS.id],
+          'number',
+        );
+        expect(onFieldTypeChangeMock).toHaveBeenCalledTimes(2);
+      });
     });
   });
 

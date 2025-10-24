@@ -208,7 +208,7 @@ export const Field = ({
           onChange={onChangeFieldName ? handleNameChange : undefined}
         />
       </FieldName>
-      <FieldType type={type} nodeId={nodeId} id={id} isDisabled={isDisabled} isSelected={selected} />
+      <FieldType type={type} nodeId={nodeId} id={id} isDisabled={isDisabled} isEditable={selected && editable} />
     </>
   );
 

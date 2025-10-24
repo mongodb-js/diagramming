@@ -48,13 +48,13 @@ export function FieldType({
   type,
   nodeId,
   isDisabled,
-  isSelected,
+  isEditable,
 }: {
   id: FieldId;
   nodeId: string;
   type: string | string[] | undefined;
   isDisabled: boolean;
-  isSelected: boolean;
+  isEditable: boolean;
 }) {
   const internalTheme = useTheme();
   const { theme } = useDarkMode();
@@ -69,8 +69,8 @@ export function FieldType({
   };
 
   const isFieldTypeEditable = useMemo(() => {
-    return isSelected && !isDisabled && !!onChangeFieldType && (fieldTypes ?? []).length > 0;
-  }, [onChangeFieldType, isDisabled, isSelected, fieldTypes]);
+    return isEditable && !isDisabled && !!onChangeFieldType && (fieldTypes ?? []).length > 0;
+  }, [onChangeFieldType, isDisabled, isEditable, fieldTypes]);
 
   return (
     <FieldTypeWrapper
@@ -115,7 +115,7 @@ export function FieldType({
         <FieldTypeContent type={type} nodeId={nodeId} id={id} />
       </FieldContentWrapper>
       {isFieldTypeEditable && (
-        <CaretIconWrapper title="Select field type">
+        <CaretIconWrapper title="Select field type" aria-label="Select field type">
           <Icon glyph="CaretDown" />
         </CaretIconWrapper>
       )}
