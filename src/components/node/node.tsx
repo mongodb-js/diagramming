@@ -5,7 +5,13 @@ import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
 import { useCallback, useState } from 'react';
 
-import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
+import {
+  DEFAULT_NODE_HEADER_HORIZONTAL_PADDING,
+  DEFAULT_NODE_HEADER_ICON_HORIZONTAL_PADDING,
+  DEFAULT_NODE_HEADER_LINE_HEIGHT,
+  DEFAULT_NODE_HEADER_VERTICAL_PADDING,
+  ZOOM_THRESHOLD,
+} from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
 import { ChevronCollapse } from '@/components/icons/chevron-collapse';
@@ -39,9 +45,15 @@ const NodeZoomedOutInner = styled.div`
   overflow-wrap: break-word;
 `;
 
+export const NODE_HEADER_FONT = {
+  family: fontFamilies.code,
+  size: 13,
+  weight: 'bold',
+};
+
 const NodeWrapper = styled.div<{ accent: string; color: string; background: string }>`
   position: relative;
-  font-family: ${fontFamilies.code};
+  font-family: ${NODE_HEADER_FONT.family};
   background: ${props => props.background};
   color: ${props => props.color};
   overflow: hidden;
@@ -66,25 +78,22 @@ const NodeWrapper = styled.div<{ accent: string; color: string; background: stri
 const NodeHeader = styled.div<{ background?: string }>`
   display: flex;
   align-items: center;
-  font-size: 13px;
-  line-height: 20px;
-  font-weight: bold;
-  min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
-  padding: 0px;
-  padding-left: ${spacing[200]}px;
+  font-size: ${NODE_HEADER_FONT.size}px;
+  line-height: ${DEFAULT_NODE_HEADER_LINE_HEIGHT}px;
+  font-weight: ${NODE_HEADER_FONT.weight};
+  min-height: ${DEFAULT_NODE_HEADER_LINE_HEIGHT + 2 * DEFAULT_NODE_HEADER_VERTICAL_PADDING}px;
+  padding: ${DEFAULT_NODE_HEADER_VERTICAL_PADDING}px ${DEFAULT_NODE_HEADER_HORIZONTAL_PADDING}px;
   background: ${props => props.background};
 `;
 
 const NodeHeaderIcon = styled.div`
   display: flex;
-  margin-left: ${spacing[100]}px;
-  margin-right: ${spacing[100]}px;
+  margin: ${DEFAULT_NODE_HEADER_ICON_HORIZONTAL_PADDING}px 0px;
 `;
 
 export const NodeHeaderTitle = styled.div`
   overflow-wrap: break-word;
   min-width: 0;
-  margin-right: ${spacing[200]}px;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`

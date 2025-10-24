@@ -21,7 +21,7 @@ export const EMPLOYEES_NODE: NodeProps = {
     x: 300,
     y: 300,
   },
-  title: 'employees',
+  title: 'employees employees employees employees employees employees',
   fields: [
     { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
     { name: 'employeeDetail', type: 'object' },

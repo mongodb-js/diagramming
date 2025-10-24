@@ -1,10 +1,12 @@
 import type { BaseNode, NodeProps } from '@/types';
 import { InternalNode } from '@/types/internal';
+import { NODE_HEADER_FONT } from '@/components/node/node';
 
 import {
   DEFAULT_FIELD_HEIGHT,
   DEFAULT_FIELD_PADDING,
-  DEFAULT_NODE_HEADER_HEIGHT,
+  DEFAULT_NODE_HEADER_LINE_HEIGHT,
+  DEFAULT_NODE_HEADER_VERTICAL_PADDING,
   DEFAULT_NODE_WIDTH,
 } from './constants';
 
@@ -26,12 +28,42 @@ export const getNodeHeight = <
       fieldCount = internalNode.data.fields.length;
     }
   }
-  const calculatedHeight = getFieldYPosition(fieldCount) + DEFAULT_FIELD_PADDING;
+  const title = 'data' in node ? (node as InternalNode).data.title : undefined;
+  const calculatedHeight = getFieldYPosition(fieldCount, title) + DEFAULT_FIELD_PADDING;
   return calculatedHeight;
 };
 
-export const getFieldYPosition = (fieldIndex: number) =>
-  DEFAULT_NODE_HEADER_HEIGHT + DEFAULT_FIELD_PADDING + 2 + fieldIndex * DEFAULT_FIELD_HEIGHT;
+function setupCanvasContext() {
+  try {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.font = `${NODE_HEADER_FONT.weight} ${NODE_HEADER_FONT.size}px ${NODE_HEADER_FONT.family}`;
+    }
+    return ctx;
+  } catch {
+    return undefined;
+  }
+}
+
+const canvasCtx = setupCanvasContext();
+
+const getHeaderLines = (title?: string) => {
+  if (!title || !canvasCtx) return 1;
+  console.log(
+    'Measuring title:',
+    title,
+    Math.ceil(canvasCtx.measureText(title).width / DEFAULT_NODE_WIDTH),
+    canvasCtx.measureText(title).width,
+  );
+  return Math.ceil(canvasCtx.measureText(title).width / DEFAULT_NODE_WIDTH);
+};
+
+export const getFieldYPosition = (fieldIndex: number, title?: string) => {
+  const headerLines = getHeaderLines(title);
+  const headerHeight = DEFAULT_NODE_HEADER_LINE_HEIGHT * headerLines + 2 * DEFAULT_NODE_HEADER_VERTICAL_PADDING;
+  return headerHeight + DEFAULT_FIELD_PADDING + 2 + fieldIndex * DEFAULT_FIELD_HEIGHT;
+};
 
 export const getNodeWidth = <N extends Pick<BaseNode, 'measured'> | Pick<InternalNode, 'width'>>(node: N) => {
   if ('width' in node && typeof node.width === 'number') return node.width;
