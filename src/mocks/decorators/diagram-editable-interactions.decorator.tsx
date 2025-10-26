@@ -3,6 +3,30 @@ import { Decorator } from '@storybook/react';
 
 import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
 
+const fieldTypes = [
+  'double',
+  'string',
+  'object',
+  'array',
+  'binData',
+  'undefined',
+  'objectId',
+  'bool',
+  'date',
+  'null',
+  'regex',
+  'dbPointer',
+  'javascript',
+  'symbol',
+  'javascriptWithScope',
+  'int',
+  'timestamp',
+  'long',
+  'decimal',
+  'minKey',
+  'maxKey',
+];
+
 function stringArrayCompare(a: string[], b: string[]): boolean {
   if (a.length !== b.length) return false;
   if (a === b) return true;
@@ -20,6 +44,7 @@ const newField = (parentFieldPath?: string[]) => {
     name,
     type: 'string',
     selectable: true,
+    editable: true,
     depth: parentFieldPath ? parentFieldPath.length : 0,
     id: parentFieldPath ? [...parentFieldPath, name] : [name],
   };
@@ -54,6 +79,24 @@ function renameField(existingFields: NodeField[], fieldPath: string[], newName: 
     if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
     return { ...field, name: newName, id: [...fieldPath.slice(0, -1), newName] };
   });
+  return fields;
+}
+
+function changeFieldType(existingFields: NodeField[], fieldPath: string[], newType: string) {
+  let currentType;
+  const fields = existingFields.map(field => {
+    if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
+    currentType = field.type;
+    return { ...field, type: newType };
+  });
+  // If the currentType is 'object' or 'array', we should also remove all child fields.
+  if (currentType === 'object' || currentType === 'array') {
+    return fields.filter(field => {
+      const type = typeof field.id === 'string' ? [field.id] : field.id || [];
+      // Leading period helps ignore the current field (where type was changed).
+      return !type.join('.').startsWith(`${fieldPath.join('.')}.`);
+    });
+  }
   return fields;
 }
 
@@ -192,6 +235,19 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
+  const onFieldTypeChange = useCallback((nodeId: string, fieldPath: string[], newType: string) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: changeFieldType(node.fields, fieldPath, newType),
+            }
+          : node,
+      ),
+    );
+  }, []);
+
   const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string) => {
     setExpanded(state => {
       return {
@@ -222,6 +278,8 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     onNodeExpandToggle,
     onAddFieldToObjectFieldClick,
     onFieldNameChange,
+    onFieldTypeChange,
+    fieldTypes,
   };
 };
 
