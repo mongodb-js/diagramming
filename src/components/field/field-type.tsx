@@ -127,7 +127,8 @@ export function FieldType({
               setIsSelectOpen(false);
             }
           }}
-          // As its not multi-select, we can just use the first value
+          // As its not multi-select, we can just use the first value. Once LG-5657
+          // is implemented, we can use ComboBox component for multi-select support
           value={Array.isArray(type) ? type[0] : type || ''}
           allowDeselect={false}
           dropdownWidthBasis="option"
