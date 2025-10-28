@@ -4,7 +4,7 @@ import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { color, spacing as LGSpacing } from '@leafygreen-ui/tokens';
 import { Select, Option } from '@leafygreen-ui/select';
 import Icon from '@leafygreen-ui/icon';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
 import { FieldTypeContent } from '@/components/field/field-type-content';
@@ -43,6 +43,8 @@ const StyledSelect = styled(Select)`
   }
 `;
 
+const SELECT_POPOVER_ID = 'lg-field-type-select';
+
 export function FieldType({
   id,
   type,
@@ -60,6 +62,7 @@ export function FieldType({
   const { theme } = useDarkMode();
   const { onChangeFieldType, fieldTypes } = useEditableDiagramInteractions();
   const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const fieldTypeRef = useRef<HTMLDivElement>(null);
 
   const getSecondaryTextColor = () => {
     if (isDisabled) {
@@ -72,8 +75,34 @@ export function FieldType({
     return isEditable && !isDisabled && !!onChangeFieldType && (fieldTypes ?? []).length > 0;
   }, [onChangeFieldType, isDisabled, isEditable, fieldTypes]);
 
+  useEffect(() => {
+    const container = fieldTypeRef.current;
+    // Listener to close the select popover when clicking outside
+    const listener = (event: Event) => {
+      const popover = document.querySelector(`[data-lgid="${SELECT_POPOVER_ID}-popover"]`);
+      if (!popover) {
+        return;
+      }
+      // Event from popover or the container itself. Do nothing
+      if (event.composedPath().includes(container!) || event.composedPath().includes(popover)) {
+        return;
+      }
+      setIsSelectOpen(false);
+    };
+
+    if (container && isFieldTypeEditable) {
+      document.addEventListener('click', listener);
+    } else {
+      document.removeEventListener('click', listener);
+    }
+    return () => {
+      document.removeEventListener('click', listener);
+    };
+  }, [isFieldTypeEditable]);
+
   return (
     <FieldTypeWrapper
+      ref={fieldTypeRef}
       {...(isFieldTypeEditable
         ? {
             onClick: () => setIsSelectOpen(!isSelectOpen),
@@ -92,17 +121,17 @@ export function FieldType({
           size="xsmall"
           renderMode="portal"
           open={isSelectOpen}
-          setOpen={setIsSelectOpen}
           onChange={val => {
             if (val) {
               onChangeFieldType?.(nodeId, Array.isArray(id) ? id : [id], val);
+              setIsSelectOpen(false);
             }
           }}
           // As its not multi-select, we can just use the first value
           value={Array.isArray(type) ? type[0] : type || ''}
           allowDeselect={false}
           dropdownWidthBasis="option"
-          justify="middle"
+          data-lgid={SELECT_POPOVER_ID}
         >
           {fieldTypes!.map(fieldType => (
             <Option key={fieldType} value={fieldType}>

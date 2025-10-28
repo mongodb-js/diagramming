@@ -257,6 +257,20 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     });
   }, []);
 
+  const onNodeDragStop = useCallback((_event: ReactMouseEvent, node: NodeProps) => {
+    setNodes(nodes => {
+      return nodes.map(n => {
+        if (n.id === node.id) {
+          return {
+            ...n,
+            position: node.position,
+          };
+        }
+        return n;
+      });
+    });
+  }, []);
+
   const _nodes = useMemo(() => {
     return nodes.map(node => {
       if (expanded[node.id]) {
@@ -280,6 +294,7 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     onFieldNameChange,
     onFieldTypeChange,
     fieldTypes,
+    onNodeDragStop,
   };
 };
 
