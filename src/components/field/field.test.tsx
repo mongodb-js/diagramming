@@ -22,7 +22,7 @@ const FieldWithEditableInteractions = ({
 }: React.ComponentProps<typeof FieldComponent> & {
   onAddFieldToObjectFieldClick?: () => void;
   onFieldNameChange?: (newName: string) => void;
-  onFieldTypeChange?: (nodeId: string, fieldPath: string[], newType: string) => void;
+  onFieldTypeChange?: (nodeId: string, fieldPath: string[], newTypes: string[]) => void;
   fieldTypes?: string[];
 }) => {
   return (
@@ -244,7 +244,7 @@ describe('field', () => {
         expect(onFieldTypeChangeMock).toHaveBeenCalledWith(
           DEFAULT_PROPS.nodeId,
           Array.isArray(DEFAULT_PROPS.id) ? DEFAULT_PROPS.id : [DEFAULT_PROPS.id],
-          'string',
+          ['string'],
         );
         expect(onFieldTypeChangeMock).toHaveBeenCalledTimes(1);
 
@@ -255,7 +255,7 @@ describe('field', () => {
         expect(onFieldTypeChangeMock).toHaveBeenCalledWith(
           DEFAULT_PROPS.nodeId,
           Array.isArray(DEFAULT_PROPS.id) ? DEFAULT_PROPS.id : [DEFAULT_PROPS.id],
-          'number',
+          ['number'],
         );
         expect(onFieldTypeChangeMock).toHaveBeenCalledTimes(2);
       });
