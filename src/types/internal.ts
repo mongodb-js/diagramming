@@ -4,7 +4,8 @@ import { NodeBorderVariant, NodeField } from '@/types/node';
 import { EdgeProps } from '@/types/edge';
 
 export type NodeData = {
-  title: string;
+  name?: string;
+  title: React.ReactNode;
   disabled?: boolean;
   fields: NodeField[];
   borderVariant?: NodeBorderVariant;

@@ -62,9 +62,14 @@ export interface NodeProps {
   id: string;
 
   /**
-   * The title of the node, usually a collection or table name.
+   * The name of the node, usually a collection or table name.
    */
-  title: string;
+  name?: string;
+
+  /**
+   * The title of the node to render in node header.
+   */
+  title: React.ReactNode;
 
   /**
    * Actions to display in the node header, optional.

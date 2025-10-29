@@ -1,4 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
+import Icon from '@leafygreen-ui/icon';
+import InlineDefinition from '@leafygreen-ui/inline-definition';
 
 import { Diagram } from '@/components/diagram';
 import { EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
@@ -121,5 +123,90 @@ export const DiagramEditableStressTest: Story = {
     isDarkMode: true,
     edges: [],
     nodes: [],
+  },
+};
+
+export const DiagramWithNodesOfVariousTitleLengths: Story = {
+  decorators: [],
+  args: {
+    title: 'Diagram with Nodes of Various Title Lengths',
+    isDarkMode: true,
+    // to render add field button
+    onAddFieldToNodeClick: () => {
+      //
+    },
+    // to render expand/collapse button
+    onNodeExpandToggle: () => {
+      //
+    },
+    edges: [],
+    nodes: [
+      {
+        id: 'node-1',
+        title: 'Normal title',
+        fields: [],
+        position: { x: 100, y: 100 },
+        type: 'collection',
+      },
+      {
+        id: 'node-2',
+        title: (
+          <span
+            style={{
+              overflowWrap: 'break-word',
+              minWidth: 0,
+            }}
+          >
+            This is a node with a very long title that should not be truncated or overflow the node boundaries
+          </span>
+        ),
+        fields: [],
+        position: { x: 400, y: 100 },
+        type: 'collection',
+      },
+      {
+        id: 'node-3',
+        title: (
+          <span
+            style={{
+              overflowWrap: 'break-word',
+              minWidth: 0,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            This is a node with a very long title that should be truncated with an ellipsis if it exceeds the node width
+          </span>
+        ),
+        fields: [],
+        position: { x: 100, y: 300 },
+        type: 'collection',
+      },
+      {
+        id: 'node-4',
+        title: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1, minWidth: 0 }}>
+            <span
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              This title is a JSX element with <strong>bold</strong> text and <em>italic</em> text
+            </span>
+            <InlineDefinition definition={'This is an inline definition tooltip for the node title.'}>
+              <div style={{ color: 'yellow', display: 'flex' }}>
+                <Icon glyph="Warning" />
+              </div>
+            </InlineDefinition>
+          </div>
+        ),
+        fields: [],
+        position: { x: 400, y: 300 },
+        type: 'collection',
+      },
+    ],
   },
 };

@@ -72,19 +72,13 @@ const NodeHeader = styled.div<{ background?: string }>`
   min-height: ${DEFAULT_NODE_HEADER_HEIGHT}px;
   padding: 0px;
   padding-left: ${spacing[200]}px;
+  padding-right: ${spacing[200]}px;
   background: ${props => props.background};
+  gap: ${spacing[100]}px;
 `;
 
 const NodeHeaderIcon = styled.div`
   display: flex;
-  margin-left: ${spacing[100]}px;
-  margin-right: ${spacing[100]}px;
-`;
-
-export const NodeHeaderTitle = styled.div`
-  overflow-wrap: break-word;
-  min-width: 0;
-  margin-right: ${spacing[200]}px;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
@@ -105,7 +99,6 @@ const NodeWithFields = styled.div<{ visibility: string }>`
 
 const TitleControlsContainer = styled.div`
   margin-left: auto;
-  margin-right: ${spacing[200]}px;
   display: flex;
   gap: ${spacing[50]}px;
   & > * {
@@ -118,7 +111,7 @@ export const Node = ({
   type,
   selected,
   isConnectable,
-  data: { title, fields, borderVariant, disabled },
+  data: { name, title, fields, borderVariant, disabled },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { zoom } = useViewport();
@@ -195,7 +188,7 @@ export const Node = ({
   };
 
   return (
-    <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div title={name} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={getBorderVariant()}>
         <NodeHandle
           id="source"
@@ -214,7 +207,7 @@ export const Node = ({
         <NodeWrapper accent={getAccent()} color={getNodeColor()} background={getNodeBackground()}>
           {isContextualZoom && (
             <NodeZoomedOut>
-              <NodeZoomedOutInner title={title}>{title}</NodeZoomedOutInner>
+              <NodeZoomedOutInner title={name}>{title}</NodeZoomedOutInner>
             </NodeZoomedOut>
           )}
           <NodeWithFields visibility={isContextualZoom ? 'hidden' : 'none'}>
@@ -222,7 +215,7 @@ export const Node = ({
               <NodeHeaderIcon>
                 <Icon fill={theme.node.headerIcon} glyph="Drag" />
               </NodeHeaderIcon>
-              <NodeHeaderTitle>{title}</NodeHeaderTitle>
+              {title}
               <TitleControlsContainer>
                 {addFieldToNodeClickHandler && (
                   <DiagramIconButton aria-label="Add Field" onClick={onClickAddFieldToNode} title="Add Field">
