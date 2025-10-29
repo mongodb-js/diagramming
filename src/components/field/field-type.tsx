@@ -100,6 +100,12 @@ export function FieldType({
     };
   }, [isFieldTypeEditable]);
 
+  useEffect(() => {
+    if (!isFieldTypeEditable) {
+      setIsSelectOpen(false);
+    }
+  }, [isFieldTypeEditable]);
+
   return (
     <FieldTypeWrapper
       ref={fieldTypeRef}
@@ -123,7 +129,10 @@ export function FieldType({
           open={isSelectOpen}
           onChange={val => {
             if (val) {
-              onChangeFieldType?.(nodeId, Array.isArray(id) ? id : [id], val);
+              // Currently its a single select, so we are returning it as an array.
+              // That way once we have multi-select support, we don't need to change
+              // the API and it should work seemlessly for clients.
+              onChangeFieldType?.(nodeId, Array.isArray(id) ? id : [id], [val]);
               setIsSelectOpen(false);
             }
           }}

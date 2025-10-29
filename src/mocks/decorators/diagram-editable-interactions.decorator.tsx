@@ -82,12 +82,12 @@ function renameField(existingFields: NodeField[], fieldPath: string[], newName: 
   return fields;
 }
 
-function changeFieldType(existingFields: NodeField[], fieldPath: string[], newType: string) {
+function changeFieldType(existingFields: NodeField[], fieldPath: string[], newTypes: string[]) {
   let currentType;
   const fields = existingFields.map(field => {
     if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
     currentType = field.type;
-    return { ...field, type: newType };
+    return { ...field, type: Array.isArray(newTypes) && newTypes.length === 1 ? newTypes[0] : newTypes };
   });
   // If the currentType is 'object' or 'array', we should also remove all child fields.
   if (currentType === 'object' || currentType === 'array') {
@@ -235,13 +235,13 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
-  const onFieldTypeChange = useCallback((nodeId: string, fieldPath: string[], newType: string) => {
+  const onFieldTypeChange = useCallback((nodeId: string, fieldPath: string[], newTypes: string[]) => {
     setNodes(nodes =>
       nodes.map(node =>
         node.id === nodeId
           ? {
               ...node,
-              fields: changeFieldType(node.fields, fieldPath, newType),
+              fields: changeFieldType(node.fields, fieldPath, newTypes),
             }
           : node,
       ),

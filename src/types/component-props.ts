@@ -43,7 +43,7 @@ export type OnFieldNameChangeHandler = (nodeId: string, fieldPath: string[], new
 /**
  * Called when a field's type is edited.
  */
-export type OnFieldTypeChangeHandler = (nodeId: string, fieldPath: string[], newType: string) => void;
+export type OnFieldTypeChangeHandler = (nodeId: string, fieldPath: string[], newTypes: string[]) => void;
 
 /**
  * Called when the canvas (pane) is clicked.
