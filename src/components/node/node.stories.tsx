@@ -550,6 +550,28 @@ export const NodeWithWarningIcon: Story = {
   },
 };
 
+export const NodeWithLongTitleAndWarningIcon: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders_with_a_very_long_title_exceeding_normal_length_limits',
+      variant: 'warn',
+      warnMessage: 'This is a warning message for the Orders node.',
+      fields: [
+        {
+          name: '_id',
+          type: 'objectid',
+          glyphs: ['key'],
+        },
+        {
+          name: 'customer',
+          type: '{}',
+        },
+      ],
+    },
+  },
+};
+
 export const SelectedBorder: Story = {
   args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
 };
