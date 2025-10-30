@@ -555,8 +555,10 @@ export const NodeWithLongTitleAndWarningIcon: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders_with_a_very_long_title_exceeding_normal_length_limits',
-      variant: 'warn',
-      warnMessage: 'This is a warning message for the Orders node.',
+      variant: {
+        type: 'warn',
+        warnMessage: 'This is a warning message for the Orders node.',
+      },
       fields: [
         {
           name: '_id',

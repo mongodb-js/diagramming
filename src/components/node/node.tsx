@@ -133,7 +133,7 @@ export const Node = ({
   type,
   selected,
   isConnectable,
-  data: { title, fields, borderVariant, disabled, ...nodeData },
+  data: { title, fields, borderVariant, disabled, variant },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { darkMode } = useDarkMode();
@@ -240,15 +240,16 @@ export const Node = ({
               </NodeHeaderIcon>
               <NodeHeaderTitleWrapper>
                 <NodeHeaderTitle>{title}</NodeHeaderTitle>
-                {nodeData.variant === 'warn' && (
+                {variant?.type === 'warn' && (
                   <Tooltip
+                    renderMode="portal"
                     trigger={
                       <IconWrapper darkMode={darkMode}>
                         <Icon glyph="Warning" />
                       </IconWrapper>
                     }
                   >
-                    <Body>{nodeData.warnMessage}</Body>
+                    <Body>{variant.warnMessage}</Body>
                   </Tooltip>
                 )}
               </NodeHeaderTitleWrapper>

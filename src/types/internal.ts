@@ -1,6 +1,6 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
 
-import { NodeBorderVariant, NodeField, NodeVariantProps } from '@/types/node';
+import { NodeBorderVariant, NodeField, NodeVariant } from '@/types/node';
 import { EdgeProps } from '@/types/edge';
 
 export type NodeData = {
@@ -8,7 +8,8 @@ export type NodeData = {
   disabled?: boolean;
   fields: NodeField[];
   borderVariant?: NodeBorderVariant;
-} & NodeVariantProps;
+  variant?: NodeVariant;
+};
 
 export type InternalNode = ReactFlowNode<NodeData>;
 

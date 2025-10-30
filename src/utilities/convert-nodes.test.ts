@@ -39,7 +39,9 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
-          variant: 'default',
+          variant: {
+            type: 'default',
+          },
         },
       };
 
@@ -50,7 +52,9 @@ describe('convert-nodes', () => {
         position: { x: 100, y: 200 },
         title: 'some-title',
         fields: [],
-        variant: 'default',
+        variant: {
+          type: 'default',
+        },
       });
     });
     it('Should convert to external node when variant=warn', () => {
@@ -61,8 +65,10 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
-          variant: 'warn',
-          warnMessage: 'This is a warning',
+          variant: {
+            type: 'warn',
+            warnMessage: 'This is a warning',
+          },
         },
       };
 
@@ -73,8 +79,10 @@ describe('convert-nodes', () => {
         position: { x: 100, y: 200 },
         title: 'some-title',
         fields: [],
-        variant: 'warn',
-        warnMessage: 'This is a warning',
+        variant: {
+          type: 'warn',
+          warnMessage: 'This is a warning',
+        },
       });
     });
   });
@@ -195,7 +203,9 @@ describe('convert-nodes', () => {
         title: 'some-title',
         fields: [],
         selectable: true,
-        variant: 'default' as const,
+        variant: {
+          type: 'default' as const,
+        },
       };
       const result = convertToInternalNode(node);
       expect(result).toEqual({
@@ -209,7 +219,9 @@ describe('convert-nodes', () => {
           fields: [],
           borderVariant: undefined,
           disabled: undefined,
-          variant: 'default',
+          variant: {
+            type: 'default',
+          },
         },
       });
     });
@@ -221,8 +233,10 @@ describe('convert-nodes', () => {
         title: 'some-title',
         fields: [],
         selectable: true,
-        variant: 'warn' as const,
-        warnMessage: 'This is a warning',
+        variant: {
+          type: 'warn' as const,
+          warnMessage: 'This is a warning',
+        },
       };
       const result = convertToInternalNode(node);
       expect(result).toEqual({
@@ -236,8 +250,10 @@ describe('convert-nodes', () => {
           fields: [],
           borderVariant: undefined,
           disabled: undefined,
-          variant: 'warn',
-          warnMessage: 'This is a warning',
+          variant: {
+            type: 'warn',
+            warnMessage: 'This is a warning',
+          },
         },
       });
     });

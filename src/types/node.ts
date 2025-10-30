@@ -55,16 +55,16 @@ export interface Measured {
 
 export type FieldId = string | string[];
 
-export type NodeVariantProps =
+export type NodeVariant =
   | {
-      variant?: 'default';
+      type?: 'default';
     }
   | {
-      variant: 'warn';
+      type: 'warn';
       warnMessage: string;
     };
 
-interface BaseNodeProps {
+export interface NodeProps {
   /**
    * Unique identifier for the node.
    */
@@ -139,9 +139,13 @@ interface BaseNodeProps {
    * Optional CSS class name for the node.
    */
   className?: string;
+
+  /**
+   * The variant of the node.
+   */
+  variant?: NodeVariant;
 }
 
-export type NodeProps = BaseNodeProps & NodeVariantProps;
 export interface NodeField {
   /**
    * The name of the field.
