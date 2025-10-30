@@ -26,6 +26,18 @@ export const convertToInternalNode = (node: NodeProps): InternalNode => {
     },
   };
 
+  if (rest.variant === 'default') {
+    const { variant, ...otherProps } = rest;
+    return {
+      ...otherProps,
+      ...base,
+      data: {
+        ...base.data,
+        variant,
+      },
+    };
+  }
+
   if (rest.variant === 'warn') {
     const { variant, warnMessage, ...otherProps } = rest;
     return {
