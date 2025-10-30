@@ -88,6 +88,8 @@ export const DiagramWithEditInteractions: Story = {
             editable: true,
           })),
         ],
+        variant: 'warn',
+        warnMessage: 'This is a warning message for the Orders node.',
       },
       {
         ...EMPLOYEES_NODE,

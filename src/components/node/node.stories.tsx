@@ -528,6 +528,28 @@ export const NodeWithSelectedFields: Story = {
   },
 };
 
+export const NodeWithWarningIcon: Story = {
+  args: {
+    ...INTERNAL_NODE,
+    data: {
+      title: 'orders',
+      variant: 'warn',
+      warnMessage: 'This is a warning message for the Orders node.',
+      fields: [
+        {
+          name: '_id',
+          type: 'objectid',
+          glyphs: ['key'],
+        },
+        {
+          name: 'customer',
+          type: '{}',
+        },
+      ],
+    },
+  },
+};
+
 export const SelectedBorder: Story = {
   args: { ...INTERNAL_NODE, data: { ...INTERNAL_NODE.data, borderVariant: 'selected' } },
 };

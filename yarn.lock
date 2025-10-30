@@ -1113,6 +1113,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/emotion@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "@leafygreen-ui/emotion@npm:5.0.4"
+  dependencies:
+    "@emotion/css": "npm:^11.1.3"
+    "@emotion/server": "npm:^11.4.0"
+  checksum: 10c0/9886c12e829c23345ea918d9ec212c025c1f8025c5aac7c69995c71fd51e300ae104e24b52ef33b195715257453976322d56a88cd32f4f226605e7ed0a3bec90
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/hooks@npm:^9.1.1":
   version: 9.1.1
   resolution: "@leafygreen-ui/hooks@npm:9.1.1"
@@ -1135,6 +1145,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/hooks@npm:^9.2.0, @leafygreen-ui/hooks@npm:^9.2.1":
+  version: 9.2.1
+  resolution: "@leafygreen-ui/hooks@npm:9.2.1"
+  dependencies:
+    "@leafygreen-ui/lib": "npm:^15.6.2"
+    "@leafygreen-ui/tokens": "npm:^3.2.4"
+    lodash: "npm:^4.17.21"
+  checksum: 10c0/6ebeb476eab120d8b6f88b9a0095da1c2833cc64a744641bca56aa6641d8bbfcbadd25997999f677605a792fe24087d3ce58ed70ceaf6f90369d22fde8b72b43
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/icon@npm:^14.1.0, @leafygreen-ui/icon@npm:^14.3.0":
   version: 14.3.0
   resolution: "@leafygreen-ui/icon@npm:14.3.0"
@@ -1152,6 +1173,16 @@ __metadata:
     "@leafygreen-ui/emotion": "npm:^5.0.3"
     lodash: "npm:^4.17.21"
   checksum: 10c0/52ff8377a1364c81e994dfc9d4d727a22647dfbb4aaff912c0d64ac54d3cdd0c3244b65d153781ac5925d7c3213b8fd270020c156297b79b8a5b5e560a1b1550
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/icon@npm:^14.6.0":
+  version: 14.6.0
+  resolution: "@leafygreen-ui/icon@npm:14.6.0"
+  dependencies:
+    "@leafygreen-ui/emotion": "npm:^5.0.3"
+    lodash: "npm:^4.17.21"
+  checksum: 10c0/1da867cdf73426429a11052b3412a458032dfa72c0fb862d989475ebca9c67b70636104715cb172a0d9d3fbbaa62feb224a71e3167cf7559cc38b9d7b5ce42db
   languageName: node
   linkType: hard
 
@@ -1200,6 +1231,17 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
   checksum: 10c0/56afb755e06797b3e8572783e1546c5107e40f2814d3f5451114e84659b94dfb45c9e92945514bb68a54b26da3166b7db0b42d9e70dd8c8f5bac2cc831625db5
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/lib@npm:^15.6.1, @leafygreen-ui/lib@npm:^15.6.2":
+  version: 15.6.2
+  resolution: "@leafygreen-ui/lib@npm:15.6.2"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 10c0/f9a1460d4763e77211f12f6f15c07ca59a99622925da685bed4c2f874053e196b2941c4b4702e831401efc780b3ac4f4f08a3407e0483f1d2206d04d164288b0
   languageName: node
   linkType: hard
 
@@ -1256,6 +1298,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/popover@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "@leafygreen-ui/popover@npm:14.2.0"
+  dependencies:
+    "@floating-ui/react": "npm:^0.26.28"
+    "@leafygreen-ui/emotion": "npm:^5.0.4"
+    "@leafygreen-ui/hooks": "npm:^9.2.1"
+    "@leafygreen-ui/lib": "npm:^15.6.2"
+    "@leafygreen-ui/portal": "npm:^7.1.0"
+    "@leafygreen-ui/tokens": "npm:^3.2.4"
+    "@types/react-transition-group": "npm:^4.4.5"
+    lodash: "npm:^4.17.21"
+    react-transition-group: "npm:^4.4.5"
+  peerDependencies:
+    "@leafygreen-ui/leafygreen-provider": ">=3.2.0"
+  checksum: 10c0/9c3257103ffe42084b742925158fae14d14aa4b588234960af796f73416fe0457675b1d230343808c94e5a2fe6b958e0d62026da1ebe4f32ab6bd7d693311b31
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/portal@npm:^7.0.4":
   version: 7.0.4
   resolution: "@leafygreen-ui/portal@npm:7.0.4"
@@ -1265,6 +1326,18 @@ __metadata:
   peerDependencies:
     react-dom: ^17.0.0 || ^18.0.0
   checksum: 10c0/3eab02604b83bb904f02a9c158829249bce6d929be802b07ec6b70d94a6dba5bb2ffe1c0be0d226e5f58297e8b465bcde1185f819902887c1a938ae8f75cde3c
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/portal@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@leafygreen-ui/portal@npm:7.1.0"
+  dependencies:
+    "@leafygreen-ui/hooks": "npm:^9.2.0"
+    "@leafygreen-ui/lib": "npm:^15.6.1"
+  peerDependencies:
+    react-dom: ^17.0.0 || ^18.0.0
+  checksum: 10c0/84eee9ceac347eddeed8a9d267e602fc6078f9ee0ca77d283a80d3326bbb386423b1f10d0b9aa4e7c6deb49f4029dac5b598ba434ebebb2c3e8c6fbafb8d80c5
   languageName: node
   linkType: hard
 
@@ -1312,6 +1385,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/tooltip@npm:^14.2.1":
+  version: 14.2.1
+  resolution: "@leafygreen-ui/tooltip@npm:14.2.1"
+  dependencies:
+    "@leafygreen-ui/emotion": "npm:^5.0.4"
+    "@leafygreen-ui/hooks": "npm:^9.2.1"
+    "@leafygreen-ui/icon": "npm:^14.6.0"
+    "@leafygreen-ui/lib": "npm:^15.6.2"
+    "@leafygreen-ui/palette": "npm:^5.0.2"
+    "@leafygreen-ui/popover": "npm:^14.2.0"
+    "@leafygreen-ui/tokens": "npm:^3.2.4"
+    "@leafygreen-ui/typography": "npm:^22.1.4"
+    lodash: "npm:^4.17.21"
+    polished: "npm:^4.2.2"
+  peerDependencies:
+    "@leafygreen-ui/leafygreen-provider": ">=3.2.0"
+  checksum: 10c0/ac5f64ef9720b0554c60a557dc5980227b0863862395cec72a1766028daf72bdb99c4ba63c8b02e4bfd97c78766df1c5881b583bf45660b690cbef94a7ac5515
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/typography@npm:^22.1.0":
   version: 22.1.0
   resolution: "@leafygreen-ui/typography@npm:22.1.0"
@@ -1341,6 +1434,22 @@ __metadata:
   peerDependencies:
     "@leafygreen-ui/leafygreen-provider": ^5.0.4
   checksum: 10c0/6f238647e0ac057e987beb88c39a39a9d81cf8b80c0c5a48dcaf6bf0059a36a4dc7c2cac230d450e968931e2d5167eaca93e79f5bf5cc1cdcaf4d9b6d271ed96
+  languageName: node
+  linkType: hard
+
+"@leafygreen-ui/typography@npm:^22.1.4":
+  version: 22.1.4
+  resolution: "@leafygreen-ui/typography@npm:22.1.4"
+  dependencies:
+    "@leafygreen-ui/emotion": "npm:^5.0.4"
+    "@leafygreen-ui/icon": "npm:^14.6.0"
+    "@leafygreen-ui/lib": "npm:^15.6.2"
+    "@leafygreen-ui/palette": "npm:^5.0.2"
+    "@leafygreen-ui/polymorphic": "npm:^3.1.0"
+    "@leafygreen-ui/tokens": "npm:^3.2.4"
+  peerDependencies:
+    "@leafygreen-ui/leafygreen-provider": ">=3.2.0"
+  checksum: 10c0/5730e7871192e8d487ddfb82740f6d1ad9dabb907258835cced9f21ce3e28e141d8a2c18385b599095719fdecdac5f3905e7806ec5e7230d7786696678df066a
   languageName: node
   linkType: hard
 
@@ -1411,6 +1520,7 @@ __metadata:
     "@leafygreen-ui/leafygreen-provider": "npm:^5.0.2"
     "@leafygreen-ui/palette": "npm:^5.0.0"
     "@leafygreen-ui/tokens": "npm:^3.2.1"
+    "@leafygreen-ui/tooltip": "npm:^14.2.1"
     "@leafygreen-ui/typography": "npm:^22.1.0"
     "@storybook/addon-themes": "npm:^9.0.10"
     "@storybook/builder-vite": "npm:^9.0.10"

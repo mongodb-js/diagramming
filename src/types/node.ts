@@ -55,7 +55,16 @@ export interface Measured {
 
 export type FieldId = string | string[];
 
-export interface NodeProps {
+export type NodeVariantProps =
+  | {
+      variant?: 'default';
+    }
+  | {
+      variant: 'warn';
+      warnMessage: string;
+    };
+
+interface BaseNodeProps {
   /**
    * Unique identifier for the node.
    */
@@ -65,11 +74,6 @@ export interface NodeProps {
    * The title of the node, usually a collection or table name.
    */
   title: string;
-
-  /**
-   * Actions to display in the node header, optional.
-   */
-  actions?: React.ReactNode;
 
   /**
    * Whether the node is disabled.
@@ -137,6 +141,7 @@ export interface NodeProps {
   className?: string;
 }
 
+export type NodeProps = BaseNodeProps & NodeVariantProps;
 export interface NodeField {
   /**
    * The name of the field.
