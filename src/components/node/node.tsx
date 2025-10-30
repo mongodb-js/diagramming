@@ -243,6 +243,7 @@ export const Node = ({
                 {variant?.type === 'warn' && (
                   <Tooltip
                     renderMode="portal"
+                    justify="middle"
                     trigger={
                       <IconWrapper darkMode={darkMode}>
                         <Icon glyph="Warning" />
