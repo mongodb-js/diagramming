@@ -104,6 +104,7 @@ describe('field', () => {
           {...DEFAULT_PROPS}
           id={fieldId}
           editable={true}
+          selected={true}
           onFieldNameChange={onFieldNameChangeMock}
         />,
       );

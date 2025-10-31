@@ -67,6 +67,12 @@ export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id
     };
   }, [isEditable]);
 
+  useEffect(() => {
+    if (!isEditable) {
+      setIsEditing(false);
+    }
+  }, [isEditable]);
+
   const isNameEditable = isEditing && isEditable && !!onChangeFieldName;
   const isTypeEditable = isEditing && isEditable && !!onChangeFieldType && (fieldTypes ?? []).length > 0;
 

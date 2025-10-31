@@ -187,7 +187,7 @@ export const Field = ({
     <FieldContent
       isDisabled={isDisabled}
       depth={depth}
-      isEditable={editable && !isDisabled}
+      isEditable={selected && editable && !isDisabled}
       name={name}
       type={type}
       id={id}
