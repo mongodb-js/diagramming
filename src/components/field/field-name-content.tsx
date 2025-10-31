@@ -13,22 +13,26 @@ const InnerFieldName = styled.div`
 const InlineInput = styled.input`
   border: none;
   background: none;
+  &:focus {
+    outline: none;
+  }
   height: ${DEFAULT_FIELD_HEIGHT}px;
   color: inherit;
   font-size: inherit;
   font-family: inherit;
   font-style: inherit;
+  width: 100%;
 `;
 
 interface FieldNameProps {
   name: string;
-  isEditable?: boolean;
+  isEditing?: boolean;
   onChange?: (newName: string) => void;
+  onCancelEditing?: () => void;
   onBlur?: () => void;
 }
 
-export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+export const FieldNameContent = ({ name, isEditing, onChange, onCancelEditing }: FieldNameProps) => {
   const [value, setValue] = useState(name);
   const textInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +41,6 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
   }, [name]);
 
   const handleSubmit = useCallback(() => {
-    setIsEditing(false);
     onChange?.(value);
   }, [value, onChange]);
 
@@ -46,15 +49,11 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
       if (e.key === 'Enter') handleSubmit();
       if (e.key === 'Escape') {
         setValue(name);
-        setIsEditing(false);
+        onCancelEditing?.();
       }
     },
-    [handleSubmit, name],
+    [handleSubmit, onCancelEditing, name],
   );
-
-  const handleNameDoubleClick = useCallback(() => {
-    setIsEditing(true);
-  }, []);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -80,6 +79,6 @@ export const FieldNameContent = ({ name, isEditable, onChange }: FieldNameProps)
       title="Edit field name"
     />
   ) : (
-    <InnerFieldName onDoubleClick={onChange && isEditable ? handleNameDoubleClick : undefined}>{value}</InnerFieldName>
+    <InnerFieldName title={value}>{value}</InnerFieldName>
   );
 };

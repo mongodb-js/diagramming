@@ -1,20 +1,18 @@
 import styled from '@emotion/styled';
-import { color, fontWeights, spacing as LGSpacing, spacing } from '@leafygreen-ui/tokens';
+import { color, spacing as LGSpacing, spacing } from '@leafygreen-ui/tokens';
 import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { useTheme } from '@emotion/react';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
+import { animatedBlueBorder } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
-import { FieldDepth } from '@/components/field/field-depth';
-import { FieldType } from '@/components/field/field-type';
 import { FieldId, NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
-import { FieldNameContent } from './field-name-content';
+import { FieldContent } from './field-content';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -99,14 +97,6 @@ const FieldRow = styled.div`
   align-items: center;
 `;
 
-const FieldName = styled.div`
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  font-weight: ${fontWeights.medium};
-  ${ellipsisTruncation}
-`;
-
 const IconWrapper = styled(Icon)`
   padding-right: ${spacing[100]}px;
   flex-shrink: 0;
@@ -143,7 +133,7 @@ export const Field = ({
 }: Props) => {
   const { theme } = useDarkMode();
 
-  const { onClickField, onChangeFieldName } = useEditableDiagramInteractions();
+  const { onClickField } = useEditableDiagramInteractions();
 
   const internalTheme = useTheme();
 
@@ -193,23 +183,16 @@ export const Field = ({
     return internalTheme.node.mongoDBAccent;
   };
 
-  const handleNameChange = useCallback(
-    (newName: string) => onChangeFieldName?.(nodeId, Array.isArray(id) ? id : [id], newName),
-    [onChangeFieldName, id, nodeId],
-  );
-
   const content = (
-    <>
-      <FieldName>
-        <FieldDepth depth={depth} />
-        <FieldNameContent
-          name={name}
-          isEditable={editable}
-          onChange={onChangeFieldName ? handleNameChange : undefined}
-        />
-      </FieldName>
-      <FieldType type={type} nodeId={nodeId} id={id} isDisabled={isDisabled} isEditable={selected && editable} />
-    </>
+    <FieldContent
+      isDisabled={isDisabled}
+      depth={depth}
+      isEditable={editable && !isDisabled}
+      name={name}
+      type={type}
+      id={id}
+      nodeId={nodeId}
+    />
   );
 
   /**

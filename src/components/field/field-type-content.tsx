@@ -31,10 +31,12 @@ export const FieldTypeContent = ({
   type,
   nodeId,
   id,
+  isAddFieldToObjectDisabled,
 }: {
   id: string | string[];
   nodeId: string;
   type?: string | string[];
+  isAddFieldToObjectDisabled?: boolean;
 }) => {
   const { onClickAddFieldToObjectField: _onClickAddFieldToObjectField } = useEditableDiagramInteractions();
 
@@ -54,7 +56,7 @@ export const FieldTypeContent = ({
     return (
       <ObjectTypeContainer>
         <span title="object">{'{}'}</span>
-        {onClickAddFieldToObject && (
+        {onClickAddFieldToObject && !isAddFieldToObjectDisabled && (
           <DiagramIconButton
             data-testid={`object-field-type-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
             onClick={onClickAddFieldToObject}

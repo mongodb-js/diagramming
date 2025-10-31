@@ -1,29 +1,29 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
-import { color, spacing as LGSpacing } from '@leafygreen-ui/tokens';
+import { spacing, color } from '@leafygreen-ui/tokens';
 import { Select, Option } from '@leafygreen-ui/select';
 import Icon from '@leafygreen-ui/icon';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
 import { FieldTypeContent } from '@/components/field/field-type-content';
 import { FieldId } from '@/types';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
-const FieldTypeWrapper = styled.div`
+const FieldTypeWrapper = styled.div<{ color: string }>`
   color: ${props => props.color};
   font-weight: normal;
-  padding-left:${LGSpacing[100]}px;
-  padding-right ${LGSpacing[50]}px; 
-  flex: 0 0 ${LGSpacing[200] * 10}px;
+  padding-left:${spacing[100]}px;
+  padding-right ${spacing[50]}px; 
+  flex: 0 0 ${spacing[200] * 10}px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 `;
 
 const FieldContentWrapper = styled.div`
-  max-width: ${LGSpacing[200] * 10}px;
+  max-width: ${spacing[200] * 10}px;
   ${ellipsisTruncation}
 `;
 
@@ -43,26 +43,32 @@ const StyledSelect = styled(Select)`
   }
 `;
 
-const SELECT_POPOVER_ID = 'lg-field-type-select';
-
 export function FieldType({
   id,
   type,
   nodeId,
+  isEditing,
   isDisabled,
-  isEditable,
+  onChange,
 }: {
   id: FieldId;
   nodeId: string;
   type: string | string[] | undefined;
+  isEditing: boolean;
   isDisabled: boolean;
-  isEditable: boolean;
+  onChange?: (newType: string[]) => void;
 }) {
   const internalTheme = useTheme();
   const { theme } = useDarkMode();
-  const { onChangeFieldType, fieldTypes } = useEditableDiagramInteractions();
+  const { fieldTypes } = useEditableDiagramInteractions();
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const fieldTypeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setIsSelectOpen(false);
+    }
+  }, [isEditing]);
 
   const getSecondaryTextColor = () => {
     if (isDisabled) {
@@ -71,45 +77,10 @@ export function FieldType({
     return color[theme].text.secondary.default;
   };
 
-  const isFieldTypeEditable = useMemo(() => {
-    return isEditable && !isDisabled && !!onChangeFieldType && (fieldTypes ?? []).length > 0;
-  }, [onChangeFieldType, isDisabled, isEditable, fieldTypes]);
-
-  useEffect(() => {
-    const container = fieldTypeRef.current;
-    // Listener to close the select popover when clicking outside
-    const listener = (event: Event) => {
-      const popover = document.querySelector(`[data-lgid="${SELECT_POPOVER_ID}-popover"]`);
-      if (!popover) {
-        return;
-      }
-      // Event from popover or the container itself. Do nothing
-      if (event.composedPath().includes(container!) || event.composedPath().includes(popover)) {
-        return;
-      }
-      setIsSelectOpen(false);
-    };
-
-    if (container && isFieldTypeEditable) {
-      document.addEventListener('click', listener);
-    } else {
-      document.removeEventListener('click', listener);
-    }
-    return () => {
-      document.removeEventListener('click', listener);
-    };
-  }, [isFieldTypeEditable]);
-
-  useEffect(() => {
-    if (!isFieldTypeEditable) {
-      setIsSelectOpen(false);
-    }
-  }, [isFieldTypeEditable]);
-
   return (
     <FieldTypeWrapper
       ref={fieldTypeRef}
-      {...(isFieldTypeEditable
+      {...(isEditing
         ? {
             onClick: () => setIsSelectOpen(!isSelectOpen),
           }
@@ -121,7 +92,7 @@ export function FieldType({
        * to the field type position. LG Select does not provide a way to set the
        * position of the popover using refs.
        */}
-      {isFieldTypeEditable && (
+      {isEditing && (
         <StyledSelect
           aria-label="Select field type"
           size="xsmall"
@@ -132,7 +103,10 @@ export function FieldType({
               // Currently its a single select, so we are returning it as an array.
               // That way once we have multi-select support, we don't need to change
               // the API and it should work seemlessly for clients.
-              onChangeFieldType?.(nodeId, Array.isArray(id) ? id : [id], [val]);
+              // Trigger onChange only if the value is different
+              if (type !== val) {
+                onChange?.([val]);
+              }
               setIsSelectOpen(false);
             }
           }}
@@ -141,7 +115,7 @@ export function FieldType({
           value={Array.isArray(type) ? type[0] : type || ''}
           allowDeselect={false}
           dropdownWidthBasis="option"
-          data-lgid={SELECT_POPOVER_ID}
+          tabIndex={0}
         >
           {fieldTypes!.map(fieldType => (
             <Option key={fieldType} value={fieldType}>
@@ -151,9 +125,9 @@ export function FieldType({
         </StyledSelect>
       )}
       <FieldContentWrapper>
-        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
+        <FieldTypeContent type={type} nodeId={nodeId} id={id} isAddFieldToObjectDisabled={isEditing} />
       </FieldContentWrapper>
-      {isFieldTypeEditable && (
+      {isEditing && (
         <CaretIconWrapper title="Select field type" aria-label="Select field type">
           <Icon glyph="CaretDown" />
         </CaretIconWrapper>
