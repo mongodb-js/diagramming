@@ -174,6 +174,9 @@ describe('field', () => {
             fieldTypes={['string']}
           />,
         );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
         expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
       });
       it('Should not allow editing when field is disabled', async () => {
@@ -189,6 +192,9 @@ describe('field', () => {
             fieldTypes={['string']}
           />,
         );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
         expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
       });
       it('Should not allow editing when no callback is provided', async () => {
@@ -203,6 +209,9 @@ describe('field', () => {
             fieldTypes={['string']}
           />,
         );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
         expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
       });
       it('Should not allow editing when no fieldTypes are provided', async () => {
@@ -218,6 +227,9 @@ describe('field', () => {
             fieldTypes={[]}
           />,
         );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
         expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
       });
       it('Should allow editing', async () => {
@@ -234,6 +246,10 @@ describe('field', () => {
             fieldTypes={['objectId', 'string', 'number']}
           />,
         );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
+
         const caretWrapper = screen.getByLabelText('Select field type');
         expect(caretWrapper).toBeInTheDocument();
         await userEvent.click(caretWrapper);

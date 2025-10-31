@@ -71,7 +71,11 @@ export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id
   const isTypeEditable = isEditing && isEditable && !!onChangeFieldType && (fieldTypes ?? []).length > 0;
 
   return (
-    <FieldContentWrapper onDoubleClick={isEditable ? handleDoubleClick : undefined} ref={fieldContentRef}>
+    <FieldContentWrapper
+      data-testid={`field-content-${name}`}
+      onDoubleClick={isEditable ? handleDoubleClick : undefined}
+      ref={fieldContentRef}
+    >
       <FieldName>
         <FieldDepth depth={depth} />
         <FieldNameContent
