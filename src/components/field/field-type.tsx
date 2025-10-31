@@ -56,7 +56,7 @@ export function FieldType({
   type: string | string[] | undefined;
   isEditing: boolean;
   isDisabled: boolean;
-  onChange?: (newType: string[]) => void;
+  onChange: (newType: string[]) => void;
 }) {
   const internalTheme = useTheme();
   const { theme } = useDarkMode();
@@ -105,7 +105,7 @@ export function FieldType({
               // the API and it should work seemlessly for clients.
               // Trigger onChange only if the value is different
               if (type !== val) {
-                onChange?.([val]);
+                onChange([val]);
               }
               setIsSelectOpen(false);
             }

@@ -13,9 +13,6 @@ const InnerFieldName = styled.div`
 const InlineInput = styled.input`
   border: none;
   background: none;
-  &:focus {
-    outline: none;
-  }
   height: ${DEFAULT_FIELD_HEIGHT}px;
   color: inherit;
   font-size: inherit;
@@ -26,10 +23,9 @@ const InlineInput = styled.input`
 
 interface FieldNameProps {
   name: string;
-  isEditing?: boolean;
-  onChange?: (newName: string) => void;
-  onCancelEditing?: () => void;
-  onBlur?: () => void;
+  isEditing: boolean;
+  onChange: (newName: string) => void;
+  onCancelEditing: () => void;
 }
 
 export const FieldNameContent = ({ name, isEditing, onChange, onCancelEditing }: FieldNameProps) => {
@@ -41,7 +37,7 @@ export const FieldNameContent = ({ name, isEditing, onChange, onCancelEditing }:
   }, [name]);
 
   const handleSubmit = useCallback(() => {
-    onChange?.(value);
+    onChange(value);
   }, [value, onChange]);
 
   const handleKeyboardEvent = useCallback(
@@ -49,7 +45,7 @@ export const FieldNameContent = ({ name, isEditing, onChange, onCancelEditing }:
       if (e.key === 'Enter') handleSubmit();
       if (e.key === 'Escape') {
         setValue(name);
-        onCancelEditing?.();
+        onCancelEditing();
       }
     },
     [handleSubmit, onCancelEditing, name],
@@ -58,15 +54,6 @@ export const FieldNameContent = ({ name, isEditing, onChange, onCancelEditing }:
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, []);
-
-  useEffect(() => {
-    if (isEditing) {
-      setTimeout(() => {
-        textInputRef.current?.focus();
-        textInputRef.current?.select();
-      });
-    }
-  }, [isEditing]);
 
   return isEditing ? (
     <InlineInput

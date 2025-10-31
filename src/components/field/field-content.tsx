@@ -30,7 +30,7 @@ interface FieldContentProps extends NodeField {
 }
 
 export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id, nodeId }: FieldContentProps) => {
-  const [isEditing, setIsEditing] = useState(isEditable ? false : false);
+  const [isEditing, setIsEditing] = useState(false);
   const fieldContentRef = useRef<HTMLDivElement>(null);
 
   const { onChangeFieldName, onChangeFieldType, fieldTypes } = useEditableDiagramInteractions();
@@ -77,7 +77,7 @@ export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id
         <FieldNameContent
           name={name}
           isEditing={isNameEditable}
-          onChange={onChangeFieldName ? handleNameChange : undefined}
+          onChange={handleNameChange}
           onCancelEditing={() => setIsEditing(false)}
         />
       </FieldName>
