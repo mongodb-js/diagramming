@@ -59,10 +59,12 @@ export const Canvas = ({
   edges: externalEdges,
   onConnect,
   id,
+  fieldTypes,
   onAddFieldToNodeClick,
   onNodeExpandToggle,
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
+  onFieldTypeChange,
   onFieldClick,
   onNodeContextMenu,
   onNodeDrag,
@@ -153,6 +155,8 @@ export const Canvas = ({
       onNodeExpandToggle={onNodeExpandToggle}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
+      onFieldTypeChange={onFieldTypeChange}
+      fieldTypes={fieldTypes}
     >
       <ReactFlowWrapper>
         <ReactFlow

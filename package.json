@@ -55,6 +55,7 @@
     "@leafygreen-ui/inline-definition": "^9.0.5",
     "@leafygreen-ui/leafygreen-provider": "^5.0.2",
     "@leafygreen-ui/palette": "^5.0.0",
+    "@leafygreen-ui/select": "^16.2.0",
     "@leafygreen-ui/tokens": "^3.2.1",
     "@leafygreen-ui/typography": "^22.1.0",
     "@xyflow/react": "12.5.1",

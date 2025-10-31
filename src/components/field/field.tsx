@@ -1,20 +1,18 @@
 import styled from '@emotion/styled';
-import { color, fontWeights, spacing as LGSpacing, spacing } from '@leafygreen-ui/tokens';
+import { color, spacing as LGSpacing, spacing } from '@leafygreen-ui/tokens';
 import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { useTheme } from '@emotion/react';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { animatedBlueBorder, ellipsisTruncation } from '@/styles/styles';
+import { animatedBlueBorder } from '@/styles/styles';
 import { DEFAULT_DEPTH_SPACING, DEFAULT_FIELD_HEIGHT } from '@/utilities/constants';
-import { FieldDepth } from '@/components/field/field-depth';
-import { FieldTypeContent } from '@/components/field/field-type-content';
 import { FieldId, NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
-import { FieldNameContent } from './field-name-content';
+import { FieldContent } from './field-content';
 
 const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
 const FIELD_GLYPH_SPACING = spacing[400];
@@ -99,24 +97,6 @@ const FieldRow = styled.div`
   align-items: center;
 `;
 
-const FieldName = styled.div`
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  font-weight: ${fontWeights.medium};
-  ${ellipsisTruncation}
-`;
-
-const FieldType = styled.div`
-  color: ${props => props.color};
-  flex: 0 0 ${LGSpacing[200] * 10}px;
-  font-weight: normal;
-  text-align: right;
-  padding-left:${LGSpacing[100]}px;
-  padding-right ${LGSpacing[50]}px; 
-  ${ellipsisTruncation}
-`;
-
 const IconWrapper = styled(Icon)`
   padding-right: ${spacing[100]}px;
   flex-shrink: 0;
@@ -153,7 +133,7 @@ export const Field = ({
 }: Props) => {
   const { theme } = useDarkMode();
 
-  const { onClickField, onChangeFieldName } = useEditableDiagramInteractions();
+  const { onClickField } = useEditableDiagramInteractions();
 
   const internalTheme = useTheme();
 
@@ -184,14 +164,6 @@ export const Field = ({
     }
   };
 
-  const getSecondaryTextColor = () => {
-    if (isDisabled) {
-      return internalTheme.node.disabledColor;
-    } else {
-      return color[theme].text.secondary.default;
-    }
-  };
-
   const getIconColor = (glyph: NodeGlyph) => {
     if (isDisabled) {
       return color[theme].text.disabled.default;
@@ -211,25 +183,16 @@ export const Field = ({
     return internalTheme.node.mongoDBAccent;
   };
 
-  const handleNameChange = useCallback(
-    (newName: string) => onChangeFieldName?.(nodeId, Array.isArray(id) ? id : [id], newName),
-    [onChangeFieldName, id, nodeId],
-  );
-
   const content = (
-    <>
-      <FieldName>
-        <FieldDepth depth={depth} />
-        <FieldNameContent
-          name={name}
-          isEditable={editable}
-          onChange={onChangeFieldName ? handleNameChange : undefined}
-        />
-      </FieldName>
-      <FieldType color={getSecondaryTextColor()}>
-        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
-      </FieldType>
-    </>
+    <FieldContent
+      isDisabled={isDisabled}
+      depth={depth}
+      isEditable={selected && editable && !isDisabled}
+      name={name}
+      type={type}
+      id={id}
+      nodeId={nodeId}
+    />
   );
 
   /**
