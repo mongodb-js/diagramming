@@ -31,6 +31,60 @@ describe('convert-nodes', () => {
         fields: [],
       });
     });
+    it('Should convert to external node when variant=default', () => {
+      const internalNode: InternalNode = {
+        id: 'node-1',
+        type: 'collection',
+        position: { x: 100, y: 200 },
+        data: {
+          title: 'some-title',
+          fields: [],
+          variant: {
+            type: 'default',
+          },
+        },
+      };
+
+      const result = convertToExternalNode(internalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'collection' as NodeType,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [],
+        variant: {
+          type: 'default',
+        },
+      });
+    });
+    it('Should convert to external node when variant=warn', () => {
+      const internalNode: InternalNode = {
+        id: 'node-1',
+        type: 'collection',
+        position: { x: 100, y: 200 },
+        data: {
+          title: 'some-title',
+          fields: [],
+          variant: {
+            type: 'warn',
+            warnMessage: 'This is a warning',
+          },
+        },
+      };
+
+      const result = convertToExternalNode(internalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'collection' as NodeType,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [],
+        variant: {
+          type: 'warn',
+          warnMessage: 'This is a warning',
+        },
+      });
+    });
   });
 
   describe('convertToExternalNodes', () => {
@@ -138,6 +192,68 @@ describe('convert-nodes', () => {
           fields: [],
           borderVariant: undefined,
           disabled: undefined,
+        },
+      });
+    });
+    it('Should be handle node variant=default', () => {
+      const node = {
+        id: 'node-1',
+        type: 'table' as const,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [],
+        selectable: true,
+        variant: {
+          type: 'default' as const,
+        },
+      };
+      const result = convertToInternalNode(node);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'table',
+        position: { x: 100, y: 200 },
+        connectable: false,
+        selectable: true,
+        data: {
+          title: 'some-title',
+          fields: [],
+          borderVariant: undefined,
+          disabled: undefined,
+          variant: {
+            type: 'default',
+          },
+        },
+      });
+    });
+    it('Should be handle node variant=warn', () => {
+      const node = {
+        id: 'node-1',
+        type: 'table' as const,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [],
+        selectable: true,
+        variant: {
+          type: 'warn' as const,
+          warnMessage: 'This is a warning',
+        },
+      };
+      const result = convertToInternalNode(node);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'table',
+        position: { x: 100, y: 200 },
+        connectable: false,
+        selectable: true,
+        data: {
+          title: 'some-title',
+          fields: [],
+          borderVariant: undefined,
+          disabled: undefined,
+          variant: {
+            type: 'warn',
+            warnMessage: 'This is a warning',
+          },
         },
       });
     });

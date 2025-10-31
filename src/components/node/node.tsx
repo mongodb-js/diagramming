@@ -4,6 +4,10 @@ import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
 import { useCallback, useState } from 'react';
+import { Tooltip } from '@leafygreen-ui/tooltip';
+import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
+import { palette } from '@leafygreen-ui/palette';
+import { Body } from '@leafygreen-ui/typography';
 
 import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constants';
 import { InternalNode } from '@/types/internal';
@@ -81,10 +85,14 @@ const NodeHeaderIcon = styled.div`
   margin-right: ${spacing[100]}px;
 `;
 
-export const NodeHeaderTitle = styled.div`
-  overflow-wrap: break-word;
-  min-width: 0;
+const NodeHeaderTitleWrapper = styled.div`
   margin-right: ${spacing[200]}px;
+  min-width: 0;
+`;
+
+export const NodeHeaderTitle = styled.div`
+  display: inline;
+  overflow-wrap: break-word;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
@@ -113,14 +121,22 @@ const TitleControlsContainer = styled.div`
   }
 `;
 
+const IconWrapper = styled.div<{ darkMode: boolean }>`
+  color: ${props => (props.darkMode ? palette.yellow.light2 : palette.yellow.dark2)};
+  display: inline;
+  vertical-align: sub;
+  margin-left: ${spacing[100]}px;
+`;
+
 export const Node = ({
   id,
   type,
   selected,
   isConnectable,
-  data: { title, fields, borderVariant, disabled },
+  data: { title, fields, borderVariant, disabled, variant },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
+  const { darkMode } = useDarkMode();
   const { zoom } = useViewport();
 
   const [isHovering, setHovering] = useState(false);
@@ -222,7 +238,22 @@ export const Node = ({
               <NodeHeaderIcon>
                 <Icon fill={theme.node.headerIcon} glyph="Drag" />
               </NodeHeaderIcon>
-              <NodeHeaderTitle>{title}</NodeHeaderTitle>
+              <NodeHeaderTitleWrapper>
+                <NodeHeaderTitle>{title}</NodeHeaderTitle>
+                {variant?.type === 'warn' && (
+                  <Tooltip
+                    renderMode="portal"
+                    justify="middle"
+                    trigger={
+                      <IconWrapper darkMode={darkMode}>
+                        <Icon glyph="Warning" />
+                      </IconWrapper>
+                    }
+                  >
+                    <Body>{variant.warnMessage}</Body>
+                  </Tooltip>
+                )}
+              </NodeHeaderTitleWrapper>
               <TitleControlsContainer>
                 {addFieldToNodeClickHandler && (
                   <DiagramIconButton aria-label="Add Field" onClick={onClickAddFieldToNode} title="Add Field">
