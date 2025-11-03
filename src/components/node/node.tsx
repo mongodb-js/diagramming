@@ -88,11 +88,17 @@ const NodeHeaderIcon = styled.div`
 const NodeHeaderTitleWrapper = styled.div`
   margin-right: ${spacing[200]}px;
   min-width: 0;
+  display: flex;
+  align-items: center;
 `;
 
 export const NodeHeaderTitle = styled.div`
   display: inline;
   overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 `;
 
 const NodeHandle = styled(Handle)<{ ['z-index']?: number }>`
@@ -123,9 +129,9 @@ const TitleControlsContainer = styled.div`
 
 const IconWrapper = styled.div<{ darkMode: boolean }>`
   color: ${props => (props.darkMode ? palette.yellow.light2 : palette.yellow.dark2)};
-  display: inline;
-  vertical-align: sub;
   margin-left: ${spacing[100]}px;
+  display: flex;
+  align-items: center;
 `;
 
 export const Node = ({
