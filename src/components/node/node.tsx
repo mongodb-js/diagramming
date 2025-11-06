@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Tooltip } from '@leafygreen-ui/tooltip';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { palette } from '@leafygreen-ui/palette';
@@ -157,12 +157,20 @@ export const Node = ({
     [addFieldToNodeClickHandler, id],
   );
 
+  const areSomeFieldsCollapsed = useMemo(() => {
+    return fields.some(field => {
+      return field.expanded === false;
+    });
+  }, [fields]);
+
   const handleNodeExpandToggle = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      onNodeExpandToggle?.(event, id);
+      onNodeExpandToggle?.(event, id, areSomeFieldsCollapsed);
     },
-    [onNodeExpandToggle, id],
+    [onNodeExpandToggle, id, areSomeFieldsCollapsed],
   );
+
+  const nodeExpandLabel = areSomeFieldsCollapsed ? 'Expand all' : 'Collapse all';
 
   const getAccent = () => {
     if (disabled && !isHovering) {
@@ -268,10 +276,11 @@ export const Node = ({
                 )}
                 {onNodeExpandToggle && (
                   <DiagramIconButton
-                    aria-label="Toggle Expand / Collapse Fields"
+                    aria-label={nodeExpandLabel}
                     onClick={handleNodeExpandToggle}
-                    title="Toggle Expand / Collapse Fields"
+                    title={nodeExpandLabel}
                   >
+                    {/* TODO: also switch icon based on areSomeFieldsCollapsed */}
                     <ChevronCollapse />
                   </DiagramIconButton>
                 )}

@@ -140,11 +140,23 @@ export const NestedFields: Story = {
         {
           name: 'detail',
           type: '{}',
+          expanded: true,
+        },
+        {
+          name: 'companyName',
+          type: '{}',
+          depth: 1,
+          expanded: false,
         },
         {
           name: 'companyName',
           type: 'string',
-          depth: 1,
+          depth: 2,
+        },
+        {
+          name: 'companyName',
+          type: 'string',
+          depth: 2,
         },
         {
           name: 'phoneNumber',

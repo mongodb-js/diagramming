@@ -202,4 +202,10 @@ export interface NodeField {
    * Indicates if the field is editable (name and type can be changed).
    */
   editable?: boolean;
+
+  /**
+   * Indicates if the field is expanded / collapsed. Only applies to felds that
+   * have nested fields. Optional, default `true`
+   */
+  expanded?: boolean;
 }

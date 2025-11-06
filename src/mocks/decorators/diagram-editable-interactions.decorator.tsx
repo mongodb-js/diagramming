@@ -192,24 +192,21 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
-  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string) => {
+  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, expanded: boolean) => {
     setExpanded(state => {
       return {
         ...state,
-        [nodeId]: !state[nodeId],
+        [nodeId]: expanded,
       };
     });
   }, []);
 
   const _nodes = useMemo(() => {
     return nodes.map(node => {
-      if (expanded[node.id]) {
-        return node;
-      }
       return {
         ...node,
-        fields: node.fields.filter(field => {
-          return !field.depth || field.depth === 0;
+        fields: node.fields.map(field => {
+          return { ...field, expanded: expanded[node.id] };
         }),
       };
     });

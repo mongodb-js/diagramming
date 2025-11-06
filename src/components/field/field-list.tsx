@@ -21,9 +21,33 @@ interface Props {
   fields: NodeField[];
 }
 
-export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
+function getVisibleFields(fields: NodeField[]): NodeField[] {
+  const visibleFields: NodeField[] = [];
+  let currentDepth = 0;
+  let skipChildren = false;
+  for (const field of fields) {
+    const fieldDepth = field.depth ?? 0;
+    if (skipChildren && fieldDepth > currentDepth) {
+      continue;
+    }
+    currentDepth = fieldDepth;
+    skipChildren = field.expanded === false;
+    visibleFields.push(field);
+  }
+  return visibleFields;
+}
+
+export const FieldList = ({ fields: allFields, nodeId, nodeType, isHovering }: Props) => {
   const { onClickField } = useEditableDiagramInteractions();
   const isFieldSelectionEnabled = !!onClickField;
+  // Filter out all the fields that are children of explicitly collapsed fields.
+  // We get fields as a flattened list with the depth indicaing the nesting
+  // level, so everything that is deeper than the collapsed field (child) will
+  // be filtered out as a child until we run into another element with the same
+  // depth (a sibling)
+  const fields = useMemo(() => {
+    return getVisibleFields(allFields);
+  }, [allFields]);
 
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
   const previewGroupArea = useMemo(() => getPreviewGroupArea(fields), [fields]);
