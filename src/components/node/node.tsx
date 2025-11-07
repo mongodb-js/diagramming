@@ -13,6 +13,7 @@ import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constant
 import { InternalNode } from '@/types/internal';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
 import { ChevronCollapse } from '@/components/icons/chevron-collapse';
+import { ChevronExpand } from '@/components/icons/chevron-expand';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
@@ -280,8 +281,7 @@ export const Node = ({
                     onClick={handleNodeExpandToggle}
                     title={nodeExpandLabel}
                   >
-                    {/* TODO: also switch icon based on areSomeFieldsCollapsed */}
-                    <ChevronCollapse />
+                    {areSomeFieldsCollapsed ? <ChevronExpand /> : <ChevronCollapse />}
                   </DiagramIconButton>
                 )}
               </TitleControlsContainer>
