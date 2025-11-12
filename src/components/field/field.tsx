@@ -150,6 +150,7 @@ export const Field = ({
   selected = false,
   editable = false,
   variant,
+  expanded = false,
 }: Props) => {
   const { theme } = useDarkMode();
 
@@ -227,7 +228,7 @@ export const Field = ({
         />
       </FieldName>
       <FieldType color={getSecondaryTextColor()}>
-        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
+        <FieldTypeContent type={type} nodeId={nodeId} id={id} expanded={expanded} />
       </FieldType>
     </>
   );

@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import LeafyGreenInlineDefinition from '@leafygreen-ui/inline-definition';
 import { Body } from '@leafygreen-ui/typography';
+import Icon from '@leafygreen-ui/icon';
+import { useTheme } from '@emotion/react';
 
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
@@ -31,12 +33,16 @@ export const FieldTypeContent = ({
   type,
   nodeId,
   id,
+  expanded,
 }: {
   id: string | string[];
   nodeId: string;
   type?: string | string[];
+  expanded?: boolean;
 }) => {
-  const { onClickAddFieldToObjectField: _onClickAddFieldToObjectField } = useEditableDiagramInteractions();
+  const theme = useTheme();
+  const { onClickAddFieldToObjectField: _onClickAddFieldToObjectField, onFieldExpandToggle: _onFieldExpandToggle } =
+    useEditableDiagramInteractions();
 
   const onClickAddFieldToObject = useMemo(
     () =>
@@ -48,6 +54,18 @@ export const FieldTypeContent = ({
           }
         : undefined,
     [_onClickAddFieldToObjectField, nodeId, id],
+  );
+
+  const onFieldExpandToggle = useMemo(
+    () =>
+      _onFieldExpandToggle
+        ? (event: React.MouseEvent<HTMLButtonElement>) => {
+            // Don't click on the field element.
+            event.stopPropagation();
+            _onFieldExpandToggle(event, nodeId, Array.isArray(id) ? id : [id]);
+          }
+        : undefined,
+    [_onFieldExpandToggle, nodeId, id],
   );
 
   if (type === 'object') {
@@ -62,6 +80,16 @@ export const FieldTypeContent = ({
             title="Add Field"
           >
             <PlusWithSquare />
+          </DiagramIconButton>
+        )}
+        {onFieldExpandToggle && (
+          <DiagramIconButton
+            data-testid={`object-field-expand-toggle-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
+            onClick={onFieldExpandToggle}
+            aria-label={expanded ? 'Collapse Field' : 'Expand Field'}
+            title={expanded ? 'Collapse Field' : 'Expand Field'}
+          >
+            <Icon glyph={expanded ? 'ChevronDown' : 'ChevronLeft'} color={theme.node.fieldIconButton} />
           </DiagramIconButton>
         )}
       </ObjectTypeContainer>
