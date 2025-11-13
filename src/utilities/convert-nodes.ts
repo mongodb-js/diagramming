@@ -15,7 +15,7 @@ export const convertToExternalNodes = (nodes: InternalNode[]): NodeProps[] => {
 };
 
 export const convertToInternalNode = (node: NodeProps): InternalNode => {
-  const { title, fields, borderVariant, disabled, connectable, ...rest } = node;
+  const { title, fields, borderVariant, disabled, connectable, variant, ...rest } = node;
   return {
     ...rest,
     connectable: connectable ?? false,
@@ -24,6 +24,7 @@ export const convertToInternalNode = (node: NodeProps): InternalNode => {
       disabled,
       fields,
       borderVariant,
+      variant,
     },
   };
 };
