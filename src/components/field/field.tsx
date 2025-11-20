@@ -14,6 +14,8 @@ import { FieldId, NodeField, NodeGlyph, NodeType } from '@/types';
 import { PreviewGroupArea } from '@/utilities/get-preview-group-area';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
+import { DiagramIconButton } from '../buttons/diagram-icon-button';
+
 import { FieldNameContent } from './field-name-content';
 
 const FIELD_BORDER_ANIMATED_PADDING = LGSpacing[100];
@@ -108,12 +110,16 @@ const FieldName = styled.div`
   ${ellipsisTruncation}
 `;
 
-const FieldType = styled.div`
+const FIELD_TYPE_SPACE = 100;
+
+const FieldType = styled.div<{ placeholderCollapse: boolean }>`
   color: ${props => props.color};
-  flex: 0 0 100px;
+  flex: 0 0 ${FIELD_TYPE_SPACE}px;
   font-weight: normal;
   text-align: right;
   padding-left: ${LGSpacing[100]}px;
+  padding-right: ${props => (props.placeholderCollapse ? LGSpacing[600] : LGSpacing[100])}px;
+  ${ellipsisTruncation}
 `;
 
 const IconWrapper = styled(Icon)`
@@ -150,17 +156,23 @@ export const Field = ({
   editable = false,
   variant,
   expanded = false,
+  expandable = false,
 }: Props) => {
-  const { theme } = useDarkMode();
+  const theme = useTheme();
+  const { theme: LGTheme } = useDarkMode();
 
-  const { onClickField, onChangeFieldName } = useEditableDiagramInteractions();
+  const { onClickField, onChangeFieldName, onFieldExpandToggle } = useEditableDiagramInteractions();
+
+  const hasCollapseFunctionality = !!onFieldExpandToggle;
+  const hasCollapseButton = hasCollapseFunctionality && expandable;
+  const placeholderCollapse = hasCollapseFunctionality && !hasCollapseButton;
 
   const internalTheme = useTheme();
 
   const isDisabled = variant === 'disabled' && !(hoverVariant === 'default' && isHovering);
 
   const getSelectableHoverBackgroundColor = () => {
-    return fieldSelectionProps?.selectable ? color[theme].background.primary.hover : undefined;
+    return fieldSelectionProps?.selectable ? color[LGTheme].background.primary.hover : undefined;
   };
 
   /**
@@ -180,7 +192,7 @@ export const Field = ({
     if (isDisabled) {
       return internalTheme.node.disabledColor;
     } else {
-      return color[theme].text.primary.default;
+      return color[LGTheme].text.primary.default;
     }
   };
 
@@ -188,13 +200,13 @@ export const Field = ({
     if (isDisabled) {
       return internalTheme.node.disabledColor;
     } else {
-      return color[theme].text.secondary.default;
+      return color[LGTheme].text.secondary.default;
     }
   };
 
   const getIconColor = (glyph: NodeGlyph) => {
     if (isDisabled) {
-      return color[theme].text.disabled.default;
+      return color[LGTheme].text.disabled.default;
     } else if (variant === 'primary' && glyph === 'key') {
       return palette.blue.base;
     } else {
@@ -216,6 +228,18 @@ export const Field = ({
     [onChangeFieldName, id, nodeId],
   );
 
+  const handleFieldExpandToggle = useMemo(
+    () =>
+      onFieldExpandToggle
+        ? (event: React.MouseEvent<HTMLButtonElement>) => {
+            // Don't click on the field element.
+            event.stopPropagation();
+            onFieldExpandToggle(event, nodeId, Array.isArray(id) ? id : [id]);
+          }
+        : undefined,
+    [onFieldExpandToggle, nodeId, id],
+  );
+
   const content = (
     <>
       <FieldName>
@@ -226,9 +250,19 @@ export const Field = ({
           onChange={onChangeFieldName ? handleNameChange : undefined}
         />
       </FieldName>
-      <FieldType color={getSecondaryTextColor()}>
-        <FieldTypeContent type={type} nodeId={nodeId} id={id} expanded={expanded} />
+      <FieldType color={getSecondaryTextColor()} placeholderCollapse={placeholderCollapse}>
+        <FieldTypeContent type={type} nodeId={nodeId} id={id} />
       </FieldType>
+      {hasCollapseButton && (
+        <DiagramIconButton
+          data-testid={`object-field-expand-toggle-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
+          onClick={handleFieldExpandToggle}
+          aria-label={expanded ? 'Collapse Field' : 'Expand Field'}
+          title={expanded ? 'Collapse Field' : 'Expand Field'}
+        >
+          <Icon glyph={expanded ? 'ChevronDown' : 'ChevronLeft'} color={theme.node.fieldIconButton} size={14} />
+        </DiagramIconButton>
+      )}
     </>
   );
 

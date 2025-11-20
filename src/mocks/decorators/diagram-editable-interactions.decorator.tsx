@@ -74,7 +74,7 @@ function idFromDepthAccumulator(name: string, depth?: number) {
   lastDepth = depth ?? 0;
   return [...idAccumulator];
 }
-function editableNodesFromNodes(nodes: NodeProps[], DEFAULT_EXPANDED_STATE: boolean): NodeProps[] {
+function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
   return nodes.map(node => ({
     ...node,
     type: 'collection',
@@ -82,6 +82,8 @@ function editableNodesFromNodes(nodes: NodeProps[], DEFAULT_EXPANDED_STATE: bool
       ...field,
       selectable: true,
       id: idFromDepthAccumulator(field.name, field.depth),
+      /** this is simplified, in reality array or mixed types might be expandable too */
+      expandable: field.type === 'object',
     })),
   }));
 }
@@ -117,7 +119,7 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     }
 
     hasInitialized.current = true;
-    setNodes(editableNodesFromNodes(initialNodes, DEFAULT_EXPANDED_STATE));
+    setNodes(editableNodesFromNodes(initialNodes));
   }, [initialNodes]);
 
   const onFieldClick = useCallback(

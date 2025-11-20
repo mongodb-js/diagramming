@@ -8,5 +8,3 @@ export const DEFAULT_FIELD_HEIGHT = 18;
 export const DEFAULT_FIELD_PADDING = 8;
 export const DEFAULT_DEPTH_SPACING = 8;
 export const DEFAULT_MARKER_SIZE = 15;
-
-export const COLLAPSE_BUTTON_SPACE = 24;
