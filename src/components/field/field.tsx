@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { color, fontWeights, spacing as LGSpacing, spacing } from '@leafygreen-ui/tokens';
+import { color, fontWeights, spacing as LGSpacing } from '@leafygreen-ui/tokens';
 import { palette } from '@leafygreen-ui/palette';
 import Icon from '@leafygreen-ui/icon';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
@@ -16,15 +16,15 @@ import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-int
 
 import { FieldNameContent } from './field-name-content';
 
-const FIELD_BORDER_ANIMATED_PADDING = spacing[100];
-const FIELD_GLYPH_SPACING = spacing[400];
+const FIELD_BORDER_ANIMATED_PADDING = LGSpacing[100];
+const FIELD_GLYPH_SPACING = LGSpacing[400];
 
 const GlyphToIcon: Record<NodeGlyph, string> = {
   key: 'Key',
   link: 'Link',
 };
 
-const SELECTED_FIELD_BORDER_PADDING = spacing[100];
+const SELECTED_FIELD_BORDER_PADDING = LGSpacing[100];
 
 const FieldWrapper = styled.div<{
   color: string;
@@ -38,12 +38,13 @@ const FieldWrapper = styled.div<{
   width: auto;
   height: ${DEFAULT_FIELD_HEIGHT}px;
   color: ${props => props.color};
+  padding-left: ${LGSpacing[200]}px;
   ${props =>
     props.selectable &&
     `&:hover {
     cursor: pointer;
     background-color: ${props.selectableHoverBackgroundColor};
-    box-shadow: -${spacing[100]}px 0px 0px 0px ${props.selectableHoverBackgroundColor}, ${spacing[100]}px 0px 0px 0px ${props.selectableHoverBackgroundColor};
+    box-shadow: -${LGSpacing[100]}px 0px 0px 0px ${props.selectableHoverBackgroundColor}, ${LGSpacing[100]}px 0px 0px 0px ${props.selectableHoverBackgroundColor};
   }`}
   ${props =>
     props.selected &&
@@ -56,7 +57,7 @@ const FieldWrapper = styled.div<{
       position: absolute;
       outline: 2px solid ${palette.blue.base};
       width: calc(100% + ${SELECTED_FIELD_BORDER_PADDING * 2}px);
-      border-radius: ${spacing[50]}px;
+      border-radius: ${LGSpacing[50]}px;
       height: ${props.selectedGroupHeight * DEFAULT_FIELD_HEIGHT}px;
       left: -${SELECTED_FIELD_BORDER_PADDING}px;
       top: 0px;
@@ -109,16 +110,14 @@ const FieldName = styled.div`
 
 const FieldType = styled.div`
   color: ${props => props.color};
-  flex: 0 0 ${LGSpacing[200] * 10}px;
+  flex: 0 0 100px;
   font-weight: normal;
   text-align: right;
-  padding-left:${LGSpacing[100]}px;
-  padding-right ${LGSpacing[50]}px; 
-  ${ellipsisTruncation}
+  padding-left: ${LGSpacing[100]}px;
 `;
 
 const IconWrapper = styled(Icon)`
-  padding-right: ${spacing[100]}px;
+  padding-right: ${LGSpacing[100]}px;
   flex-shrink: 0;
 `;
 

@@ -7,7 +7,7 @@ export const ChevronCollapse = ({ size = 14 }: { size?: number }) => {
       <path
         d="M4.25 3.25L8 6.5L11.75 3.25M4.25 12.75L8 9.5L11.75 12.75"
         stroke={theme.node.headerIcon}
-        strokeWidth="1.5"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

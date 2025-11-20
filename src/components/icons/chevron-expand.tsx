@@ -12,7 +12,7 @@ export const ChevronExpand = ({ size = 14 }: { size?: number }) => {
         L8 12.7
         L11.75 9.5"
         stroke={theme.node.headerIcon}
-        strokeWidth="1.5"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

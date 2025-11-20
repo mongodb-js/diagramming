@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { spacing } from '@leafygreen-ui/tokens';
 
 import { Field } from '@/components/field/field';
 import { NodeField, NodeType } from '@/types';
@@ -10,7 +9,7 @@ import { getSelectedFieldGroupHeight, getSelectedId } from '@/utilities/get-sele
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
 const NodeFieldWrapper = styled.div`
-  padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
+  padding: ${DEFAULT_FIELD_PADDING}px;
   font-size: 12px;
 `;
 
