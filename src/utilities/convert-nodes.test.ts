@@ -304,10 +304,13 @@ describe('convert-nodes', () => {
           connectable: false,
           data: {
             fields: [
-              { name: 'employeeId', type: 'objectId', glyphs: ['key'] },
+              { name: 'employeeId', type: 'objectIdButMuchLonger', glyphs: ['key'] },
               { name: 'employeeDetail', type: 'object' },
               { name: 'firstName', type: 'string', depth: 1 },
               { name: 'lastName', type: 'string', depth: 1 },
+              { name: 'address', type: 'object' },
+              { name: 'street', type: 'string', depth: 1 },
+              { name: 'city', type: 'string', depth: 1 },
             ],
             title: 'employees',
           },
