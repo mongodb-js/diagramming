@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
-import { spacing } from '@leafygreen-ui/tokens';
 
 import { Field } from '@/components/field/field';
 import { NodeField, NodeType } from '@/types';
@@ -10,7 +9,7 @@ import { getSelectedFieldGroupHeight, getSelectedId } from '@/utilities/get-sele
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
 const NodeFieldWrapper = styled.div`
-  padding: ${DEFAULT_FIELD_PADDING}px ${spacing[400]}px;
+  padding: ${DEFAULT_FIELD_PADDING}px;
   font-size: 12px;
 `;
 
@@ -21,9 +20,45 @@ interface Props {
   fields: NodeField[];
 }
 
-export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
+function hasChildren(fields: NodeField[], index: number): boolean {
+  const fieldDepth = fields[index].depth ?? 0;
+  const nextField = fields.length > index + 1 ? fields[index + 1] : null;
+  if (!nextField) return false;
+  return nextField.depth !== undefined && nextField.depth > fieldDepth;
+}
+
+// Filter out all the fields that are children of explicitly collapsed fields.
+// We get fields as a flattened list with the depth indicaing the nesting
+// level, so everything that is deeper than the collapsed field (child) will
+// be filtered out as a child until we run into another element with the same
+// depth (a sibling)
+// We also annotate each field with whether it is expandable (has children)
+// This is more reliable than checking the type of the field, since the object could be hidden in arrays, or simply have no children
+function getFieldsWithExpandStatus(fields: NodeField[]): (NodeField & { expandable: boolean })[] {
+  const visibleFields: (NodeField & { expandable: boolean })[] = [];
+  let currentDepth = 0;
+  let skipChildren = false;
+  fields.forEach((field, index) => {
+    const fieldDepth = field.depth ?? 0;
+    if (skipChildren && fieldDepth > currentDepth) {
+      return;
+    }
+    currentDepth = fieldDepth;
+    skipChildren = field.expanded === false;
+    visibleFields.push({
+      ...field,
+      expandable: hasChildren(fields, index),
+    });
+  });
+  return visibleFields;
+}
+
+export const FieldList = ({ fields: allFields, nodeId, nodeType, isHovering }: Props) => {
   const { onClickField } = useEditableDiagramInteractions();
   const isFieldSelectionEnabled = !!onClickField;
+  const fields = useMemo<(NodeField & { expandable: boolean })[]>(() => {
+    return getFieldsWithExpandStatus(allFields);
+  }, [allFields]);
 
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
   const previewGroupArea = useMemo(() => getPreviewGroupArea(fields), [fields]);

@@ -1,10 +1,13 @@
 import styled from '@emotion/styled';
 import { fontWeights } from '@leafygreen-ui/tokens';
+import Icon from '@leafygreen-ui/icon';
+import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
 import { FieldDepth } from '@/components/field/field-depth';
 import { FieldType } from '@/components/field/field-type';
+import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 import { FieldId, NodeField } from '@/types';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
@@ -26,14 +29,31 @@ interface FieldContentProps extends NodeField {
   id: FieldId;
   isEditable: boolean;
   isDisabled: boolean;
+  isExpandable?: boolean;
   nodeId: string;
 }
 
-export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id, nodeId }: FieldContentProps) => {
+export const FieldContent = ({
+  isEditable,
+  isDisabled,
+  isExpandable,
+  depth = 0,
+  name,
+  type,
+  id,
+  nodeId,
+  expanded,
+}: FieldContentProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const fieldContentRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
 
-  const { onChangeFieldName, onChangeFieldType, fieldTypes } = useEditableDiagramInteractions();
+  const { onChangeFieldName, onChangeFieldType, fieldTypes, onFieldExpandToggle } = useEditableDiagramInteractions();
+
+  const hasCollapseFunctionality = !!onFieldExpandToggle;
+  const hasCollapseButton = hasCollapseFunctionality && isExpandable;
+  const placeholderCollapse = hasCollapseFunctionality && !hasCollapseButton;
+
   const handleNameChange = useCallback(
     (newName: string) => onChangeFieldName?.(nodeId, Array.isArray(id) ? id : [id], newName),
     [onChangeFieldName, id, nodeId],
@@ -46,6 +66,16 @@ export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id
   const handleDoubleClick = useCallback(() => {
     setIsEditing(true);
   }, []);
+
+  const handleFieldExpandToggle = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (!onFieldExpandToggle) return;
+      // Don't click on the field element.
+      event.stopPropagation();
+      onFieldExpandToggle(event, nodeId, Array.isArray(id) ? id : [id]);
+    },
+    [onFieldExpandToggle, nodeId, id],
+  );
 
   useEffect(() => {
     // When clicking outside of the field content while editing, stop editing.
@@ -98,7 +128,18 @@ export const FieldContent = ({ isEditable, isDisabled, depth = 0, name, type, id
         isEditing={isTypeEditable}
         isDisabled={isDisabled}
         onChange={handleTypeChange}
+        placeholderCollapse={placeholderCollapse}
       />
+      {hasCollapseButton && (
+        <DiagramIconButton
+          data-testid={`object-field-expand-toggle-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
+          onClick={handleFieldExpandToggle}
+          aria-label={expanded ? 'Collapse Field' : 'Expand Field'}
+          title={expanded ? 'Collapse Field' : 'Expand Field'}
+        >
+          <Icon glyph={expanded ? 'ChevronDown' : 'ChevronLeft'} color={theme.node.fieldIconButton} size={14} />
+        </DiagramIconButton>
+      )}
     </FieldContentWrapper>
   );
 };

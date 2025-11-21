@@ -100,6 +100,22 @@ function changeFieldType(existingFields: NodeField[], fieldPath: string[], newTy
   return fields;
 }
 
+const DEFAULT_EXPANDED_STATE = true;
+type ExpandedState = Record<string, { node: boolean; fields: Record<string, boolean> }>;
+const getExpandedFieldKey = (fieldId: FieldId) => JSON.stringify(fieldId);
+const isFieldExpanded = (expandState: ExpandedState, nodeId: string, fieldId?: FieldId) => {
+  if (!(nodeId in expandState)) return DEFAULT_EXPANDED_STATE;
+
+  const nodeExpandState = expandState[nodeId];
+  if (!fieldId) return nodeExpandState.node;
+
+  const fieldKey = getExpandedFieldKey(fieldId);
+
+  if (!(fieldKey in nodeExpandState.fields)) return nodeExpandState.node;
+
+  return nodeExpandState.fields[fieldKey];
+};
+
 let idAccumulator: string[];
 let lastDepth = 0;
 // Used to build a string array id based on field depth.
@@ -131,14 +147,7 @@ function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
 
 export const useEditableNodes = (initialNodes: NodeProps[]) => {
   const [nodes, setNodes] = useState<NodeProps[]>([]);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
-    return Object.fromEntries(
-      nodes.map(node => {
-        return [node.id, true];
-      }),
-    );
-  });
-
+  const [expanded, setExpanded] = useState<ExpandedState>({});
   const hasInitialized = useRef(false);
   useEffect(() => {
     if (hasInitialized.current) {
@@ -248,11 +257,32 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
-  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string) => {
+  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, expanded: boolean) => {
     setExpanded(state => {
       return {
         ...state,
-        [nodeId]: !state[nodeId],
+        [nodeId]: {
+          node: expanded,
+          fields: {},
+        },
+      };
+    });
+  }, []);
+
+  const onFieldExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, fieldId: FieldId) => {
+    const key = getExpandedFieldKey(fieldId);
+    setExpanded(state => {
+      const prevNodeState = state[nodeId] ?? {};
+      const prevFieldState = isFieldExpanded(state, nodeId, fieldId);
+      return {
+        ...state,
+        [nodeId]: {
+          ...prevNodeState,
+          fields: {
+            ...(prevNodeState.fields ?? {}),
+            [key]: !prevFieldState,
+          },
+        },
       };
     });
   }, []);
@@ -273,13 +303,13 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
 
   const _nodes = useMemo(() => {
     return nodes.map(node => {
-      if (expanded[node.id]) {
-        return node;
-      }
       return {
         ...node,
-        fields: node.fields.filter(field => {
-          return !field.depth || field.depth === 0;
+        fields: node.fields.map(field => {
+          return {
+            ...field,
+            expanded: isFieldExpanded(expanded, node.id, field.id),
+          };
         }),
       };
     });
@@ -293,6 +323,7 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     onAddFieldToObjectFieldClick,
     onFieldNameChange,
     onFieldTypeChange,
+    onFieldExpandToggle,
     fieldTypes,
     onNodeDragStop,
   };

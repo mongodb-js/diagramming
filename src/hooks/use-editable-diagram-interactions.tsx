@@ -7,12 +7,14 @@ import {
   OnAddFieldToObjectFieldClickHandler,
   OnFieldNameChangeHandler,
   OnFieldTypeChangeHandler,
+  OnFieldExpandHandler,
 } from '@/types';
 
 interface EditableDiagramInteractionsContextType {
   onClickField?: OnFieldClickHandler;
   onClickAddFieldToNode?: OnAddFieldToNodeClickHandler;
   onNodeExpandToggle?: OnNodeExpandHandler;
+  onFieldExpandToggle?: OnFieldExpandHandler;
   onClickAddFieldToObjectField?: OnAddFieldToObjectFieldClickHandler;
   onChangeFieldName?: OnFieldNameChangeHandler;
   onChangeFieldType?: OnFieldTypeChangeHandler;
@@ -27,6 +29,7 @@ interface EditableDiagramInteractionsProviderProps {
   onFieldClick?: OnFieldClickHandler;
   onAddFieldToNodeClick?: OnAddFieldToNodeClickHandler;
   onNodeExpandToggle?: OnNodeExpandHandler;
+  onFieldExpandToggle?: OnFieldExpandHandler;
   onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
   onFieldNameChange?: OnFieldNameChangeHandler;
   onFieldTypeChange?: OnFieldTypeChangeHandler;
@@ -38,6 +41,7 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
   onFieldClick,
   onAddFieldToNodeClick,
   onNodeExpandToggle,
+  onFieldExpandToggle,
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
   onFieldTypeChange,
@@ -57,6 +61,11 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
       ...(onNodeExpandToggle
         ? {
             onNodeExpandToggle: onNodeExpandToggle,
+          }
+        : undefined),
+      ...(onFieldExpandToggle
+        ? {
+            onFieldExpandToggle: onFieldExpandToggle,
           }
         : undefined),
       ...(onAddFieldToObjectFieldClick
@@ -83,6 +92,7 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
     onNodeExpandToggle,
     onAddFieldToObjectFieldClick,
     onFieldNameChange,
+    onFieldExpandToggle,
     onFieldTypeChange,
   ]);
 
