@@ -20,19 +20,29 @@ interface Props {
   fields: NodeField[];
 }
 
-function getVisibleFields(fields: NodeField[]): NodeField[] {
-  const visibleFields: NodeField[] = [];
+function hasChildren(fields: NodeField[], index: number): boolean {
+  const fieldDepth = fields[index].depth ?? 0;
+  const nextField = fields.length > index + 1 ? fields[index + 1] : null;
+  if (!nextField) return false;
+  return nextField.depth !== undefined && nextField.depth > fieldDepth;
+}
+
+function getVisibleFields(fields: NodeField[]): (NodeField & { expandable: boolean })[] {
+  const visibleFields: (NodeField & { expandable: boolean })[] = [];
   let currentDepth = 0;
   let skipChildren = false;
-  for (const field of fields) {
+  fields.forEach((field, index) => {
     const fieldDepth = field.depth ?? 0;
     if (skipChildren && fieldDepth > currentDepth) {
-      continue;
+      return;
     }
     currentDepth = fieldDepth;
     skipChildren = field.expanded === false;
-    visibleFields.push(field);
-  }
+    visibleFields.push({
+      ...field,
+      expandable: hasChildren(fields, index),
+    });
+  });
   return visibleFields;
 }
 

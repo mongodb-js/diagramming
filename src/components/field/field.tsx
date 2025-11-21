@@ -135,6 +135,7 @@ interface Props extends NodeField {
   isHovering?: boolean;
   previewGroupArea: PreviewGroupArea;
   selectedGroupHeight?: number;
+  expandable?: boolean;
 }
 
 export const Field = ({

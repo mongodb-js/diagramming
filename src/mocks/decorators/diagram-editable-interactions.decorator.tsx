@@ -82,8 +82,6 @@ function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
       ...field,
       selectable: true,
       id: idFromDepthAccumulator(field.name, field.depth),
-      /** this is simplified, in reality array or mixed types might be expandable too */
-      expandable: field.type === 'object',
     })),
   }));
 }

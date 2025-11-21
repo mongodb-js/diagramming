@@ -204,11 +204,6 @@ export type NodeField = {
   editable?: boolean;
 
   /**
-   * Indicates if the field can be expanded / collapsed.
-   */
-  expandable?: boolean;
-
-  /**
    * Indicates if the field is expanded / collapsed. Use together with `expandable: true`
    */
   expanded?: boolean;
