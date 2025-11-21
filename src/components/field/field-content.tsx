@@ -132,7 +132,7 @@ export const FieldContent = ({
       />
       {hasCollapseButton && (
         <DiagramIconButton
-          data-testid={`object-field-expand-toggle-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
+          data-testid={`field-expand-toggle-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
           onClick={handleFieldExpandToggle}
           aria-label={expanded ? 'Collapse Field' : 'Expand Field'}
           title={expanded ? 'Collapse Field' : 'Expand Field'}

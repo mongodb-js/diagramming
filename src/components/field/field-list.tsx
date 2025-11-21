@@ -65,6 +65,7 @@ export const FieldList = ({ fields: allFields, nodeId, nodeType, isHovering }: P
   const selectedGroupHeight = useMemo(() => {
     return isFieldSelectionEnabled ? getSelectedFieldGroupHeight(fields) : undefined;
   }, [fields, isFieldSelectionEnabled]);
+
   return (
     <NodeFieldWrapper>
       {fields.map(({ id, name, type: fieldType, ...rest }, i) => {
