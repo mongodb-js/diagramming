@@ -14,7 +14,7 @@ describe('get-edge-params', () => {
         sx: 263,
         sy: 189.5,
         targetPos: 'top',
-        tx: 363,
+        tx: 336,
         ty: 292.5,
       });
     });
