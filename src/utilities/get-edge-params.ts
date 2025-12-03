@@ -1,7 +1,7 @@
 import { Position, XYPosition } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
-import { FieldId } from '@/types/node';
+import { FieldId, NodeField } from '@/types/node';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_MARKER_SIZE, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
 import { getFieldYPosition, getNodeHeight, getNodeWidth } from './node-dimensions';
@@ -38,6 +38,16 @@ const getNodeIntersection = (intersectionNode: InternalNode, targetNode: Interna
   return { x, y };
 };
 
+const getVerticalIntersectionAtField = (nodeHeight: number, fields: NodeField[], fieldId: FieldId) => {
+  if (!nodeHeight) return 0;
+  const fieldIndex = fields.findIndex(({ id }) => JSON.stringify(id) === JSON.stringify(fieldId));
+  if (fieldIndex === -1) {
+    // field not found, return center of node
+    return nodeHeight / 2;
+  }
+  return getFieldYPosition(fieldIndex) + DEFAULT_FIELD_HEIGHT / 2;
+};
+
 /**
  * Returns the coordinates where the edge should connect to a specific field
  * (on the left or right side of the node)
@@ -66,10 +76,7 @@ export const getNodeIntersectionAtField = (
         : 0;
 
   // vertical intersection is calculated based on the field index
-  const intersectionFieldIndex = intersectionNode.data.fields.findIndex(
-    ({ id }) => JSON.stringify(id) === JSON.stringify(intersectionFieldId),
-  );
-  const h = intersectionNodeHeight ? getFieldYPosition(intersectionFieldIndex) + DEFAULT_FIELD_HEIGHT / 2 : 0;
+  const h = getVerticalIntersectionAtField(intersectionNodeHeight, intersectionNode.data.fields, intersectionFieldId);
 
   // the final position is added to the node position
   const x = intersectionNode.position.x + w;
