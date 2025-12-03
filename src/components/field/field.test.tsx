@@ -6,7 +6,12 @@ import { render, screen, waitFor } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
-import { OnAddFieldToObjectFieldClickHandler, OnFieldExpandHandler, OnFieldNameChangeHandler, OnFieldTypeChangeHandler } from '@/types';
+import {
+  OnAddFieldToObjectFieldClickHandler,
+  OnFieldExpandHandler,
+  OnFieldNameChangeHandler,
+  OnFieldTypeChangeHandler,
+} from '@/types';
 
 const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
   <EditableDiagramInteractionsProvider>
