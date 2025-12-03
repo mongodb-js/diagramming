@@ -6,6 +6,7 @@ import { render, screen, waitFor } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
+import { OnAddFieldToObjectFieldClickHandler, OnFieldExpandHandler, OnFieldNameChangeHandler, OnFieldTypeChangeHandler } from '@/types';
 
 const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
   <EditableDiagramInteractionsProvider>
@@ -17,12 +18,14 @@ const FieldWithEditableInteractions = ({
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
   onFieldTypeChange,
+  onFieldExpandToggle,
   fieldTypes,
   ...fieldProps
 }: React.ComponentProps<typeof FieldComponent> & {
-  onAddFieldToObjectFieldClick?: () => void;
-  onFieldNameChange?: (newName: string) => void;
-  onFieldTypeChange?: (nodeId: string, fieldPath: string[], newTypes: string[]) => void;
+  onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
+  onFieldNameChange?: OnFieldNameChangeHandler;
+  onFieldTypeChange?: OnFieldTypeChangeHandler;
+  onFieldExpandToggle?: OnFieldExpandHandler;
   fieldTypes?: string[];
 }) => {
   return (
@@ -30,6 +33,7 @@ const FieldWithEditableInteractions = ({
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
       onFieldTypeChange={onFieldTypeChange}
+      onFieldExpandToggle={onFieldExpandToggle}
       fieldTypes={fieldTypes}
     >
       <FieldComponent {...fieldProps} />
@@ -332,6 +336,72 @@ describe('field', () => {
       render(<Field {...DEFAULT_PROPS} nodeType={'table'} />);
       expect(screen.getByRole('img', { name: 'Key Icon' })).toHaveAttribute('color', palette.purple.base);
       expect(screen.getByRole('img', { name: 'Link Icon' })).toHaveAttribute('color', palette.gray.dark1);
+    });
+  });
+
+  describe('Expand/Collapse', () => {
+    describe('When the field is expandable', () => {
+      const expandableProps = {
+        ...DEFAULT_PROPS,
+        onFieldExpandToggle: vi.fn(),
+        expandable: true,
+      };
+      beforeEach(() => {
+        expandableProps.onFieldExpandToggle.mockClear();
+      });
+      it('Shows collapse icon by default', async () => {
+        render(<FieldWithEditableInteractions {...expandableProps} expandable={true} />);
+        const toggle = screen.getByRole('button', { name: 'Collapse Field' });
+        expect(toggle).toBeInTheDocument();
+        await userEvent.click(toggle);
+        expect(expandableProps.onFieldExpandToggle).toHaveBeenCalled();
+      });
+
+      it('Shows expand icon for a collapsed field', async () => {
+        render(<FieldWithEditableInteractions {...expandableProps} expanded={false} />);
+        const toggle = screen.getByRole('button', { name: 'Expand Field' });
+        expect(toggle).toBeInTheDocument();
+        await userEvent.click(toggle);
+        expect(expandableProps.onFieldExpandToggle).toHaveBeenCalled();
+      });
+
+      it('Shows collapse icon for an expanded field', async () => {
+        render(<FieldWithEditableInteractions {...expandableProps} expanded={true} />);
+        const toggle = screen.getByRole('button', { name: 'Collapse Field' });
+        expect(toggle).toBeInTheDocument();
+        await userEvent.click(toggle);
+        expect(expandableProps.onFieldExpandToggle).toHaveBeenCalled();
+      });
+    });
+
+    describe('When the field is not expandable', () => {
+      it('Does not show the collapse/expand toggle', () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            onFieldExpandToggle={vi.fn()}
+            expandable={false}
+            expanded={true}
+          />,
+        );
+        expect(screen.queryByRole('button', { name: 'Collapse Field' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Expand Field' })).not.toBeInTheDocument();
+      });
+    });
+
+    describe('When there is no method for field expand toggle', () => {
+      it('Does not show the collapse/expand toggle', () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            onFieldExpandToggle={undefined}
+            expandable={true}
+            expanded={true}
+          />,
+        );
+        expect(screen.queryByRole('button', { name: 'Collapse Field' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Expand Field' })).not.toBeInTheDocument();
+      });
     });
   });
 });

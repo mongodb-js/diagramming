@@ -131,7 +131,7 @@ export const Field = ({
   selectable = false,
   selected = false,
   expandable = false,
-  expanded = false,
+  expanded = true,
   editable = false,
   variant,
 }: Props) => {

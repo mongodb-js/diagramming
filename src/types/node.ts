@@ -204,7 +204,7 @@ export interface NodeField {
   editable?: boolean;
 
   /**
-   * Indicates if the field is expanded / collapsed. Use together with `expandable: true`
+   * Indicates if the field is expanded / collapsed. Expanded by default.
    */
   expanded?: boolean;
 }

@@ -111,9 +111,9 @@ const isFieldExpanded = (expandState: ExpandedState, nodeId: string, fieldId?: F
 
   const fieldKey = getExpandedFieldKey(fieldId);
 
-  if (!(fieldKey in nodeExpandState.fields)) return nodeExpandState.node;
+  if (!(fieldKey in nodeExpandState.fields)) return nodeExpandState.node ?? DEFAULT_EXPANDED_STATE;
 
-  return nodeExpandState.fields[fieldKey];
+  return nodeExpandState.fields[fieldKey] ?? DEFAULT_EXPANDED_STATE;
 };
 
 let idAccumulator: string[];
