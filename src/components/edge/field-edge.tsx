@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { getFieldEdgeParams } from '@/utilities/get-edge-params';
 import { InternalNode } from '@/types/internal';
 import { Edge } from '@/components/edge/edge';
+import { FieldId } from '@/types/node';
 
 export const FieldEdge = ({
   id,
@@ -12,11 +13,11 @@ export const FieldEdge = ({
   markerEnd,
   markerStart,
   selected,
-  data: { sourceFieldIndex, targetFieldIndex },
+  data: { sourceFieldId, targetFieldId },
 }: EdgeProps & {
   data: {
-    sourceFieldIndex: number;
-    targetFieldIndex: number;
+    sourceFieldId: FieldId;
+    targetFieldId: FieldId;
   };
 }) => {
   const nodes = useNodes<InternalNode>();
@@ -32,8 +33,8 @@ export const FieldEdge = ({
   const { sx, sy, tx, ty, sourcePos, targetPos } = getFieldEdgeParams(
     sourceNode,
     targetNode,
-    sourceFieldIndex,
-    targetFieldIndex,
+    sourceFieldId,
+    targetFieldId,
   );
 
   const [path] = getSmoothStepPath({

@@ -44,13 +44,13 @@ describe('field-edge', () => {
         id={'orders-to-employees'}
         source={'orders'}
         target={'employees'}
-        data={{ sourceFieldIndex: 0, targetFieldIndex: 1 }}
+        data={{ sourceFieldId: ['ORDER_ID'], targetFieldId: ['employeeDetail'] }}
         {...props}
       />,
     );
   };
 
-  describe('With the nodes positioned above to each other', () => {
+  describe('With the nodes positioned next to each other', () => {
     it('Should render edge', () => {
       mockNodes([
         {

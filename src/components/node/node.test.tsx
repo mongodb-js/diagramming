@@ -36,7 +36,7 @@ describe('node', () => {
   const DEFAULT_PROPS: NodeProps<InternalNode> = {
     id: 'id',
     type: 'table',
-    data: { title: 'title', fields: [] },
+    data: { title: 'title', fields: [], allFields: [] },
     dragging: false,
     zIndex: 0,
     selectable: false,
@@ -58,7 +58,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="table"
-        data={{ title: 'orders', fields: [{ name: 'orderId', type: 'varchar' }] }}
+        data={{
+          title: 'orders',
+          fields: [{ name: 'orderId', type: 'varchar', expandable: false }],
+          allFields: [{ name: 'orderId', type: 'varchar' }],
+        }}
       />,
     );
     expect(screen.getByRole('img', { name: 'Drag Icon' })).toBeInTheDocument();
@@ -72,7 +76,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="collection"
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
+        data={{
+          title: 'employees',
+          fields: [{ name: 'employeeId', type: 'string', expandable: false }],
+          allFields: [{ name: 'employeeId', type: 'string' }],
+        }}
       />,
     );
     expect(screen.getByRole('img', { name: 'Drag Icon' })).toBeInTheDocument();
@@ -90,7 +98,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="collection"
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
+        data={{
+          title: 'employees',
+          fields: [{ name: 'employeeId', type: 'string', expandable: false }],
+          allFields: [{ name: 'employeeId', type: 'string' }],
+        }}
       />,
     );
     expect(screen.queryByRole('img', { name: 'Drag Icon' })).not.toBeInTheDocument();
@@ -111,16 +123,66 @@ describe('node', () => {
     expect(onAddFieldToNodeClickMock).toHaveBeenCalled();
   });
 
-  it('Should show a clickable button to toggle expand collapse when onNodeExpandToggle is supplied', async () => {
-    const onNodeExpandToggleMock = vi.fn();
+  describe('when onNodeExpandToggle is supplied', () => {
+    it('Should show a clickable button to collapse when there are no explicitly collapsed fields', async () => {
+      const onNodeExpandToggleMock = vi.fn();
+      const expandedFields = [
+        {
+          name: 'field1',
+          expanded: true,
+          expandable: true,
+        },
+        {
+          // this field is not explicitly collapsed
+          name: 'field2',
+          expandable: true,
+        },
+      ];
 
-    render(<Node {...DEFAULT_PROPS} onNodeExpandToggle={onNodeExpandToggleMock} />);
-    const button = screen.getByRole('button', { name: 'Toggle Expand / Collapse Fields' });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute('title', 'Toggle Expand / Collapse Fields');
-    expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
-    await userEvent.click(button);
-    expect(onNodeExpandToggleMock).toHaveBeenCalled();
+      render(
+        <Node
+          {...DEFAULT_PROPS}
+          onNodeExpandToggle={onNodeExpandToggleMock}
+          data={{ title: 'abc', fields: expandedFields, allFields: expandedFields }}
+        />,
+      );
+      const button = screen.getByRole('button', { name: 'Collapse all' });
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('title', 'Collapse all');
+      expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
+      await userEvent.click(button);
+      expect(onNodeExpandToggleMock).toHaveBeenCalled();
+    });
+
+    it('Should show a clickable button to expand when some fields are not expanded', async () => {
+      const onNodeExpandToggleMock = vi.fn();
+      const variedFields = [
+        {
+          name: 'field1',
+          expanded: true,
+          expandable: true,
+        },
+        {
+          name: 'field2',
+          expanded: false,
+          expandable: true,
+        },
+      ];
+
+      render(
+        <Node
+          {...DEFAULT_PROPS}
+          onNodeExpandToggle={onNodeExpandToggleMock}
+          data={{ title: 'abc', fields: variedFields, allFields: variedFields }}
+        />,
+      );
+      const button = screen.getByRole('button', { name: 'Expand all' });
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('title', 'Expand all');
+      expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
+      await userEvent.click(button);
+      expect(onNodeExpandToggleMock).toHaveBeenCalled();
+    });
   });
 
   it('Should prioritise borderVariant over selected prop when setting the border', () => {

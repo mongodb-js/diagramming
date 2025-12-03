@@ -61,8 +61,8 @@ describe('convert-edges', () => {
           markerEnd: 'end-many',
           type: 'fieldEdge',
           data: {
-            sourceFieldIndex: 5,
-            targetFieldIndex: 2,
+            sourceFieldId: ['fieldA'],
+            targetFieldId: ['fieldB', 'childB'],
           },
         },
       ];
@@ -89,8 +89,8 @@ describe('convert-edges', () => {
           target: 'n3',
           markerStart: 'many',
           markerEnd: 'many',
-          sourceFieldIndex: 5,
-          targetFieldIndex: 2,
+          sourceFieldId: ['fieldA'],
+          targetFieldId: ['fieldB', 'childB'],
         },
       ]);
     });
@@ -129,18 +129,18 @@ describe('convert-edges', () => {
       });
       expect(result.type).toEqual('selfReferencingEdge');
     });
-    it('Should apply fieldEdge if the field indices are provided', () => {
+    it('Should apply fieldEdge if the field indexes are provided', () => {
       const result = convertToInternalEdge({
         ...externalEdge,
-        sourceFieldIndex: 2,
-        targetFieldIndex: 4,
+        sourceFieldId: ['fieldA'],
+        targetFieldId: ['fieldB', 'childB'],
       });
       expect(result.type).toEqual('fieldEdge');
-      expect(result).not.toHaveProperty('sourceFieldIndex');
-      expect(result).not.toHaveProperty('targetFieldIndex');
+      expect(result).not.toHaveProperty('sourceFieldId');
+      expect(result).not.toHaveProperty('targetFieldId');
       expect(result.data).toEqual({
-        sourceFieldIndex: 2,
-        targetFieldIndex: 4,
+        sourceFieldId: ['fieldA'],
+        targetFieldId: ['fieldB', 'childB'],
       });
     });
   });
