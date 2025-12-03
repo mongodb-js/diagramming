@@ -36,7 +36,7 @@ describe('node', () => {
   const DEFAULT_PROPS: NodeProps<InternalNode> = {
     id: 'id',
     type: 'table',
-    data: { title: 'title', fields: [] },
+    data: { title: 'title', fields: [], allFields: [] },
     dragging: false,
     zIndex: 0,
     selectable: false,
@@ -58,7 +58,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="table"
-        data={{ title: 'orders', fields: [{ name: 'orderId', type: 'varchar' }] }}
+        data={{
+          title: 'orders',
+          fields: [{ name: 'orderId', type: 'varchar', expandable: false }],
+          allFields: [{ name: 'orderId', type: 'varchar' }],
+        }}
       />,
     );
     expect(screen.getByRole('img', { name: 'Drag Icon' })).toBeInTheDocument();
@@ -72,7 +76,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="collection"
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
+        data={{
+          title: 'employees',
+          fields: [{ name: 'employeeId', type: 'string', expandable: false }],
+          allFields: [{ name: 'employeeId', type: 'string' }],
+        }}
       />,
     );
     expect(screen.getByRole('img', { name: 'Drag Icon' })).toBeInTheDocument();
@@ -90,7 +98,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="collection"
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
+        data={{
+          title: 'employees',
+          fields: [{ name: 'employeeId', type: 'string', expandable: false }],
+          allFields: [{ name: 'employeeId', type: 'string' }],
+        }}
       />,
     );
     expect(screen.queryByRole('img', { name: 'Drag Icon' })).not.toBeInTheDocument();
@@ -118,10 +130,12 @@ describe('node', () => {
         {
           name: 'field1',
           expanded: true,
+          expandable: true,
         },
         {
           // this field is not explicitly collapsed
           name: 'field2',
+          expandable: true,
         },
       ];
 
@@ -129,7 +143,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', fields: expandedFields }}
+          data={{ title: 'abc', fields: expandedFields, allFields: expandedFields }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Collapse all' });
@@ -146,10 +160,12 @@ describe('node', () => {
         {
           name: 'field1',
           expanded: true,
+          expandable: true,
         },
         {
           name: 'field2',
           expanded: false,
+          expandable: true,
         },
       ];
 
@@ -157,7 +173,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', fields: variedFields }}
+          data={{ title: 'abc', fields: variedFields, allFields: variedFields }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Expand all' });

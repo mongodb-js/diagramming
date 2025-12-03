@@ -76,7 +76,13 @@ export const DiagramWithEditInteractions: Story = {
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
-    edges: [],
+    edges: [
+      {
+        ...EMPLOYEES_TO_ORDERS_EDGE,
+        sourceFieldIndex: 2,
+        targetFieldIndex: 1,
+      },
+    ],
     nodes: [
       {
         ...ORDERS_NODE,

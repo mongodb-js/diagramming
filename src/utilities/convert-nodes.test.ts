@@ -19,6 +19,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
         },
       };
 
@@ -39,6 +40,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           variant: {
             type: 'default',
           },
@@ -65,6 +67,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           variant: {
             type: 'warn',
             warnMessage: 'This is a warning',
@@ -85,6 +88,33 @@ describe('convert-nodes', () => {
         },
       });
     });
+    it('Should use allFields and ignore fields', () => {
+      const internalNode: InternalNode = {
+        id: 'node-1',
+        type: 'collection',
+        position: { x: 100, y: 200 },
+        data: {
+          title: 'some-title',
+          fields: [{ name: 'field1', type: 'string', expandable: true, expanded: false }],
+          allFields: [
+            { name: 'field1', type: 'string', expanded: false },
+            { name: 'field2', type: 'number' },
+          ],
+        },
+      };
+
+      const result = convertToExternalNode(internalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'collection' as NodeType,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [
+          { name: 'field1', type: 'string', expanded: false },
+          { name: 'field2', type: 'number' },
+        ],
+      });
+    });
   });
 
   describe('convertToExternalNodes', () => {
@@ -94,13 +124,13 @@ describe('convert-nodes', () => {
           id: 'n1',
           type: 'collection',
           position: { x: 0, y: 0 },
-          data: { title: 'Node 1', fields: [] },
+          data: { title: 'Node 1', fields: [], allFields: [] },
         },
         {
           id: 'n2',
           type: 'table',
           position: { x: 10, y: 10 },
-          data: { title: 'Node 2', fields: [] },
+          data: { title: 'Node 2', fields: [], allFields: [] },
         },
       ];
 
@@ -143,6 +173,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           borderVariant: undefined,
           disabled: undefined,
         },
@@ -166,6 +197,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           borderVariant: undefined,
           disabled: undefined,
         },
@@ -190,6 +222,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           borderVariant: undefined,
           disabled: undefined,
         },
@@ -217,6 +250,7 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           borderVariant: undefined,
           disabled: undefined,
           variant: {
@@ -248,12 +282,52 @@ describe('convert-nodes', () => {
         data: {
           title: 'some-title',
           fields: [],
+          allFields: [],
           borderVariant: undefined,
           disabled: undefined,
           variant: {
             type: 'warn',
             warnMessage: 'This is a warning',
           },
+        },
+      });
+    });
+    it('Should resolve expansion and assign expandability', () => {
+      const fields = [
+        { id: ['expandedParent'], name: 'expandedParent', expanded: true },
+        { id: ['expandedParent', 'child1'], name: 'visibleChild1', depth: 1 },
+        { id: ['expandedParent', 'child2'], name: 'visibleChild2', depth: 1 },
+        { id: ['collapsedParent'], name: 'collapsedParent', expanded: false },
+        { id: ['collapsedParent', 'child1'], name: 'invisibleChild1', depth: 1 },
+        { id: ['collapsedParent', 'child2'], name: 'invisibleChild2', depth: 1 },
+        { id: ['other'], name: 'other' },
+      ];
+      const node = {
+        id: 'node-1',
+        type: 'table' as const,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields,
+      };
+
+      const result = convertToInternalNode(node);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'table',
+        position: { x: 100, y: 200 },
+        connectable: false,
+        data: {
+          title: 'some-title',
+          fields: [
+            { id: ['expandedParent'], name: 'expandedParent', expanded: true, expandable: true },
+            { id: ['expandedParent', 'child1'], name: 'visibleChild1', depth: 1, expandable: false },
+            { id: ['expandedParent', 'child2'], name: 'visibleChild2', depth: 1, expandable: false },
+            { id: ['collapsedParent'], name: 'collapsedParent', expanded: false, expandable: true },
+            { id: ['other'], name: 'other', expandable: false },
+          ],
+          allFields: fields,
+          borderVariant: undefined,
+          disabled: undefined,
         },
       });
     });
@@ -288,6 +362,10 @@ describe('convert-nodes', () => {
           data: {
             disabled: true,
             fields: [
+              { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'], expandable: false },
+              { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'], expandable: false },
+            ],
+            allFields: [
               { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
               { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
             ],
@@ -304,6 +382,15 @@ describe('convert-nodes', () => {
           connectable: false,
           data: {
             fields: [
+              { name: 'employeeId', type: 'objectIdButMuchLonger', glyphs: ['key'], expandable: false },
+              { name: 'employeeDetail', type: 'object', expandable: true },
+              { name: 'firstName', type: 'string', depth: 1, expandable: false },
+              { name: 'lastName', type: 'string', depth: 1, expandable: false },
+              { name: 'address', type: 'object', expandable: true },
+              { name: 'street', type: 'string', depth: 1, expandable: false },
+              { name: 'city', type: 'string', depth: 1, expandable: false },
+            ],
+            allFields: [
               { name: 'employeeId', type: 'objectIdButMuchLonger', glyphs: ['key'] },
               { name: 'employeeDetail', type: 'object' },
               { name: 'firstName', type: 'string', depth: 1 },

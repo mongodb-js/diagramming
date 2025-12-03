@@ -6,7 +6,8 @@ import { EdgeProps } from '@/types/edge';
 export type NodeData = {
   title: string;
   disabled?: boolean;
-  fields: NodeField[];
+  fields: (NodeField & { expandable: boolean })[];
+  allFields: NodeField[];
   borderVariant?: NodeBorderVariant;
   variant?: NodeVariant;
 };

@@ -35,8 +35,8 @@ describe('field-list', () => {
       <FieldWithEditableInteractions
         onFieldClick={onFieldClick}
         fields={[
-          { name: 'field-with-just-name', selectable: true },
-          { id: ['field', 'with', 'id'], name: 'and-custom-name', selectable: true },
+          { name: 'field-with-just-name', selectable: true, expandable: false },
+          { id: ['field', 'with', 'id'], name: 'and-custom-name', selectable: true, expandable: false },
         ]}
       />,
     );
@@ -58,39 +58,16 @@ describe('field-list', () => {
     });
   });
 
-  it('should filter out children of collapsed fields', () => {
-    render(
-      <FieldWithEditableInteractions
-        fields={[
-          { id: ['expandedParent'], name: 'expandedParent', expanded: true },
-          { id: ['expandedParent', 'child1'], name: 'visibleChild1', depth: 1 },
-          { id: ['expandedParent', 'child2'], name: 'visibleChild2', depth: 1 },
-          { id: ['collapsedParent'], name: 'collapsedParent', expanded: false },
-          { id: ['collapsedParent', 'child1'], name: 'invisibleChild1', depth: 1 },
-          { id: ['collapsedParent', 'child2'], name: 'invisibleChild2', depth: 1 },
-          { id: ['other'], name: 'other' },
-        ]}
-      />,
-    );
-    expect(screen.getByText('expandedParent')).toBeInTheDocument();
-    expect(screen.getByText('visibleChild1')).toBeInTheDocument();
-    expect(screen.getByText('visibleChild2')).toBeInTheDocument();
-    expect(screen.getByText('collapsedParent')).toBeInTheDocument();
-    expect(screen.queryByText('invisibleChild1')).not.toBeInTheDocument();
-    expect(screen.queryByText('invisibleChild2')).not.toBeInTheDocument();
-    expect(screen.getByText('other')).toBeInTheDocument();
-  });
-
-  it('should ensure that items that do have children are collapsible', () => {
+  it('should ensure that items that are expandable have the toggle', () => {
     const onFieldExpandToggle = vi.fn();
     render(
       <FieldWithEditableInteractions
         onFieldExpandToggle={onFieldExpandToggle}
         fields={[
-          { id: ['other'], name: 'other' },
-          { id: ['parent'], name: 'parent', expanded: true },
-          { id: ['parent', 'child1'], name: 'child1', depth: 1 },
-          { id: ['parent', 'child2'], name: 'child2', depth: 1 },
+          { id: ['other'], name: 'other', expandable: false },
+          { id: ['parent'], name: 'parent', expanded: true, expandable: true },
+          { id: ['parent', 'child1'], name: 'child1', depth: 1, expandable: false },
+          { id: ['parent', 'child2'], name: 'child2', depth: 1, expandable: false },
         ]}
       />,
     );
