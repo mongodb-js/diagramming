@@ -9,8 +9,8 @@ export const ORDERS_NODE: NodeProps = {
   },
   title: 'orders',
   fields: [
-    { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'] },
-    { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'] },
+    { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'], id: ['ORDER_ID'] },
+    { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'], id: ['SUPPLIER_ID'] },
   ],
 };
 
@@ -23,13 +23,13 @@ export const EMPLOYEES_NODE: NodeProps = {
   },
   title: 'employees',
   fields: [
-    { name: 'employeeId', type: 'objectIdButMuchLonger', glyphs: ['key'] },
-    { name: 'employeeDetail', type: 'object' },
-    { name: 'firstName', type: 'string', depth: 1 },
-    { name: 'lastName', type: 'string', depth: 1 },
-    { name: 'address', type: 'object' },
-    { name: 'street', type: 'string', depth: 1 },
-    { name: 'city', type: 'string', depth: 1 },
+    { name: 'employeeId', type: 'objectIdButMuchLonger', glyphs: ['key'], id: ['employeeId'] },
+    { name: 'employeeDetail', type: 'object', id: ['employeeDetail'] },
+    { name: 'firstName', type: 'string', depth: 1, id: ['employeeDetail', 'firstName'] },
+    { name: 'lastName', type: 'string', depth: 1, id: ['employeeDetail', 'lastName'] },
+    { name: 'address', type: 'object', id: ['address'] },
+    { name: 'street', type: 'string', depth: 1, id: ['address', 'street'] },
+    { name: 'city', type: 'string', depth: 1, id: ['address', 'city'] },
   ],
 };
 
@@ -42,7 +42,7 @@ export const EMPLOYEE_TERRITORIES_NODE: NodeProps = {
   },
   title: 'employee_territories',
   fields: [
-    { name: 'employeeId', type: 'string', glyphs: ['key'] },
-    { name: 'employeeTerritory', type: 'string', glyphs: ['key'] },
+    { name: 'employeeId', type: 'string', glyphs: ['key'], id: ['employeeId'] },
+    { name: 'employeeTerritory', type: 'string', glyphs: ['key'], id: ['employeeTerritory'] },
   ],
 };

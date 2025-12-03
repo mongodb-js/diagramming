@@ -1,6 +1,7 @@
 import { Position, XYPosition } from '@xyflow/react';
 
 import { InternalNode } from '@/types/internal';
+import { FieldId } from '@/types/node';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_MARKER_SIZE, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
 import { getFieldYPosition, getNodeHeight, getNodeWidth } from './node-dimensions';
@@ -43,12 +44,12 @@ const getNodeIntersection = (intersectionNode: InternalNode, targetNode: Interna
  *
  * @param intersectionNode The source node
  * @param targetNode The target node
- * @param intersectionFieldIndex The index of the field on the source node
+ * @param intersectionFieldId The id of the field on the source node
  */
-const getNodeIntersectionAtField = (
+export const getNodeIntersectionAtField = (
   intersectionNode: InternalNode,
   targetNode: InternalNode,
-  intersectionFieldIndex: number,
+  intersectionFieldId: FieldId,
 ): XYPosition => {
   const intersectionNodeWidth = getNodeWidth(intersectionNode);
   const intersectionNodeHeight = getNodeHeight(intersectionNode);
@@ -65,6 +66,9 @@ const getNodeIntersectionAtField = (
         : 0;
 
   // vertical intersection is calculated based on the field index
+  const intersectionFieldIndex = intersectionNode.data.fields.findIndex(
+    ({ id }) => JSON.stringify(id) === JSON.stringify(intersectionFieldId),
+  );
   const h = intersectionNodeHeight ? getFieldYPosition(intersectionFieldIndex) + DEFAULT_FIELD_HEIGHT / 2 : 0;
 
   // the final position is added to the node position
@@ -164,11 +168,11 @@ export const getEdgeParams = (source: InternalNode, target: InternalNode) => {
 export const getFieldEdgeParams = (
   source: InternalNode,
   target: InternalNode,
-  sourceFieldIndex: number,
-  targetFieldIndex: number,
+  sourceFieldId: FieldId,
+  targetFieldId: FieldId,
 ) => {
-  const sourceIntersectionPoint = getNodeIntersectionAtField(source, target, sourceFieldIndex);
-  const targetIntersectionPoint = getNodeIntersectionAtField(target, source, targetFieldIndex);
+  const sourceIntersectionPoint = getNodeIntersectionAtField(source, target, sourceFieldId);
+  const targetIntersectionPoint = getNodeIntersectionAtField(target, source, targetFieldId);
 
   const sourcePos = getEdgePosition(source, sourceIntersectionPoint);
   const targetPos = getEdgePosition(target, targetIntersectionPoint);

@@ -6,8 +6,22 @@ describe('get-edge-params', () => {
   describe('Without measured heights', () => {
     it('Should get parameters', () => {
       const result = getEdgeParams(
-        { ...ORDERS_NODE, data: { title: ORDERS_NODE.title, fields: ORDERS_NODE.fields } },
-        { ...EMPLOYEES_NODE, data: { title: EMPLOYEES_NODE.title, fields: EMPLOYEES_NODE.fields } },
+        {
+          ...ORDERS_NODE,
+          data: {
+            title: ORDERS_NODE.title,
+            fields: ORDERS_NODE.fields.map(field => ({ ...field, expandable: false })),
+            allFields: ORDERS_NODE.fields,
+          },
+        },
+        {
+          ...EMPLOYEES_NODE,
+          data: {
+            title: EMPLOYEES_NODE.title,
+            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, expandable: false })),
+            allFields: EMPLOYEES_NODE.fields,
+          },
+        },
       );
       expect(result).toEqual({
         sourcePos: 'bottom',
@@ -25,7 +39,11 @@ describe('get-edge-params', () => {
       const result = getEdgeParams(
         {
           ...ORDERS_NODE,
-          data: { title: ORDERS_NODE.title, fields: ORDERS_NODE.fields },
+          data: {
+            title: ORDERS_NODE.title,
+            fields: ORDERS_NODE.fields.map(field => ({ ...field, expandable: false })),
+            allFields: ORDERS_NODE.fields,
+          },
           measured: {
             width: DEFAULT_NODE_WIDTH,
             height: DEFAULT_FIELD_HEIGHT * 2,
@@ -33,7 +51,11 @@ describe('get-edge-params', () => {
         },
         {
           ...EMPLOYEES_NODE,
-          data: { title: EMPLOYEES_NODE.title, fields: EMPLOYEES_NODE.fields },
+          data: {
+            title: EMPLOYEES_NODE.title,
+            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, expandable: false })),
+            allFields: EMPLOYEES_NODE.fields,
+          },
           measured: {
             width: DEFAULT_NODE_WIDTH,
             height: DEFAULT_FIELD_HEIGHT * 4,

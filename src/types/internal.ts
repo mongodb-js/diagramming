@@ -1,6 +1,6 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
 
-import { NodeBorderVariant, NodeField, NodeVariant } from '@/types/node';
+import { FieldId, NodeBorderVariant, NodeField, NodeVariant } from '@/types/node';
 import { EdgeProps } from '@/types/edge';
 
 export type NodeData = {
@@ -19,7 +19,7 @@ export interface InternalEdge extends Omit<EdgeProps, 'markerStart' | 'markerEnd
   markerEnd: 'end-one' | 'end-oneOrMany' | 'end-many';
   type: 'selfReferencingEdge' | 'floatingEdge' | 'fieldEdge';
   data: {
-    sourceFieldIndex?: number;
-    targetFieldIndex?: number;
+    sourceFieldId?: FieldId;
+    targetFieldId?: FieldId;
   };
 }

@@ -8,8 +8,8 @@ export const convertToExternalEdge = (edge: InternalEdge): EdgeProps => {
     ...rest,
     markerStart: markerStart?.replace(/^start-/, '') as Marker,
     markerEnd: markerEnd?.replace(/^end-/, '') as Marker,
-    ...(data?.sourceFieldIndex !== undefined ? { sourceFieldIndex: data?.sourceFieldIndex } : {}),
-    ...(data?.targetFieldIndex !== undefined ? { targetFieldIndex: data?.targetFieldIndex } : {}),
+    ...(data?.sourceFieldId !== undefined ? { sourceFieldId: data?.sourceFieldId } : {}),
+    ...(data?.targetFieldId !== undefined ? { targetFieldId: data?.targetFieldId } : {}),
   };
 };
 
@@ -18,7 +18,7 @@ export const convertToExternalEdges = (edges: InternalEdge[]): EdgeProps[] => {
 };
 
 export const convertToInternalEdge = (edge: EdgeProps): InternalEdge => {
-  const { sourceFieldIndex, targetFieldIndex, ...edgeProps } = edge;
+  const { sourceFieldId, targetFieldId, ...edgeProps } = edge;
   return {
     ...edgeProps,
     markerStart: `start-${edge.markerStart}`,
@@ -26,12 +26,12 @@ export const convertToInternalEdge = (edge: EdgeProps): InternalEdge => {
     type:
       edge.source === edge.target
         ? 'selfReferencingEdge'
-        : sourceFieldIndex !== undefined && targetFieldIndex !== undefined
+        : sourceFieldId !== undefined && targetFieldId !== undefined
           ? 'fieldEdge'
           : 'floatingEdge',
     data: {
-      ...(sourceFieldIndex !== undefined ? { sourceFieldIndex } : {}),
-      ...(targetFieldIndex !== undefined ? { targetFieldIndex } : {}),
+      ...(sourceFieldId !== undefined ? { sourceFieldId } : {}),
+      ...(targetFieldId !== undefined ? { targetFieldId } : {}),
     },
   };
 };
