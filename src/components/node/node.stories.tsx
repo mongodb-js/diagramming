@@ -29,7 +29,7 @@ const INTERNAL_NODE: InternalNode = {
   position: { x: 100, y: 100 },
   data: {
     title: 'orders',
-    fields: fields.map(field => ({ ...field, hasChildren: false })),
+    visibleFields: fields.map(field => ({ ...field, hasChildren: false })),
     externalNode: {} as unknown as NodeProps,
   },
 };
@@ -79,7 +79,7 @@ export const FieldsWithGlyph: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithGlyph.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithGlyph.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -106,7 +106,7 @@ export const FieldsWithGlyphs: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithMultipleGlyphs.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithMultipleGlyphs.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -133,7 +133,7 @@ export const FieldsWithLongValues: Story = {
     data: {
       title:
         'enterprise_tenant_finance_department_legacy_system_us_east_1_schema_2025_v15_monthly_billing_transactions_20250702145533',
-      fields: fieldsWithLongValues.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithLongValues.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -176,7 +176,7 @@ export const NestedFields: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: nestedFields.map(field => ({ ...field, hasChildren: 'expanded' in field })),
+      visibleFields: nestedFields.map(field => ({ ...field, hasChildren: 'expanded' in field })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -187,7 +187,7 @@ export const NodeWithDefaultField: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: [
+      visibleFields: [
         {
           name: 'customerId',
           type: 'string',
@@ -207,7 +207,7 @@ export const DisabledNode: Story = {
     data: {
       disabled: true,
       title: 'orders',
-      fields: [
+      visibleFields: [
         {
           name: 'customerId',
           type: 'string',
@@ -225,7 +225,7 @@ export const DisabledField: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: [
+      visibleFields: [
         {
           name: 'customerId',
           type: 'string',
@@ -244,7 +244,7 @@ export const DisabledWithHoverVariant: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: [
+      visibleFields: [
         {
           name: 'customerId',
           type: 'string',
@@ -276,7 +276,7 @@ export const NodeWithMultipleTypesField: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: multipleTypesField.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: multipleTypesField.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -287,7 +287,7 @@ export const NodeWithPrimaryField: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: [
+      visibleFields: [
         {
           name: 'customerId',
           type: 'string',
@@ -327,7 +327,7 @@ export const NodeWithPreviewFields: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithPreview.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithPreview.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -357,7 +357,7 @@ export const NodeWithPreviewGlyphs: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithPreviewGlyphs.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithPreviewGlyphs.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -390,7 +390,7 @@ export const NodeWithSomePreviewGlyphs: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithSomePreviewGlyphs.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithSomePreviewGlyphs.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -437,7 +437,7 @@ export const NodeWithNestedPreviewFields: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithNestedPreview.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithNestedPreview.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -488,7 +488,7 @@ export const NodeWithDeeplyNestedPreviewFields: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: deeplyNestedPreviewFields.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: deeplyNestedPreviewFields.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -527,7 +527,7 @@ export const NodeWithDeeplyNestedPreviewFieldsEverywhere: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithDeeplyNestedPreviewEverywhere.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithDeeplyNestedPreviewEverywhere.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -574,7 +574,7 @@ export const NodeWithSelectedFields: Story = {
     ...INTERNAL_NODE,
     data: {
       title: 'orders',
-      fields: fieldsWithSelected.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithSelected.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -600,7 +600,7 @@ export const NodeWithWarningIcon: Story = {
         type: 'warn',
         warnMessage: 'This is a warning message for the Orders node.',
       },
-      fields: fieldsWithWarning.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsWithWarning.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },
@@ -626,7 +626,7 @@ export const NodeWithLongTitleAndWarningIcon: Story = {
         type: 'warn',
         warnMessage: 'This is a warning message for the Orders node.',
       },
-      fields: fieldsForLongTitleWarning.map(field => ({ ...field, hasChildren: false })),
+      visibleFields: fieldsForLongTitleWarning.map(field => ({ ...field, hasChildren: false })),
       externalNode: {} as unknown as NodeProps,
     },
   },

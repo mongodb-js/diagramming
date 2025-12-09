@@ -44,7 +44,7 @@ export const convertToInternalNode = (node: NodeProps): InternalNode => {
     data: {
       title,
       disabled,
-      fields: getFieldsWithExpandStatus(fields),
+      visibleFields: getFieldsWithExpandStatus(fields),
       borderVariant,
       variant,
       externalNode: node,

@@ -76,7 +76,11 @@ export const getNodeIntersectionAtField = (
         : 0;
 
   // vertical intersection is calculated based on the field index
-  const h = getVerticalIntersectionAtField(intersectionNodeHeight, intersectionNode.data.fields, intersectionFieldId);
+  const h = getVerticalIntersectionAtField(
+    intersectionNodeHeight,
+    intersectionNode.data.visibleFields,
+    intersectionFieldId,
+  );
 
   // the final position is added to the node position
   const x = intersectionNode.position.x + w;

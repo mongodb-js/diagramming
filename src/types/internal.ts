@@ -8,7 +8,7 @@ export type InternalNodeField = NodeField & { hasChildren: boolean };
 export type NodeData = {
   title: string;
   disabled?: boolean;
-  fields: InternalNodeField[];
+  visibleFields: InternalNodeField[];
   borderVariant?: NodeBorderVariant;
   variant?: NodeVariant;
   externalNode: NodeProps;

@@ -37,7 +37,7 @@ describe('node', () => {
   const DEFAULT_PROPS: XyFlowNodeProps<InternalNode> = {
     id: 'id',
     type: 'table',
-    data: { title: 'title', fields: [], externalNode: {} as unknown as NodeProps },
+    data: { title: 'title', visibleFields: [], externalNode: {} as unknown as NodeProps },
     dragging: false,
     zIndex: 0,
     selectable: false,
@@ -61,7 +61,7 @@ describe('node', () => {
         type="table"
         data={{
           title: 'orders',
-          fields: [{ name: 'orderId', type: 'varchar', hasChildren: false }],
+          visibleFields: [{ name: 'orderId', type: 'varchar', hasChildren: false }],
           externalNode: {} as unknown as NodeProps,
         }}
       />,
@@ -79,7 +79,7 @@ describe('node', () => {
         type="collection"
         data={{
           title: 'employees',
-          fields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
+          visibleFields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
           externalNode: {} as unknown as NodeProps,
         }}
       />,
@@ -101,7 +101,7 @@ describe('node', () => {
         type="collection"
         data={{
           title: 'employees',
-          fields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
+          visibleFields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
           externalNode: {} as unknown as NodeProps,
         }}
       />,
@@ -144,7 +144,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', fields: expandedFields, externalNode: {} as unknown as NodeProps }}
+          data={{ title: 'abc', visibleFields: expandedFields, externalNode: {} as unknown as NodeProps }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Collapse all' });
@@ -174,7 +174,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', fields: variedFields, externalNode: {} as unknown as NodeProps }}
+          data={{ title: 'abc', visibleFields: variedFields, externalNode: {} as unknown as NodeProps }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Expand all' });

@@ -140,7 +140,7 @@ export const Node = ({
   type,
   selected,
   isConnectable,
-  data: { title, fields, borderVariant, disabled, variant },
+  data: { title, visibleFields: fields, borderVariant, disabled, variant },
 }: NodeProps<InternalNode>) => {
   const theme = useTheme();
   const { darkMode } = useDarkMode();

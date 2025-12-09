@@ -22,8 +22,8 @@ export const getNodeHeight = <
   }
   if ('data' in node) {
     let internalNode = node as InternalNode;
-    if (internalNode.data?.fields && Array.isArray(internalNode.data.fields)) {
-      fieldCount = internalNode.data.fields.length;
+    if (internalNode.data?.visibleFields && Array.isArray(internalNode.data.visibleFields)) {
+      fieldCount = internalNode.data.visibleFields.length;
     }
   }
   const calculatedHeight = getFieldYPosition(fieldCount) + DEFAULT_FIELD_PADDING;

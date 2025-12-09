@@ -20,7 +20,7 @@ describe('convert-nodes', () => {
         position: { x: 100, y: 200 },
         data: {
           title: 'some-title',
-          fields: [],
+          visibleFields: [],
           externalNode,
         },
       };
@@ -48,7 +48,7 @@ describe('convert-nodes', () => {
         connectable: false,
         data: {
           title: 'some-title',
-          fields: [],
+          visibleFields: [],
           borderVariant: undefined,
           disabled: undefined,
           externalNode,
@@ -72,7 +72,7 @@ describe('convert-nodes', () => {
         connectable: true,
         data: {
           title: 'some-title',
-          fields: [],
+          visibleFields: [],
           borderVariant: undefined,
           disabled: undefined,
           externalNode,
@@ -97,7 +97,7 @@ describe('convert-nodes', () => {
         selectable: true,
         data: {
           title: 'some-title',
-          fields: [],
+          visibleFields: [],
           borderVariant: undefined,
           disabled: undefined,
           externalNode,
@@ -125,7 +125,7 @@ describe('convert-nodes', () => {
         selectable: true,
         data: {
           title: 'some-title',
-          fields: [],
+          visibleFields: [],
           borderVariant: undefined,
           disabled: undefined,
           variant: {
@@ -157,7 +157,7 @@ describe('convert-nodes', () => {
         selectable: true,
         data: {
           title: 'some-title',
-          fields: [],
+          visibleFields: [],
           borderVariant: undefined,
           disabled: undefined,
           variant: {
@@ -194,7 +194,7 @@ describe('convert-nodes', () => {
         connectable: false,
         data: {
           title: 'some-title',
-          fields: [
+          visibleFields: [
             { id: ['expandedParent'], name: 'expandedParent', expanded: true, hasChildren: true },
             { id: ['expandedParent', 'child1'], name: 'visibleChild1', depth: 1, hasChildren: false },
             { id: ['expandedParent', 'child2'], name: 'visibleChild2', depth: 1, hasChildren: false },
@@ -238,7 +238,7 @@ describe('convert-nodes', () => {
           },
           data: {
             disabled: true,
-            fields: [
+            visibleFields: [
               { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'], hasChildren: false, id: ['ORDER_ID'] },
               { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'], hasChildren: false, id: ['SUPPLIER_ID'] },
             ],
@@ -255,7 +255,7 @@ describe('convert-nodes', () => {
           },
           connectable: false,
           data: {
-            fields: [
+            visibleFields: [
               {
                 name: 'employeeId',
                 type: 'objectIdButMuchLonger',

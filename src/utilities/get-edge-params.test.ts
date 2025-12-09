@@ -11,7 +11,7 @@ describe('get-edge-params', () => {
           ...ORDERS_NODE,
           data: {
             title: ORDERS_NODE.title,
-            fields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            visibleFields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
             externalNode: {} as unknown as NodeProps,
           },
         },
@@ -19,7 +19,7 @@ describe('get-edge-params', () => {
           ...EMPLOYEES_NODE,
           data: {
             title: EMPLOYEES_NODE.title,
-            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            visibleFields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
             externalNode: {} as unknown as NodeProps,
           },
         },
@@ -42,7 +42,7 @@ describe('get-edge-params', () => {
           ...ORDERS_NODE,
           data: {
             title: ORDERS_NODE.title,
-            fields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            visibleFields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
             externalNode: {} as unknown as NodeProps,
           },
           measured: {
@@ -54,7 +54,7 @@ describe('get-edge-params', () => {
           ...EMPLOYEES_NODE,
           data: {
             title: EMPLOYEES_NODE.title,
-            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            visibleFields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
             externalNode: {} as unknown as NodeProps,
           },
           measured: {
