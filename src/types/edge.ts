@@ -22,7 +22,7 @@ export interface EdgeProps {
   target: string;
 
   /**
-   * Index of the field in the source node this edge connects from (if applicable).
+   * Id of the field in the source node this edge connects from (if applicable).
    */
   sourceFieldId?: FieldId;
 
