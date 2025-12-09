@@ -111,7 +111,7 @@ interface Props extends NodeField {
   isHovering?: boolean;
   previewGroupArea: PreviewGroupArea;
   selectedGroupHeight?: number;
-  expandable?: boolean;
+  hasChildren?: boolean;
 }
 
 export const Field = ({
@@ -130,7 +130,7 @@ export const Field = ({
   spacing = 0,
   selectable = false,
   selected = false,
-  expandable = false,
+  hasChildren = false,
   expanded = true,
   editable = false,
   variant,
@@ -192,7 +192,7 @@ export const Field = ({
       isDisabled={isDisabled}
       depth={depth}
       isEditable={selected && editable && !isDisabled}
-      isExpandable={expandable}
+      isExpandable={hasChildren}
       name={name}
       type={type}
       id={id}

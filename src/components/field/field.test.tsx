@@ -345,47 +345,47 @@ describe('field', () => {
   });
 
   describe('Expand/Collapse', () => {
-    describe('When the field is expandable', () => {
-      const expandableProps = {
+    describe('When the field has children', () => {
+      const hasChildrenProps = {
         ...DEFAULT_PROPS,
         onFieldExpandToggle: vi.fn(),
-        expandable: true,
+        hasChildren: true,
       };
       beforeEach(() => {
-        expandableProps.onFieldExpandToggle.mockClear();
+        hasChildrenProps.onFieldExpandToggle.mockClear();
       });
       it('Shows collapse icon by default', async () => {
-        render(<FieldWithEditableInteractions {...expandableProps} expandable={true} />);
+        render(<FieldWithEditableInteractions {...hasChildrenProps} hasChildren={true} />);
         const toggle = screen.getByRole('button', { name: 'Collapse Field' });
         expect(toggle).toBeInTheDocument();
         await userEvent.click(toggle);
-        expect(expandableProps.onFieldExpandToggle).toHaveBeenCalled();
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalled();
       });
 
       it('Shows expand icon for a collapsed field', async () => {
-        render(<FieldWithEditableInteractions {...expandableProps} expanded={false} />);
+        render(<FieldWithEditableInteractions {...hasChildrenProps} expanded={false} />);
         const toggle = screen.getByRole('button', { name: 'Expand Field' });
         expect(toggle).toBeInTheDocument();
         await userEvent.click(toggle);
-        expect(expandableProps.onFieldExpandToggle).toHaveBeenCalled();
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalled();
       });
 
       it('Shows collapse icon for an expanded field', async () => {
-        render(<FieldWithEditableInteractions {...expandableProps} expanded={true} />);
+        render(<FieldWithEditableInteractions {...hasChildrenProps} expanded={true} />);
         const toggle = screen.getByRole('button', { name: 'Collapse Field' });
         expect(toggle).toBeInTheDocument();
         await userEvent.click(toggle);
-        expect(expandableProps.onFieldExpandToggle).toHaveBeenCalled();
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalled();
       });
     });
 
-    describe('When the field is not expandable', () => {
+    describe('When the field is not hasChildren', () => {
       it('Does not show the collapse/expand toggle', () => {
         render(
           <FieldWithEditableInteractions
             {...DEFAULT_PROPS}
             onFieldExpandToggle={vi.fn()}
-            expandable={false}
+            hasChildren={false}
             expanded={true}
           />,
         );
@@ -400,7 +400,7 @@ describe('field', () => {
           <FieldWithEditableInteractions
             {...DEFAULT_PROPS}
             onFieldExpandToggle={undefined}
-            expandable={true}
+            hasChildren={true}
             expanded={true}
           />,
         );

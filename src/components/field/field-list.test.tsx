@@ -35,8 +35,8 @@ describe('field-list', () => {
       <FieldWithEditableInteractions
         onFieldClick={onFieldClick}
         fields={[
-          { name: 'field-with-just-name', selectable: true, expandable: false },
-          { id: ['field', 'with', 'id'], name: 'and-custom-name', selectable: true, expandable: false },
+          { name: 'field-with-just-name', selectable: true, hasChildren: false },
+          { id: ['field', 'with', 'id'], name: 'and-custom-name', selectable: true, hasChildren: false },
         ]}
       />,
     );
@@ -58,16 +58,16 @@ describe('field-list', () => {
     });
   });
 
-  it('should ensure that items that are expandable have the toggle', () => {
+  it('should ensure that items that are hasChildren have the toggle', () => {
     const onFieldExpandToggle = vi.fn();
     render(
       <FieldWithEditableInteractions
         onFieldExpandToggle={onFieldExpandToggle}
         fields={[
-          { id: ['other'], name: 'other', expandable: false },
-          { id: ['parent'], name: 'parent', expanded: true, expandable: true },
-          { id: ['parent', 'child1'], name: 'child1', depth: 1, expandable: false },
-          { id: ['parent', 'child2'], name: 'child2', depth: 1, expandable: false },
+          { id: ['other'], name: 'other', hasChildren: false },
+          { id: ['parent'], name: 'parent', expanded: true, hasChildren: true },
+          { id: ['parent', 'child1'], name: 'child1', depth: 1, hasChildren: false },
+          { id: ['parent', 'child2'], name: 'child2', depth: 1, hasChildren: false },
         ]}
       />,
     );

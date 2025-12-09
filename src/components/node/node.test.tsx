@@ -1,10 +1,11 @@
 import { screen } from '@testing-library/react';
-import { NodeProps, useViewport } from '@xyflow/react';
+import { NodeProps as XyFlowNodeProps, useViewport } from '@xyflow/react';
 import { userEvent } from '@testing-library/user-event';
 import { palette } from '@leafygreen-ui/palette';
 
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
+import { NodeProps } from '@/types/node';
 import { Node as NodeComponent } from '@/components/node/node';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
@@ -33,10 +34,10 @@ vi.mock('@xyflow/react', async () => {
 });
 
 describe('node', () => {
-  const DEFAULT_PROPS: NodeProps<InternalNode> = {
+  const DEFAULT_PROPS: XyFlowNodeProps<InternalNode> = {
     id: 'id',
     type: 'table',
-    data: { title: 'title', fields: [], allFields: [] },
+    data: { title: 'title', fields: [], externalNode: {} as unknown as NodeProps },
     dragging: false,
     zIndex: 0,
     selectable: false,
@@ -60,8 +61,8 @@ describe('node', () => {
         type="table"
         data={{
           title: 'orders',
-          fields: [{ name: 'orderId', type: 'varchar', expandable: false }],
-          allFields: [{ name: 'orderId', type: 'varchar' }],
+          fields: [{ name: 'orderId', type: 'varchar', hasChildren: false }],
+          externalNode: {} as unknown as NodeProps,
         }}
       />,
     );
@@ -78,8 +79,8 @@ describe('node', () => {
         type="collection"
         data={{
           title: 'employees',
-          fields: [{ name: 'employeeId', type: 'string', expandable: false }],
-          allFields: [{ name: 'employeeId', type: 'string' }],
+          fields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
+          externalNode: {} as unknown as NodeProps,
         }}
       />,
     );
@@ -100,8 +101,8 @@ describe('node', () => {
         type="collection"
         data={{
           title: 'employees',
-          fields: [{ name: 'employeeId', type: 'string', expandable: false }],
-          allFields: [{ name: 'employeeId', type: 'string' }],
+          fields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
+          externalNode: {} as unknown as NodeProps,
         }}
       />,
     );
@@ -130,12 +131,12 @@ describe('node', () => {
         {
           name: 'field1',
           expanded: true,
-          expandable: true,
+          hasChildren: true,
         },
         {
           // this field is not explicitly collapsed
           name: 'field2',
-          expandable: true,
+          hasChildren: true,
         },
       ];
 
@@ -143,7 +144,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', fields: expandedFields, allFields: expandedFields }}
+          data={{ title: 'abc', fields: expandedFields, externalNode: {} as unknown as NodeProps }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Collapse all' });
@@ -160,12 +161,12 @@ describe('node', () => {
         {
           name: 'field1',
           expanded: true,
-          expandable: true,
+          hasChildren: true,
         },
         {
           name: 'field2',
           expanded: false,
-          expandable: true,
+          hasChildren: true,
         },
       ];
 
@@ -173,7 +174,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', fields: variedFields, allFields: variedFields }}
+          data={{ title: 'abc', fields: variedFields, externalNode: {} as unknown as NodeProps }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Expand all' });

@@ -1,15 +1,17 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
 
-import { FieldId, NodeBorderVariant, NodeField, NodeVariant } from '@/types/node';
+import { FieldId, NodeBorderVariant, NodeField, NodeProps, NodeVariant } from '@/types/node';
 import { EdgeProps } from '@/types/edge';
+
+export type InternalNodeField = NodeField & { hasChildren: boolean };
 
 export type NodeData = {
   title: string;
   disabled?: boolean;
-  fields: (NodeField & { expandable: boolean })[];
-  allFields: NodeField[];
+  fields: InternalNodeField[];
   borderVariant?: NodeBorderVariant;
   variant?: NodeVariant;
+  externalNode: NodeProps;
 };
 
 export type InternalNode = ReactFlowNode<NodeData>;

@@ -1,6 +1,7 @@
 import { getEdgeParams } from '@/utilities/get-edge-params';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
+import { NodeProps } from '@/types';
 
 describe('get-edge-params', () => {
   describe('Without measured heights', () => {
@@ -10,16 +11,16 @@ describe('get-edge-params', () => {
           ...ORDERS_NODE,
           data: {
             title: ORDERS_NODE.title,
-            fields: ORDERS_NODE.fields.map(field => ({ ...field, expandable: false })),
-            allFields: ORDERS_NODE.fields,
+            fields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            externalNode: {} as unknown as NodeProps,
           },
         },
         {
           ...EMPLOYEES_NODE,
           data: {
             title: EMPLOYEES_NODE.title,
-            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, expandable: false })),
-            allFields: EMPLOYEES_NODE.fields,
+            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            externalNode: {} as unknown as NodeProps,
           },
         },
       );
@@ -41,8 +42,8 @@ describe('get-edge-params', () => {
           ...ORDERS_NODE,
           data: {
             title: ORDERS_NODE.title,
-            fields: ORDERS_NODE.fields.map(field => ({ ...field, expandable: false })),
-            allFields: ORDERS_NODE.fields,
+            fields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            externalNode: {} as unknown as NodeProps,
           },
           measured: {
             width: DEFAULT_NODE_WIDTH,
@@ -53,8 +54,8 @@ describe('get-edge-params', () => {
           ...EMPLOYEES_NODE,
           data: {
             title: EMPLOYEES_NODE.title,
-            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, expandable: false })),
-            allFields: EMPLOYEES_NODE.fields,
+            fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+            externalNode: {} as unknown as NodeProps,
           },
           measured: {
             width: DEFAULT_NODE_WIDTH,

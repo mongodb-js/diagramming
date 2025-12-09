@@ -1,20 +1,7 @@
-import { InternalNode } from '@/types/internal';
-import { NodeField, NodeProps, NodeType } from '@/types';
+import { InternalNode, InternalNodeField } from '@/types/internal';
+import { NodeField, NodeProps } from '@/types';
 
-export const convertToExternalNode = (node: InternalNode): NodeProps => {
-  const { data, ...rest } = node;
-  const { allFields, fields: _fields, ...otherData } = data;
-  return {
-    ...rest,
-    ...otherData,
-    fields: allFields,
-    type: node.type as NodeType,
-  };
-};
-
-export const convertToExternalNodes = (nodes: InternalNode[]): NodeProps[] => {
-  return nodes.map(node => convertToExternalNode(node));
-};
+export const getExternalNode = (node: InternalNode): NodeProps => node.data.externalNode;
 
 function hasChildren(fields: NodeField[], index: number): boolean {
   const fieldDepth = fields[index].depth ?? 0;
@@ -30,8 +17,8 @@ function hasChildren(fields: NodeField[], index: number): boolean {
 // depth (a sibling)
 // We also annotate each field with whether it is expandable (has children)
 // This is more reliable than checking the type of the field, since the object could be hidden in arrays, or simply have no children
-function getFieldsWithExpandStatus(fields: NodeField[]): (NodeField & { expandable: boolean })[] {
-  const visibleFields: (NodeField & { expandable: boolean })[] = [];
+function getFieldsWithExpandStatus(fields: NodeField[]): InternalNodeField[] {
+  const visibleFields: InternalNodeField[] = [];
   let currentDepth = 0;
   let skipChildren = false;
   fields.forEach((field, index) => {
@@ -43,7 +30,7 @@ function getFieldsWithExpandStatus(fields: NodeField[]): (NodeField & { expandab
     skipChildren = field.expanded === false;
     visibleFields.push({
       ...field,
-      expandable: hasChildren(fields, index),
+      hasChildren: hasChildren(fields, index),
     });
   });
   return visibleFields;
@@ -58,9 +45,9 @@ export const convertToInternalNode = (node: NodeProps): InternalNode => {
       title,
       disabled,
       fields: getFieldsWithExpandStatus(fields),
-      allFields: fields,
       borderVariant,
       variant,
+      externalNode: node,
     },
   };
 };
