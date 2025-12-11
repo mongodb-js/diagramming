@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from 'react';
 import { Decorator } from '@storybook/react';
 
 import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
