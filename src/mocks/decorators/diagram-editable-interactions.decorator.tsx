@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from 'react';
 import { Decorator } from '@storybook/react';
 
 import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
@@ -131,14 +131,6 @@ function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
 
 export const useEditableNodes = (initialNodes: NodeProps[]) => {
   const [nodes, setNodes] = useState<NodeProps[]>([]);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
-    return Object.fromEntries(
-      nodes.map(node => {
-        return [node.id, true];
-      }),
-    );
-  });
-
   const hasInitialized = useRef(false);
   useEffect(() => {
     if (hasInitialized.current) {
@@ -248,13 +240,34 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
-  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string) => {
-    setExpanded(state => {
-      return {
-        ...state,
-        [nodeId]: !state[nodeId],
-      };
-    });
+  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, expanded: boolean) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: node.fields.map(field => {
+                return { ...field, expanded };
+              }),
+            }
+          : node,
+      ),
+    );
+  }, []);
+
+  const onFieldExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, fieldId: FieldId) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: node.fields.map(field => {
+                return field.id === fieldId ? { ...field, expanded: !field.expanded } : field;
+              }),
+            }
+          : node,
+      ),
+    );
   }, []);
 
   const onNodeDragStop = useCallback((_event: ReactMouseEvent, node: NodeProps) => {
@@ -271,28 +284,15 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     });
   }, []);
 
-  const _nodes = useMemo(() => {
-    return nodes.map(node => {
-      if (expanded[node.id]) {
-        return node;
-      }
-      return {
-        ...node,
-        fields: node.fields.filter(field => {
-          return !field.depth || field.depth === 0;
-        }),
-      };
-    });
-  }, [nodes, expanded]);
-
   return {
-    nodes: _nodes,
+    nodes,
     onFieldClick,
     onAddFieldToNodeClick,
     onNodeExpandToggle,
     onAddFieldToObjectFieldClick,
     onFieldNameChange,
     onFieldTypeChange,
+    onFieldExpandToggle,
     fieldTypes,
     onNodeDragStop,
   };

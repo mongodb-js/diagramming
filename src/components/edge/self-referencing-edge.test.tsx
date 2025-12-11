@@ -6,6 +6,7 @@ import { render, screen } from '@/mocks/testing-utils';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
+import { InternalNode } from '@/types/internal';
 
 vi.mock('@xyflow/react', async () => {
   const actual = await vi.importActual<typeof import('@xyflow/react')>('@xyflow/react');
@@ -21,7 +22,16 @@ function mockNodes(nodes: Node[]) {
 }
 
 describe('self-referencing-edge', () => {
-  const nodes = [{ ...EMPLOYEES_NODE, data: { title: EMPLOYEES_NODE.title, fields: EMPLOYEES_NODE.fields } }];
+  const nodes: InternalNode[] = [
+    {
+      ...EMPLOYEES_NODE,
+      data: {
+        title: EMPLOYEES_NODE.title,
+        visibleFields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+        externalNode: EMPLOYEES_NODE,
+      },
+    },
+  ];
 
   beforeEach(() => {
     mockNodes(nodes);
@@ -53,7 +63,7 @@ describe('self-referencing-edge', () => {
       renderComponent();
       const path = screen.getByTestId('self-referencing-edge-employees-to-employees');
       expect(path).toHaveAttribute('id', 'employees-to-employees');
-      expect(path).toHaveAttribute('d', 'M422,292.5L422,262.5L584,262.5L584,351.5L551.5,351.5');
+      expect(path).toHaveAttribute('d', 'M422,292.5L422,262.5L584,262.5L584,378.5L551.5,378.5');
     });
   });
 

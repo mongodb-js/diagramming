@@ -20,7 +20,7 @@ import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { FieldEdge } from '@/components/edge/field-edge';
 import { MarkerList } from '@/components/markers/marker-list';
 import { ConnectionLine } from '@/components/line/connection-line';
-import { convertToExternalNode, convertToExternalNodes, convertToInternalNodes } from '@/utilities/convert-nodes';
+import { getExternalNode, convertToInternalNodes } from '@/utilities/convert-nodes';
 import { convertToExternalEdge, convertToExternalEdges, convertToInternalEdges } from '@/utilities/convert-edges';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
@@ -66,6 +66,7 @@ export const Canvas = ({
   onFieldNameChange,
   onFieldTypeChange,
   onFieldClick,
+  onFieldExpandToggle,
   onNodeContextMenu,
   onNodeDrag,
   onNodeDragStop,
@@ -94,28 +95,28 @@ export const Canvas = ({
 
   const _onNodeContextMenu = useCallback(
     (event: MouseEvent, node: InternalNode) => {
-      onNodeContextMenu?.(event, convertToExternalNode(node));
+      onNodeContextMenu?.(event, getExternalNode(node));
     },
     [onNodeContextMenu],
   );
 
   const _onNodeDrag = useCallback(
     (event: MouseEvent, node: InternalNode, nodes: InternalNode[]) => {
-      onNodeDrag?.(event, convertToExternalNode(node), convertToExternalNodes(nodes));
+      onNodeDrag?.(event, getExternalNode(node), nodes.map(getExternalNode));
     },
     [onNodeDrag],
   );
 
   const _onNodeDragStop = useCallback(
     (event: MouseEvent, node: InternalNode, nodes: InternalNode[]) => {
-      onNodeDragStop?.(event, convertToExternalNode(node), convertToExternalNodes(nodes));
+      onNodeDragStop?.(event, getExternalNode(node), nodes.map(getExternalNode));
     },
     [onNodeDragStop],
   );
 
   const _onSelectionDragStop = useCallback(
     (event: MouseEvent, nodes: InternalNode[]) => {
-      onSelectionDragStop?.(event, convertToExternalNodes(nodes));
+      onSelectionDragStop?.(event, nodes.map(getExternalNode));
     },
     [onSelectionDragStop],
   );
@@ -129,21 +130,21 @@ export const Canvas = ({
 
   const _onNodeClick = useCallback(
     (event: MouseEvent, node: InternalNode) => {
-      onNodeClick?.(event, convertToExternalNode(node));
+      onNodeClick?.(event, getExternalNode(node));
     },
     [onNodeClick],
   );
 
   const _onSelectionContextMenu = useCallback(
     (event: MouseEvent, nodes: InternalNode[]) => {
-      onSelectionContextMenu?.(event, convertToExternalNodes(nodes));
+      onSelectionContextMenu?.(event, nodes.map(getExternalNode));
     },
     [onSelectionContextMenu],
   );
 
   const _onSelectionChange = useCallback(
     ({ nodes, edges }: { nodes: InternalNode[]; edges: InternalEdge[] }) => {
-      onSelectionChange?.({ nodes: convertToExternalNodes(nodes), edges: convertToExternalEdges(edges) });
+      onSelectionChange?.({ nodes: nodes.map(getExternalNode), edges: convertToExternalEdges(edges) });
     },
     [onSelectionChange],
   );
@@ -153,6 +154,7 @@ export const Canvas = ({
       onFieldClick={onFieldClick}
       onAddFieldToNodeClick={onAddFieldToNodeClick}
       onNodeExpandToggle={onNodeExpandToggle}
+      onFieldExpandToggle={onFieldExpandToggle}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
       onFieldTypeChange={onFieldTypeChange}

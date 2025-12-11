@@ -11,12 +11,12 @@ import { FieldTypeContent } from '@/components/field/field-type-content';
 import { FieldId } from '@/types';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
 
-const FieldTypeWrapper = styled.div<{ color: string }>`
+const FieldTypeWrapper = styled.div<{ color: string; placeholderCollapse?: boolean }>`
   color: ${props => props.color};
   font-weight: normal;
-  padding-left:${spacing[100]}px;
-  padding-right ${spacing[50]}px; 
-  flex: 0 0 ${spacing[200] * 10}px;
+  padding-left: ${spacing[100]}px;
+  padding-right: ${props => (props.placeholderCollapse ? spacing[600] : spacing[100])}px;
+  flex: 0 0 100px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -50,6 +50,7 @@ export function FieldType({
   isEditing,
   isDisabled,
   onChange,
+  placeholderCollapse,
 }: {
   id: FieldId;
   nodeId: string;
@@ -57,6 +58,7 @@ export function FieldType({
   isEditing: boolean;
   isDisabled: boolean;
   onChange: (newType: string[]) => void;
+  placeholderCollapse?: boolean;
 }) {
   const internalTheme = useTheme();
   const { theme } = useDarkMode();
@@ -86,6 +88,7 @@ export function FieldType({
           }
         : undefined)}
       color={getSecondaryTextColor()}
+      placeholderCollapse={placeholderCollapse}
     >
       {/**
        * Rendering hidden select first so that whenever popover shows it, its relative

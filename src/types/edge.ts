@@ -1,3 +1,5 @@
+import { FieldId } from './node';
+
 /**
  * Custom marker options for edge start/end.
  */
@@ -20,14 +22,14 @@ export interface EdgeProps {
   target: string;
 
   /**
-   * Index of the field in the source node this edge connects from (if applicable).
+   * Id of the field in the source node this edge connects from (if applicable).
    */
-  sourceFieldIndex?: number;
+  sourceFieldId?: FieldId;
 
   /**
-   * Index of the field in the target node this edge connects to (if applicable).
+   * Id of the field in the target node this edge connects to (if applicable).
    */
-  targetFieldIndex?: number;
+  targetFieldId?: FieldId;
 
   /**
    * Whether the edge should be hidden from view.

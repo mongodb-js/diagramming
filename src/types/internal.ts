@@ -1,14 +1,17 @@
 import { Node as ReactFlowNode } from '@xyflow/react';
 
-import { NodeBorderVariant, NodeField, NodeVariant } from '@/types/node';
+import { FieldId, NodeBorderVariant, NodeField, NodeProps, NodeVariant } from '@/types/node';
 import { EdgeProps } from '@/types/edge';
+
+export type InternalNodeField = NodeField & { hasChildren: boolean };
 
 export type NodeData = {
   title: string;
   disabled?: boolean;
-  fields: NodeField[];
+  visibleFields: InternalNodeField[];
   borderVariant?: NodeBorderVariant;
   variant?: NodeVariant;
+  externalNode: NodeProps;
 };
 
 export type InternalNode = ReactFlowNode<NodeData>;
@@ -18,7 +21,7 @@ export interface InternalEdge extends Omit<EdgeProps, 'markerStart' | 'markerEnd
   markerEnd: 'end-one' | 'end-oneOrMany' | 'end-many';
   type: 'selfReferencingEdge' | 'floatingEdge' | 'fieldEdge';
   data: {
-    sourceFieldIndex?: number;
-    targetFieldIndex?: number;
+    sourceFieldId?: FieldId;
+    targetFieldId?: FieldId;
   };
 }

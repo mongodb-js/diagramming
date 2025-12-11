@@ -5,6 +5,7 @@ import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { render, screen } from '@/mocks/testing-utils';
 import { FloatingEdge } from '@/components/edge/floating-edge';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
+import { InternalNode } from '@/types/internal';
 
 vi.mock('@xyflow/react', async () => {
   const actual = await vi.importActual<typeof import('@xyflow/react')>('@xyflow/react');
@@ -20,9 +21,23 @@ function mockNodes(nodes: Node[]) {
 }
 
 describe('floating-edge', () => {
-  const nodes = [
-    { ...ORDERS_NODE, data: { title: ORDERS_NODE.title, fields: ORDERS_NODE.fields } },
-    { ...EMPLOYEES_NODE, data: { title: EMPLOYEES_NODE.title, fields: EMPLOYEES_NODE.fields } },
+  const nodes: InternalNode[] = [
+    {
+      ...ORDERS_NODE,
+      data: {
+        title: ORDERS_NODE.title,
+        visibleFields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+        externalNode: ORDERS_NODE,
+      },
+    },
+    {
+      ...EMPLOYEES_NODE,
+      data: {
+        title: EMPLOYEES_NODE.title,
+        visibleFields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
+        externalNode: EMPLOYEES_NODE,
+      },
+    },
   ];
 
   beforeEach(() => {
@@ -57,7 +72,7 @@ describe('floating-edge', () => {
       expect(path).toHaveAttribute('id', 'orders-to-employees');
       expect(path).toHaveAttribute(
         'd',
-        'M263 189.5L263 209.5L 263,236Q 263,241 268,241L 358,241Q 363,241 363,246L363 272.5L363 292.5',
+        'M263 189.5L263 209.5L 263,236Q 263,241 268,241L 331,241Q 336,241 336,246L336 272.5L336 292.5',
       );
     });
   });

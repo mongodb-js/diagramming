@@ -31,8 +31,12 @@ export const DiagramWithFieldToFieldEdges: Story = {
     title: 'MongoDB Diagram',
     isDarkMode: true,
     edges: [
-      { ...EMPLOYEES_TO_ORDERS_EDGE, sourceFieldIndex: 0, targetFieldIndex: 1 },
-      { ...EMPLOYEES_TO_EMPLOYEE_TERRITORIES_EDGE, sourceFieldIndex: 0, targetFieldIndex: 1 },
+      { ...EMPLOYEES_TO_ORDERS_EDGE, sourceFieldId: ['address', 'city'], targetFieldId: ['SUPPLIER_ID'] },
+      {
+        ...EMPLOYEES_TO_EMPLOYEE_TERRITORIES_EDGE,
+        sourceFieldId: ['employeeId'],
+        targetFieldId: ['employeeId'],
+      },
     ],
     nodes: [
       { ...EMPLOYEE_TERRITORIES_NODE, position: { x: 100, y: 100 } },
@@ -76,7 +80,13 @@ export const DiagramWithEditInteractions: Story = {
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
-    edges: [],
+    edges: [
+      {
+        ...EMPLOYEES_TO_ORDERS_EDGE,
+        sourceFieldId: ['employeeId'],
+        targetFieldId: ['SUPPLIER_ID'],
+      },
+    ],
     nodes: [
       {
         ...ORDERS_NODE,

@@ -1,10 +1,11 @@
 import { screen } from '@testing-library/react';
-import { NodeProps, useViewport } from '@xyflow/react';
+import { NodeProps as XyFlowNodeProps, useViewport } from '@xyflow/react';
 import { userEvent } from '@testing-library/user-event';
 import { palette } from '@leafygreen-ui/palette';
 
 import { render } from '@/mocks/testing-utils';
 import { InternalNode } from '@/types/internal';
+import { NodeProps } from '@/types/node';
 import { Node as NodeComponent } from '@/components/node/node';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
@@ -33,10 +34,10 @@ vi.mock('@xyflow/react', async () => {
 });
 
 describe('node', () => {
-  const DEFAULT_PROPS: NodeProps<InternalNode> = {
+  const DEFAULT_PROPS: XyFlowNodeProps<InternalNode> = {
     id: 'id',
     type: 'table',
-    data: { title: 'title', fields: [] },
+    data: { title: 'title', visibleFields: [], externalNode: {} as unknown as NodeProps },
     dragging: false,
     zIndex: 0,
     selectable: false,
@@ -58,7 +59,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="table"
-        data={{ title: 'orders', fields: [{ name: 'orderId', type: 'varchar' }] }}
+        data={{
+          title: 'orders',
+          visibleFields: [{ name: 'orderId', type: 'varchar', hasChildren: false }],
+          externalNode: {} as unknown as NodeProps,
+        }}
       />,
     );
     expect(screen.getByRole('img', { name: 'Drag Icon' })).toBeInTheDocument();
@@ -72,7 +77,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="collection"
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
+        data={{
+          title: 'employees',
+          visibleFields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
+          externalNode: {} as unknown as NodeProps,
+        }}
       />,
     );
     expect(screen.getByRole('img', { name: 'Drag Icon' })).toBeInTheDocument();
@@ -90,7 +99,11 @@ describe('node', () => {
       <Node
         {...DEFAULT_PROPS}
         type="collection"
-        data={{ title: 'employees', fields: [{ name: 'employeeId', type: 'string' }] }}
+        data={{
+          title: 'employees',
+          visibleFields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
+          externalNode: {} as unknown as NodeProps,
+        }}
       />,
     );
     expect(screen.queryByRole('img', { name: 'Drag Icon' })).not.toBeInTheDocument();
@@ -111,16 +124,66 @@ describe('node', () => {
     expect(onAddFieldToNodeClickMock).toHaveBeenCalled();
   });
 
-  it('Should show a clickable button to toggle expand collapse when onNodeExpandToggle is supplied', async () => {
-    const onNodeExpandToggleMock = vi.fn();
+  describe('when onNodeExpandToggle is supplied', () => {
+    it('Should show a clickable button to collapse when there are no explicitly collapsed fields', async () => {
+      const onNodeExpandToggleMock = vi.fn();
+      const expandedFields = [
+        {
+          name: 'field1',
+          expanded: true,
+          hasChildren: true,
+        },
+        {
+          // this field is not explicitly collapsed
+          name: 'field2',
+          hasChildren: true,
+        },
+      ];
 
-    render(<Node {...DEFAULT_PROPS} onNodeExpandToggle={onNodeExpandToggleMock} />);
-    const button = screen.getByRole('button', { name: 'Toggle Expand / Collapse Fields' });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute('title', 'Toggle Expand / Collapse Fields');
-    expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
-    await userEvent.click(button);
-    expect(onNodeExpandToggleMock).toHaveBeenCalled();
+      render(
+        <Node
+          {...DEFAULT_PROPS}
+          onNodeExpandToggle={onNodeExpandToggleMock}
+          data={{ title: 'abc', visibleFields: expandedFields, externalNode: {} as unknown as NodeProps }}
+        />,
+      );
+      const button = screen.getByRole('button', { name: 'Collapse all' });
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('title', 'Collapse all');
+      expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
+      await userEvent.click(button);
+      expect(onNodeExpandToggleMock).toHaveBeenCalled();
+    });
+
+    it('Should show a clickable button to expand when some fields are not expanded', async () => {
+      const onNodeExpandToggleMock = vi.fn();
+      const variedFields = [
+        {
+          name: 'field1',
+          expanded: true,
+          hasChildren: true,
+        },
+        {
+          name: 'field2',
+          expanded: false,
+          hasChildren: true,
+        },
+      ];
+
+      render(
+        <Node
+          {...DEFAULT_PROPS}
+          onNodeExpandToggle={onNodeExpandToggleMock}
+          data={{ title: 'abc', visibleFields: variedFields, externalNode: {} as unknown as NodeProps }}
+        />,
+      );
+      const button = screen.getByRole('button', { name: 'Expand all' });
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('title', 'Expand all');
+      expect(onNodeExpandToggleMock).not.toHaveBeenCalled();
+      await userEvent.click(button);
+      expect(onNodeExpandToggleMock).toHaveBeenCalled();
+    });
   });
 
   it('Should prioritise borderVariant over selected prop when setting the border', () => {
