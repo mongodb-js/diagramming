@@ -50,9 +50,9 @@ export const FieldContent = ({
 
   const { onChangeFieldName, onChangeFieldType, fieldTypes, onFieldExpandToggle } = useEditableDiagramInteractions();
 
-  const hasCollapseFunctionality = !!onFieldExpandToggle;
-  const hasCollapseButton = hasCollapseFunctionality && isExpandable;
-  const placeholderCollapse = hasCollapseFunctionality && !hasCollapseButton;
+  const hasExpandFunctionality = !!onFieldExpandToggle;
+  const hasExpandButton = hasExpandFunctionality && isExpandable;
+  const placeholderCollapse = hasExpandFunctionality && !hasExpandButton;
 
   const handleNameChange = useCallback(
     (newName: string) => onChangeFieldName?.(nodeId, Array.isArray(id) ? id : [id], newName),
@@ -72,9 +72,9 @@ export const FieldContent = ({
       if (!onFieldExpandToggle) return;
       // Don't click on the field element.
       event.stopPropagation();
-      onFieldExpandToggle(event, nodeId, Array.isArray(id) ? id : [id]);
+      onFieldExpandToggle(event, nodeId, Array.isArray(id) ? id : [id], !expanded);
     },
-    [onFieldExpandToggle, nodeId, id],
+    [onFieldExpandToggle, nodeId, id, expanded],
   );
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export const FieldContent = ({
         onChange={handleTypeChange}
         placeholderCollapse={placeholderCollapse}
       />
-      {hasCollapseButton && (
+      {hasExpandButton && (
         <DiagramIconButton
           data-testid={`field-expand-toggle-${nodeId}-${typeof id === 'string' ? id : id.join('.')}`}
           onClick={handleFieldExpandToggle}

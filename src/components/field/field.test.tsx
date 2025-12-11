@@ -359,7 +359,12 @@ describe('field', () => {
         const toggle = screen.getByRole('button', { name: 'Collapse Field' });
         expect(toggle).toBeInTheDocument();
         await userEvent.click(toggle);
-        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalled();
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalledWith(
+          expect.anything(),
+          hasChildrenProps.nodeId,
+          [hasChildrenProps.id as string],
+          false,
+        );
       });
 
       it('Shows expand icon for a collapsed field', async () => {
@@ -367,7 +372,12 @@ describe('field', () => {
         const toggle = screen.getByRole('button', { name: 'Expand Field' });
         expect(toggle).toBeInTheDocument();
         await userEvent.click(toggle);
-        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalled();
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalledWith(
+          expect.anything(),
+          hasChildrenProps.nodeId,
+          [hasChildrenProps.id as string],
+          true,
+        );
       });
 
       it('Shows collapse icon for an expanded field', async () => {
@@ -375,7 +385,12 @@ describe('field', () => {
         const toggle = screen.getByRole('button', { name: 'Collapse Field' });
         expect(toggle).toBeInTheDocument();
         await userEvent.click(toggle);
-        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalled();
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalledWith(
+          expect.anything(),
+          hasChildrenProps.nodeId,
+          [hasChildrenProps.id as string],
+          false,
+        );
       });
     });
 

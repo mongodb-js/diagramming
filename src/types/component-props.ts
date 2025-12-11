@@ -35,7 +35,12 @@ export type OnNodeExpandHandler = (event: ReactMouseEvent, nodeId: string, shoul
  * Called when the button to expand / collapse a single field is clicked
  * header.
  */
-export type OnFieldExpandHandler = (event: ReactMouseEvent, nodeId: string, fieldPath: string[]) => void;
+export type OnFieldExpandHandler = (
+  event: ReactMouseEvent,
+  nodeId: string,
+  fieldPath: string[],
+  shouldExpand: boolean,
+) => void;
 
 /**
  * Called when the button to add a new field is clicked on an object type field in a node.
