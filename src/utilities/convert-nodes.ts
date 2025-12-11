@@ -3,8 +3,8 @@ import { NodeField, NodeProps } from '@/types';
 
 export const getExternalNode = (node: InternalNode): NodeProps => node.data.externalNode;
 
-function hasChildren(fields: NodeField[], index: number): boolean {
-  const fieldDepth = fields[index].depth ?? 0;
+function hasChildren(field: NodeField, index: number, fields: NodeField[]): boolean {
+  const fieldDepth = field.depth ?? 0;
   const nextField = fields.length > index + 1 ? fields[index + 1] : null;
   if (!nextField) return false;
   return nextField.depth !== undefined && nextField.depth > fieldDepth;
@@ -30,7 +30,7 @@ function getFieldsWithExpandStatus(fields: NodeField[]): InternalNodeField[] {
     skipChildren = field.expanded === false;
     visibleFields.push({
       ...field,
-      hasChildren: hasChildren(fields, index),
+      hasChildren: hasChildren(field, index, fields),
     });
   });
   return visibleFields;
