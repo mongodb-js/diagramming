@@ -1,7 +1,19 @@
 import { InternalNode, InternalNodeField } from '@/types/internal';
-import { NodeField, NodeProps } from '@/types';
+import { NodeField, NodeProps, NodeType } from '@/types';
 
-export const getExternalNode = (node: InternalNode): NodeProps => node.data.externalNode;
+export const convertToExternalNode = (node: InternalNode): NodeProps => {
+  const { data, ...rest } = node;
+  return {
+    ...rest,
+    ...data,
+    fields: data.fields.map(({ isVisible: _isVisible, hasChildren: _hasChildren, ...field }) => field),
+    type: node.type as NodeType,
+  };
+};
+
+export const convertToExternalNodes = (nodes: InternalNode[]): NodeProps[] => {
+  return nodes.map(node => convertToExternalNode(node));
+};
 
 function hasChildren(field: NodeField, index: number, fields: NodeField[]): boolean {
   const fieldDepth = field.depth ?? 0;
@@ -17,23 +29,24 @@ function hasChildren(field: NodeField, index: number, fields: NodeField[]): bool
 // depth (a sibling)
 // We also annotate each field with whether it is expandable (has children)
 // This is more reliable than checking the type of the field, since the object could be hidden in arrays, or simply have no children
-function getFieldsWithExpandStatus(fields: NodeField[]): InternalNodeField[] {
-  const visibleFields: InternalNodeField[] = [];
-  let currentDepth = 0;
-  let skipChildren = false;
-  fields.forEach((field, index) => {
+function getInternalFields(fields: NodeField[]): InternalNodeField[] {
+  let isParentCollapsed = false;
+  let parentDepth = 1;
+  const fieldsWithExpandStatus = fields.map((field, index) => {
     const fieldDepth = field.depth ?? 0;
-    if (skipChildren && fieldDepth > currentDepth) {
-      return;
+    const noLongerAChild = fieldDepth <= parentDepth;
+    const isVisible = !isParentCollapsed || noLongerAChild;
+    if (noLongerAChild) {
+      parentDepth = fieldDepth;
+      isParentCollapsed = field.expanded === false;
     }
-    currentDepth = fieldDepth;
-    skipChildren = field.expanded === false;
-    visibleFields.push({
+    return {
       ...field,
       hasChildren: hasChildren(field, index, fields),
-    });
+      isVisible,
+    };
   });
-  return visibleFields;
+  return fieldsWithExpandStatus;
 }
 
 export const convertToInternalNode = (node: NodeProps): InternalNode => {
@@ -44,10 +57,9 @@ export const convertToInternalNode = (node: NodeProps): InternalNode => {
     data: {
       title,
       disabled,
-      visibleFields: getFieldsWithExpandStatus(fields),
+      fields: getInternalFields(fields),
       borderVariant,
       variant,
-      externalNode: node,
     },
   };
 };

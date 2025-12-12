@@ -35,8 +35,14 @@ describe('field-list', () => {
       <FieldWithEditableInteractions
         onFieldClick={onFieldClick}
         fields={[
-          { name: 'field-with-just-name', selectable: true, hasChildren: false },
-          { id: ['field', 'with', 'id'], name: 'and-custom-name', selectable: true, hasChildren: false },
+          { name: 'field-with-just-name', selectable: true, hasChildren: false, isVisible: true },
+          {
+            id: ['field', 'with', 'id'],
+            name: 'and-custom-name',
+            selectable: true,
+            hasChildren: false,
+            isVisible: true,
+          },
         ]}
       />,
     );
@@ -64,10 +70,10 @@ describe('field-list', () => {
       <FieldWithEditableInteractions
         onFieldExpandToggle={onFieldExpandToggle}
         fields={[
-          { id: ['other'], name: 'other', hasChildren: false },
-          { id: ['parent'], name: 'parent', expanded: true, hasChildren: true },
-          { id: ['parent', 'child1'], name: 'child1', depth: 1, hasChildren: false },
-          { id: ['parent', 'child2'], name: 'child2', depth: 1, hasChildren: false },
+          { id: ['other'], name: 'other', hasChildren: false, isVisible: true },
+          { id: ['parent'], name: 'parent', expanded: true, hasChildren: true, isVisible: true },
+          { id: ['parent', 'child1'], name: 'child1', depth: 1, hasChildren: false, isVisible: true },
+          { id: ['parent', 'child2'], name: 'child2', depth: 1, hasChildren: false, isVisible: true },
         ]}
       />,
     );
@@ -75,5 +81,22 @@ describe('field-list', () => {
     expect(screen.getByTestId('field-expand-toggle-coll-parent')).toBeInTheDocument();
     expect(screen.queryByTestId('field-expand-toggle-coll-parent-child1')).not.toBeInTheDocument();
     expect(screen.queryByTestId('field-expand-toggle-coll-parent-child2')).not.toBeInTheDocument();
+  });
+
+  it('should only display visible fields', () => {
+    render(
+      <FieldWithEditableInteractions
+        fields={[
+          { id: ['other'], name: 'other', hasChildren: false, isVisible: true },
+          { id: ['parent'], name: 'parent', expanded: false, hasChildren: true, isVisible: true },
+          { id: ['parent', 'child1'], name: 'child1', depth: 1, hasChildren: false, isVisible: false },
+          { id: ['parent', 'child2'], name: 'child2', depth: 1, hasChildren: false, isVisible: false },
+        ]}
+      />,
+    );
+    expect(screen.getByText('other')).toBeInTheDocument();
+    expect(screen.getByText('parent')).toBeInTheDocument();
+    expect(screen.queryByText('child1')).not.toBeInTheDocument();
+    expect(screen.queryByText('child2')).not.toBeInTheDocument();
   });
 });

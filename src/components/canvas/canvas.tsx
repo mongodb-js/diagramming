@@ -20,7 +20,7 @@ import { SelfReferencingEdge } from '@/components/edge/self-referencing-edge';
 import { FieldEdge } from '@/components/edge/field-edge';
 import { MarkerList } from '@/components/markers/marker-list';
 import { ConnectionLine } from '@/components/line/connection-line';
-import { getExternalNode, convertToInternalNodes } from '@/utilities/convert-nodes';
+import { convertToExternalNode, convertToExternalNodes, convertToInternalNodes } from '@/utilities/convert-nodes';
 import { convertToExternalEdge, convertToExternalEdges, convertToInternalEdges } from '@/utilities/convert-edges';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
@@ -95,28 +95,28 @@ export const Canvas = ({
 
   const _onNodeContextMenu = useCallback(
     (event: MouseEvent, node: InternalNode) => {
-      onNodeContextMenu?.(event, getExternalNode(node));
+      onNodeContextMenu?.(event, convertToExternalNode(node));
     },
     [onNodeContextMenu],
   );
 
   const _onNodeDrag = useCallback(
     (event: MouseEvent, node: InternalNode, nodes: InternalNode[]) => {
-      onNodeDrag?.(event, getExternalNode(node), nodes.map(getExternalNode));
+      onNodeDrag?.(event, convertToExternalNode(node), convertToExternalNodes(nodes));
     },
     [onNodeDrag],
   );
 
   const _onNodeDragStop = useCallback(
     (event: MouseEvent, node: InternalNode, nodes: InternalNode[]) => {
-      onNodeDragStop?.(event, getExternalNode(node), nodes.map(getExternalNode));
+      onNodeDragStop?.(event, convertToExternalNode(node), convertToExternalNodes(nodes));
     },
     [onNodeDragStop],
   );
 
   const _onSelectionDragStop = useCallback(
     (event: MouseEvent, nodes: InternalNode[]) => {
-      onSelectionDragStop?.(event, nodes.map(getExternalNode));
+      onSelectionDragStop?.(event, convertToExternalNodes(nodes));
     },
     [onSelectionDragStop],
   );
@@ -130,21 +130,21 @@ export const Canvas = ({
 
   const _onNodeClick = useCallback(
     (event: MouseEvent, node: InternalNode) => {
-      onNodeClick?.(event, getExternalNode(node));
+      onNodeClick?.(event, convertToExternalNode(node));
     },
     [onNodeClick],
   );
 
   const _onSelectionContextMenu = useCallback(
     (event: MouseEvent, nodes: InternalNode[]) => {
-      onSelectionContextMenu?.(event, nodes.map(getExternalNode));
+      onSelectionContextMenu?.(event, convertToExternalNodes(nodes));
     },
     [onSelectionContextMenu],
   );
 
   const _onSelectionChange = useCallback(
     ({ nodes, edges }: { nodes: InternalNode[]; edges: InternalEdge[] }) => {
-      onSelectionChange?.({ nodes: nodes.map(getExternalNode), edges: convertToExternalEdges(edges) });
+      onSelectionChange?.({ nodes: convertToExternalNodes(nodes), edges: convertToExternalEdges(edges) });
     },
     [onSelectionChange],
   );
