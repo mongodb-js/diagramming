@@ -5,6 +5,8 @@ import { render, screen } from '@/mocks/testing-utils';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { EMPLOYEES_TO_ORDERS_EDGE } from '@/mocks/datasets/edges';
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('canvas', () => {
   it('Should have elements on the canvas', () => {
     render(
@@ -36,27 +38,37 @@ describe('canvas', () => {
     });
 
     // Disabled because the drag simulation is not working. Leaving this here in case someone figures it out.
-    // Tests for onNodeDragStop and onSelectionDragStop should be added as well.
-    it.skip('Should call onNodeDrag when a node is being dragged', async () => {
+    // From Compass e2e tests we know that react flow requires the drag to take a certain time
+    // (with webdriverio we were able to add not only pauses but also set the duration of the drag itself).
+    // Test onSelectionDragStop should be added as well.
+    it.skip('Should call the drag callbacks when a node is being dragged', async () => {
       const onNodeDrag = vi.fn();
+      const onNodeDragStop = vi.fn();
       render(
         <Canvas
           title={'MongoDB Diagram'}
           nodes={[ORDERS_NODE, EMPLOYEES_NODE]}
           edges={[EMPLOYEES_TO_ORDERS_EDGE]}
           onNodeDrag={onNodeDrag}
+          onNodeDragStop={onNodeDragStop}
         />,
       );
       const orders = screen.getByText('orders');
       const rect = orders.getBoundingClientRect();
-      await userEvent.pointer([
-        { target: orders, keys: '[MouseLeft>]' },
-        { coords: { x: rect.x + 12, y: rect.y + 12 } },
-        { keys: '[/MouseLeft]' },
-      ]);
-      expect(onNodeDrag).toHaveBeenCalledTimes(1);
+      await userEvent.pointer({ target: orders, keys: '[MouseLeft>]' });
+      await sleep(100);
+      await userEvent.pointer({ coords: { x: rect.x + 120, y: rect.y + 120 } });
+      await sleep(100);
+      await userEvent.pointer({ coords: { x: rect.x + 130, y: rect.y + 130 } });
+      await sleep(100);
+      await userEvent.pointer({ keys: '[/MouseLeft]' });
       const { position: _position, ...nodeWithoutPosition } = ORDERS_NODE;
+
+      expect(onNodeDrag).toHaveBeenCalled();
       expect(onNodeDrag.mock.calls[0][1]).toMatchObject(nodeWithoutPosition);
+
+      expect(onNodeDragStop).toHaveBeenCalledTimes(1);
+      expect(onNodeDragStop.mock.calls[0][1]).toMatchObject(nodeWithoutPosition);
     });
 
     it('Should call onNodeClick when a node is clicked', async () => {
