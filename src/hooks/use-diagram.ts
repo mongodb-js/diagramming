@@ -1,6 +1,6 @@
 import { useReactFlow } from '@xyflow/react';
 
-import { convertToInternalNodes, getExternalNode } from '@/utilities/convert-nodes';
+import { convertToInternalNodes, convertToExternalNode, convertToExternalNodes } from '@/utilities/convert-nodes';
 import { InternalEdge, InternalNode } from '@/types/internal';
 import { NodeProps, EdgeProps } from '@/types';
 import { convertToExternalEdge, convertToInternalEdges } from '@/utilities/convert-edges';
@@ -14,12 +14,12 @@ export function useDiagram() {
     getNode: (id: string) => {
       const node = diagram.getNode(id);
       if (node) {
-        return getExternalNode(node);
+        return convertToExternalNode(node);
       }
     },
     getNodes: () => {
       const nodes = diagram.getNodes();
-      return nodes.map(getExternalNode);
+      return convertToExternalNodes(nodes);
     },
     addNodes: (payload: NodeProps[]) => {
       const data = convertToInternalNodes(payload);
