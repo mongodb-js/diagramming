@@ -27,7 +27,6 @@ describe('floating-edge', () => {
       data: {
         title: ORDERS_NODE.title,
         fields: ORDERS_NODE.fields.map(field => ({ ...field, hasChildren: false, isVisible: true })),
-        externalNode: ORDERS_NODE,
       },
     },
     {
@@ -35,7 +34,6 @@ describe('floating-edge', () => {
       data: {
         title: EMPLOYEES_NODE.title,
         fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false, isVisible: true })),
-        externalNode: EMPLOYEES_NODE,
       },
     },
   ];
