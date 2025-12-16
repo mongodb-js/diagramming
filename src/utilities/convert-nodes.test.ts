@@ -1,32 +1,127 @@
 import { InternalNode } from '@/types/internal';
 import { NodeType } from '@/types';
-import { convertToInternalNode, convertToInternalNodes, getExternalNode } from '@/utilities/convert-nodes';
+import {
+  convertToExternalNode,
+  convertToExternalNodes,
+  convertToInternalNode,
+  convertToInternalNodes,
+} from '@/utilities/convert-nodes';
 import { EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import { DEFAULT_FIELD_HEIGHT, DEFAULT_NODE_WIDTH } from '@/utilities/constants';
 
 describe('convert-nodes', () => {
-  describe('getExternalNode', () => {
-    it('Should retrieve the original node', () => {
-      const externalNode = {
-        id: 'node-1',
-        type: 'collection' as NodeType,
-        position: { x: 100, y: 200 },
-        title: 'some-title',
-        fields: [],
-      };
+  describe('convertToExternalNode', () => {
+    it('Should convert node', () => {
       const internalNode: InternalNode = {
         id: 'node-1',
         type: 'collection',
         position: { x: 100, y: 200 },
         data: {
           title: 'some-title',
-          visibleFields: [],
-          externalNode,
+          fields: [{ name: 'field1', type: 'string', hasChildren: false, id: ['field1'], isVisible: true }],
         },
       };
 
-      const result = getExternalNode(internalNode);
-      expect(result).toEqual(externalNode);
+      const result = convertToExternalNode(internalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'collection' as NodeType,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [{ name: 'field1', type: 'string', id: ['field1'] }],
+      });
+    });
+
+    it('Should convert to external node when variant=default', () => {
+      const internalNode: InternalNode = {
+        id: 'node-1',
+        type: 'collection',
+        position: { x: 100, y: 200 },
+        data: {
+          title: 'some-title',
+          fields: [],
+          variant: {
+            type: 'default',
+          },
+        },
+      };
+
+      const result = convertToExternalNode(internalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'collection' as NodeType,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [],
+        variant: {
+          type: 'default',
+        },
+      });
+    });
+    it('Should convert to external node when variant=warn', () => {
+      const internalNode: InternalNode = {
+        id: 'node-1',
+        type: 'collection',
+        position: { x: 100, y: 200 },
+        data: {
+          title: 'some-title',
+          fields: [],
+          variant: {
+            type: 'warn',
+            warnMessage: 'This is a warning',
+          },
+        },
+      };
+
+      const result = convertToExternalNode(internalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'collection' as NodeType,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields: [],
+        variant: {
+          type: 'warn',
+          warnMessage: 'This is a warning',
+        },
+      });
+    });
+  });
+
+  describe('convertToExternalNodes', () => {
+    it('should convert an array of internal nodes', () => {
+      const internalNodes: InternalNode[] = [
+        {
+          id: 'n1',
+          type: 'collection',
+          position: { x: 0, y: 0 },
+          data: { title: 'Node 1', fields: [] },
+        },
+        {
+          id: 'n2',
+          type: 'table',
+          position: { x: 10, y: 10 },
+          data: { title: 'Node 2', fields: [] },
+        },
+      ];
+
+      const result = convertToExternalNodes(internalNodes);
+      expect(result).toEqual([
+        {
+          id: 'n1',
+          type: 'collection',
+          title: 'Node 1',
+          position: { x: 0, y: 0 },
+          fields: [],
+        },
+        {
+          id: 'n2',
+          type: 'table',
+          title: 'Node 2',
+          position: { x: 10, y: 10 },
+          fields: [],
+        },
+      ]);
     });
   });
 
@@ -48,10 +143,9 @@ describe('convert-nodes', () => {
         connectable: false,
         data: {
           title: 'some-title',
-          visibleFields: [],
+          fields: [],
           borderVariant: undefined,
           disabled: undefined,
-          externalNode,
         },
       });
     });
@@ -72,10 +166,9 @@ describe('convert-nodes', () => {
         connectable: true,
         data: {
           title: 'some-title',
-          visibleFields: [],
+          fields: [],
           borderVariant: undefined,
           disabled: undefined,
-          externalNode,
         },
       });
     });
@@ -97,10 +190,9 @@ describe('convert-nodes', () => {
         selectable: true,
         data: {
           title: 'some-title',
-          visibleFields: [],
+          fields: [],
           borderVariant: undefined,
           disabled: undefined,
-          externalNode,
         },
       });
     });
@@ -125,13 +217,12 @@ describe('convert-nodes', () => {
         selectable: true,
         data: {
           title: 'some-title',
-          visibleFields: [],
+          fields: [],
           borderVariant: undefined,
           disabled: undefined,
           variant: {
             type: 'default',
           },
-          externalNode,
         },
       });
     });
@@ -157,14 +248,13 @@ describe('convert-nodes', () => {
         selectable: true,
         data: {
           title: 'some-title',
-          visibleFields: [],
+          fields: [],
           borderVariant: undefined,
           disabled: undefined,
           variant: {
             type: 'warn',
             warnMessage: 'This is a warning',
           },
-          externalNode,
         },
       });
     });
@@ -194,23 +284,36 @@ describe('convert-nodes', () => {
         connectable: false,
         data: {
           title: 'some-title',
-          visibleFields: [
-            { id: ['expandedParent'], name: 'expandedParent', expanded: true, hasChildren: true },
-            { id: ['expandedParent', 'child1'], name: 'visibleChild1', depth: 1, hasChildren: false },
-            { id: ['expandedParent', 'child2'], name: 'visibleChild2', depth: 1, hasChildren: false },
-            { id: ['collapsedParent'], name: 'collapsedParent', expanded: false, hasChildren: true },
-            { id: ['other'], name: 'other', hasChildren: false },
+          fields: [
+            { id: ['expandedParent'], name: 'expandedParent', expanded: true, hasChildren: true, isVisible: true },
+            { id: ['expandedParent', 'child1'], name: 'visibleChild1', depth: 1, hasChildren: false, isVisible: true },
+            { id: ['expandedParent', 'child2'], name: 'visibleChild2', depth: 1, hasChildren: false, isVisible: true },
+            { id: ['collapsedParent'], name: 'collapsedParent', expanded: false, hasChildren: true, isVisible: true },
+            {
+              id: ['collapsedParent', 'child1'],
+              name: 'invisibleChild1',
+              depth: 1,
+              hasChildren: false,
+              isVisible: false,
+            },
+            {
+              id: ['collapsedParent', 'child2'],
+              name: 'invisibleChild2',
+              depth: 1,
+              hasChildren: false,
+              isVisible: false,
+            },
+            { id: ['other'], name: 'other', hasChildren: false, isVisible: true },
           ],
           borderVariant: undefined,
           disabled: undefined,
-          externalNode,
         },
       });
     });
   });
 
   describe('convertToInternalNodes', () => {
-    it('Should convert node props to internal node', () => {
+    it('Should convert node props to internal nodes', () => {
       const externalNodes = [
         {
           ...ORDERS_NODE,
@@ -238,11 +341,24 @@ describe('convert-nodes', () => {
           },
           data: {
             disabled: true,
-            visibleFields: [
-              { name: 'ORDER_ID', type: 'varchar', glyphs: ['key'], hasChildren: false, id: ['ORDER_ID'] },
-              { name: 'SUPPLIER_ID', type: 'varchar', glyphs: ['link'], hasChildren: false, id: ['SUPPLIER_ID'] },
+            fields: [
+              {
+                name: 'ORDER_ID',
+                type: 'varchar',
+                glyphs: ['key'],
+                hasChildren: false,
+                id: ['ORDER_ID'],
+                isVisible: true,
+              },
+              {
+                name: 'SUPPLIER_ID',
+                type: 'varchar',
+                glyphs: ['link'],
+                hasChildren: false,
+                id: ['SUPPLIER_ID'],
+                isVisible: true,
+              },
             ],
-            externalNode: externalNodes[0],
             title: 'orders',
           },
         },
@@ -255,29 +371,44 @@ describe('convert-nodes', () => {
           },
           connectable: false,
           data: {
-            visibleFields: [
+            fields: [
               {
                 name: 'employeeId',
                 type: 'objectIdButMuchLonger',
                 glyphs: ['key'],
                 hasChildren: false,
                 id: ['employeeId'],
+                isVisible: true,
               },
-              { name: 'employeeDetail', type: 'object', hasChildren: true, id: ['employeeDetail'] },
-              { name: 'firstName', type: 'string', depth: 1, hasChildren: false, id: ['employeeDetail', 'firstName'] },
-              { name: 'lastName', type: 'string', depth: 1, hasChildren: false, id: ['employeeDetail', 'lastName'] },
-              { name: 'address', type: 'object', hasChildren: true, id: ['address'] },
+              { name: 'employeeDetail', type: 'object', hasChildren: true, id: ['employeeDetail'], isVisible: true },
+              {
+                name: 'firstName',
+                type: 'string',
+                depth: 1,
+                hasChildren: false,
+                id: ['employeeDetail', 'firstName'],
+                isVisible: true,
+              },
+              {
+                name: 'lastName',
+                type: 'string',
+                depth: 1,
+                hasChildren: false,
+                id: ['employeeDetail', 'lastName'],
+                isVisible: true,
+              },
+              { name: 'address', type: 'object', hasChildren: true, id: ['address'], isVisible: true },
               {
                 name: 'street',
                 type: 'string',
                 depth: 1,
                 hasChildren: false,
                 id: ['address', 'street'],
+                isVisible: true,
               },
-              { name: 'city', type: 'string', depth: 1, hasChildren: false, id: ['address', 'city'] },
+              { name: 'city', type: 'string', depth: 1, hasChildren: false, id: ['address', 'city'], isVisible: true },
             ],
             title: 'employees',
-            externalNode: externalNodes[1],
           },
         },
       ]);

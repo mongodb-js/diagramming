@@ -4,8 +4,7 @@ import { userEvent } from '@testing-library/user-event';
 import { palette } from '@leafygreen-ui/palette';
 
 import { render } from '@/mocks/testing-utils';
-import { InternalNode } from '@/types/internal';
-import { NodeProps } from '@/types/node';
+import { InternalNode, InternalNodeField } from '@/types/internal';
 import { Node as NodeComponent } from '@/components/node/node';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
 
@@ -37,7 +36,7 @@ describe('node', () => {
   const DEFAULT_PROPS: XyFlowNodeProps<InternalNode> = {
     id: 'id',
     type: 'table',
-    data: { title: 'title', visibleFields: [], externalNode: {} as unknown as NodeProps },
+    data: { title: 'title', fields: [] },
     dragging: false,
     zIndex: 0,
     selectable: false,
@@ -61,8 +60,7 @@ describe('node', () => {
         type="table"
         data={{
           title: 'orders',
-          visibleFields: [{ name: 'orderId', type: 'varchar', hasChildren: false }],
-          externalNode: {} as unknown as NodeProps,
+          fields: [{ name: 'orderId', type: 'varchar', hasChildren: false, isVisible: true }],
         }}
       />,
     );
@@ -79,8 +77,7 @@ describe('node', () => {
         type="collection"
         data={{
           title: 'employees',
-          visibleFields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
-          externalNode: {} as unknown as NodeProps,
+          fields: [{ name: 'employeeId', type: 'string', hasChildren: false, isVisible: true }],
         }}
       />,
     );
@@ -101,8 +98,7 @@ describe('node', () => {
         type="collection"
         data={{
           title: 'employees',
-          visibleFields: [{ name: 'employeeId', type: 'string', hasChildren: false }],
-          externalNode: {} as unknown as NodeProps,
+          fields: [{ name: 'employeeId', type: 'string', hasChildren: false, isVisible: true }],
         }}
       />,
     );
@@ -127,16 +123,18 @@ describe('node', () => {
   describe('when onNodeExpandToggle is supplied', () => {
     it('Should show a clickable button to collapse when there are no explicitly collapsed fields', async () => {
       const onNodeExpandToggleMock = vi.fn();
-      const expandedFields = [
+      const expandedFields: InternalNodeField[] = [
         {
           name: 'field1',
           expanded: true,
           hasChildren: true,
+          isVisible: true,
         },
         {
           // this field is not explicitly collapsed
           name: 'field2',
           hasChildren: true,
+          isVisible: true,
         },
       ];
 
@@ -144,7 +142,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', visibleFields: expandedFields, externalNode: {} as unknown as NodeProps }}
+          data={{ title: 'abc', fields: expandedFields }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Collapse all' });
@@ -157,16 +155,18 @@ describe('node', () => {
 
     it('Should show a clickable button to expand when some fields are not expanded', async () => {
       const onNodeExpandToggleMock = vi.fn();
-      const variedFields = [
+      const variedFields: InternalNodeField[] = [
         {
           name: 'field1',
           expanded: true,
           hasChildren: true,
+          isVisible: true,
         },
         {
           name: 'field2',
           expanded: false,
           hasChildren: true,
+          isVisible: true,
         },
       ];
 
@@ -174,7 +174,7 @@ describe('node', () => {
         <Node
           {...DEFAULT_PROPS}
           onNodeExpandToggle={onNodeExpandToggleMock}
-          data={{ title: 'abc', visibleFields: variedFields, externalNode: {} as unknown as NodeProps }}
+          data={{ title: 'abc', fields: variedFields }}
         />,
       );
       const button = screen.getByRole('button', { name: 'Expand all' });

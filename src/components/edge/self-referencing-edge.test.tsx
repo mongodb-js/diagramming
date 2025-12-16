@@ -27,8 +27,7 @@ describe('self-referencing-edge', () => {
       ...EMPLOYEES_NODE,
       data: {
         title: EMPLOYEES_NODE.title,
-        visibleFields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false })),
-        externalNode: EMPLOYEES_NODE,
+        fields: EMPLOYEES_NODE.fields.map(field => ({ ...field, hasChildren: false, isVisible: true })),
       },
     },
   ];

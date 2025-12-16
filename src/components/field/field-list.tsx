@@ -21,9 +21,13 @@ interface Props {
   fields: InternalNodeField[];
 }
 
-export const FieldList = ({ fields, nodeId, nodeType, isHovering }: Props) => {
+export const FieldList = ({ fields: _fields, nodeId, nodeType, isHovering }: Props) => {
   const { onClickField } = useEditableDiagramInteractions();
   const isFieldSelectionEnabled = !!onClickField;
+
+  const fields = useMemo(() => {
+    return _fields.filter(field => field.isVisible);
+  }, [_fields]);
 
   const spacing = Math.max(0, ...fields.map(field => field.glyphs?.length || 0));
   const previewGroupArea = useMemo(() => getPreviewGroupArea(fields), [fields]);
