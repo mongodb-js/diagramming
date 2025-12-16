@@ -82,7 +82,7 @@ describe('canvas', () => {
         />,
       );
       const orders = screen.getByText('orders');
-      await orders.click();
+      orders.click();
       expect(onNodeClick).toHaveBeenCalledTimes(1);
       expect(onNodeClick.mock.calls[0][1]).toMatchObject(ORDERS_NODE);
     });
@@ -97,9 +97,9 @@ describe('canvas', () => {
           onSelectionChange={onSelectionChange}
         />,
       );
-      await screen.getByText('orders').click();
-      await screen.getByText('employees').click();
-      await screen.getByText('employees').click(); // for unknown reason there needs to be an extra click in the test
+      screen.getByText('orders').click();
+      screen.getByText('employees').click();
+      screen.getByText('employees').click(); // for unknown reason there needs to be an extra click in the test
       expect(onSelectionChange.mock.calls[0][0]).toMatchObject({ nodes: [] });
       expect(onSelectionChange.mock.calls[1][0]).toMatchObject({ nodes: [ORDERS_NODE] });
       expect(onSelectionChange.mock.calls[2][0]).toMatchObject({ nodes: [EMPLOYEES_NODE] });
