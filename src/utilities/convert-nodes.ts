@@ -30,20 +30,17 @@ function hasChildren(field: NodeField, index: number, fields: NodeField[]): bool
 // We also annotate each field with whether it is expandable (has children)
 // This is more reliable than checking the type of the field, since the object could be hidden in arrays, or simply have no children
 function getInternalFields(fields: NodeField[]): InternalNodeField[] {
-  let isParentCollapsed = false;
-  let parentDepth = 1;
+  const expandStatusMap = new Map<string, boolean>();
   const fieldsWithExpandStatus = fields.map((field, index) => {
     const fieldDepth = field.depth ?? 0;
-    const noLongerAChild = fieldDepth <= parentDepth;
-    const isVisible = !isParentCollapsed || noLongerAChild;
-    if (noLongerAChild) {
-      parentDepth = fieldDepth;
-      isParentCollapsed = field.expanded === false;
-    }
+    const parentField = field.id?.slice(0, -1);
+    const parentExpandStatus = expandStatusMap.get(JSON.stringify(parentField)) ?? true;
+    const fieldExpandStatus = field.expanded ?? true;
+    expandStatusMap.set(JSON.stringify(field.id), fieldExpandStatus && parentExpandStatus);
     return {
       ...field,
       hasChildren: hasChildren(field, index, fields),
-      isVisible,
+      isVisible: fieldDepth === 0 || parentExpandStatus,
     };
   });
   return fieldsWithExpandStatus;
