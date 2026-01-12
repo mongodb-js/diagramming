@@ -310,7 +310,7 @@ describe('convert-nodes', () => {
         },
       });
     });
-    it('Should resolve expansion and assign expandability - multiple level MLL', () => {
+    it('Should resolve expansion and assign expandability - multiple level', () => {
       const fields = [
         { id: ['level0Expanded'], name: 'level0Expanded', expanded: true },
         { id: ['level0Expanded', 'level1Expanded'], name: 'level1Expanded', expanded: true, depth: 1 },
