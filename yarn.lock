@@ -1724,7 +1724,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:8.44.1"
     "@vitejs/plugin-react": "npm:^4.3.4"
     "@vitest/ui": "npm:3.2.4"
-    "@xyflow/react": "npm:12.5.1"
+    "@xyflow/react": "npm:12.9.3"
     d3-path: "npm:^3.1.0"
     elkjs: "npm:^0.11.0"
     eslint: "npm:^9.24.0"
@@ -2539,7 +2539,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-interpolate@npm:*":
+"@types/d3-interpolate@npm:*, @types/d3-interpolate@npm:^3.0.4":
   version: 3.0.4
   resolution: "@types/d3-interpolate@npm:3.0.4"
   dependencies:
@@ -3480,32 +3480,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xyflow/react@npm:12.5.1":
-  version: 12.5.1
-  resolution: "@xyflow/react@npm:12.5.1"
+"@xyflow/react@npm:12.9.3":
+  version: 12.9.3
+  resolution: "@xyflow/react@npm:12.9.3"
   dependencies:
-    "@xyflow/system": "npm:0.0.53"
+    "@xyflow/system": "npm:0.0.73"
     classcat: "npm:^5.0.3"
     zustand: "npm:^4.4.0"
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: 10c0/969b88445c5ea48492289f0a5411670cd3f8b2d30dabeec876bcdf607cbbc57a243e5c034063b5e3c18dca565c83ebdc1034c4a55d7e65f7c78041d58ab69c28
+  checksum: 10c0/aa6b6503fd3e80d21b5d77db9c1365a7df4eba662796c214520cd1004e783d88e390f8030a7b7860feb966b268fecba3980ca42eabe0427b1118b18c3204a9a3
   languageName: node
   linkType: hard
 
-"@xyflow/system@npm:0.0.53":
-  version: 0.0.53
-  resolution: "@xyflow/system@npm:0.0.53"
+"@xyflow/system@npm:0.0.73":
+  version: 0.0.73
+  resolution: "@xyflow/system@npm:0.0.73"
   dependencies:
     "@types/d3-drag": "npm:^3.0.7"
+    "@types/d3-interpolate": "npm:^3.0.4"
     "@types/d3-selection": "npm:^3.0.10"
     "@types/d3-transition": "npm:^3.0.8"
     "@types/d3-zoom": "npm:^3.0.8"
     d3-drag: "npm:^3.0.0"
+    d3-interpolate: "npm:^3.0.1"
     d3-selection: "npm:^3.0.0"
     d3-zoom: "npm:^3.0.0"
-  checksum: 10c0/3491a8731eff4302904074b32b6daf17877aaaa1ade158b69f55a021c937498d8b5f37f67618d118a63d30cd8639d8b06bdc9d2cd2afee9a205a4c538cf82cc4
+  checksum: 10c0/41b4a42b22d0ce68a07e9620ccd7e7e5f90d1aaabc37046dbc51d502c71a0085fa4266676de33d375ee5968c73c1c0bda851f7cf895cdcfdf88b046d228d8581
   languageName: node
   linkType: hard
 
@@ -4515,7 +4517,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-interpolate@npm:1 - 3":
+"d3-interpolate@npm:1 - 3, d3-interpolate@npm:^3.0.1":
   version: 3.0.1
   resolution: "d3-interpolate@npm:3.0.1"
   dependencies:
