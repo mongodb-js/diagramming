@@ -46,3 +46,56 @@ export const EMPLOYEE_TERRITORIES_NODE: NodeProps = {
     { name: 'employeeTerritory', type: 'string', glyphs: ['key'], id: ['employeeTerritory'] },
   ],
 };
+
+export const CUSTOMERS_NODE: NodeProps = {
+  id: 'customers',
+  type: 'table',
+  position: {
+    x: 500,
+    y: 100,
+  },
+  title: 'customers',
+  fields: [
+    {
+      name: 'customerId',
+      type: 'string',
+      glyphs: ['key'],
+      id: ['customerId'],
+    },
+    {
+      name: 'contact',
+      type: 'object',
+      id: ['contact'],
+    },
+    {
+      name: 'address',
+      type: 'object',
+      id: ['contact', 'address'],
+      depth: 1,
+    },
+    {
+      name: 'city',
+      type: 'string',
+      id: ['contact', 'address', 'city'],
+      depth: 2,
+    },
+    {
+      name: 'street',
+      type: 'string',
+      id: ['contact', 'address', 'street'],
+      depth: 2,
+    },
+    {
+      name: 'phone',
+      type: 'string',
+      id: ['contact', 'phone'],
+      depth: 1,
+    },
+    {
+      name: 'email',
+      type: 'string',
+      id: ['contact', 'email'],
+      depth: 1,
+    },
+  ],
+};
