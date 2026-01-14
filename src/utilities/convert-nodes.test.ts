@@ -310,6 +310,93 @@ describe('convert-nodes', () => {
         },
       });
     });
+    it('Should resolve expansion and assign expandability - multiple level', () => {
+      const fields = [
+        { id: ['level0Expanded'], name: 'level0Expanded', expanded: true },
+        { id: ['level0Expanded', 'level1Expanded'], name: 'level1Expanded', expanded: true, depth: 1 },
+        { id: ['level0Expanded', 'level1Expanded', 'child1'], name: 'visibleChild', depth: 2 },
+        { id: ['level0Expanded', 'level1Collapsed'], name: 'level1Collapsed', expanded: false, depth: 1 },
+        { id: ['level0Expanded', 'level1Collapsed', 'child1'], name: 'invisibleChild', depth: 2 },
+        { id: ['level0Collapsed'], name: 'level0Collapsed', expanded: false },
+        { id: ['level0Collapsed', 'level1Expanded'], name: 'level1Expanded', expanded: true, depth: 1 },
+        { id: ['level0Collapsed', 'level1Expanded', 'child1'], name: 'anotherInvisibleChild', depth: 2 },
+      ];
+      const externalNode = {
+        id: 'node-1',
+        type: 'table' as const,
+        position: { x: 100, y: 200 },
+        title: 'some-title',
+        fields,
+      };
+
+      const result = convertToInternalNode(externalNode);
+      expect(result).toEqual({
+        id: 'node-1',
+        type: 'table',
+        position: { x: 100, y: 200 },
+        connectable: false,
+        data: {
+          title: 'some-title',
+          fields: [
+            { id: ['level0Expanded'], name: 'level0Expanded', expanded: true, hasChildren: true, isVisible: true },
+            {
+              id: ['level0Expanded', 'level1Expanded'],
+              name: 'level1Expanded',
+              expanded: true,
+              depth: 1,
+              hasChildren: true,
+              isVisible: true,
+            },
+            {
+              id: ['level0Expanded', 'level1Expanded', 'child1'],
+              name: 'visibleChild',
+              depth: 2,
+              hasChildren: false,
+              isVisible: true,
+            },
+            {
+              id: ['level0Expanded', 'level1Collapsed'],
+              name: 'level1Collapsed',
+              expanded: false,
+              depth: 1,
+              hasChildren: true,
+              isVisible: true,
+            },
+            {
+              id: ['level0Expanded', 'level1Collapsed', 'child1'],
+              name: 'invisibleChild',
+              depth: 2,
+              hasChildren: false,
+              isVisible: false,
+            },
+            {
+              id: ['level0Collapsed'],
+              name: 'level0Collapsed',
+              expanded: false,
+              hasChildren: true,
+              isVisible: true,
+            },
+            {
+              id: ['level0Collapsed', 'level1Expanded'],
+              name: 'level1Expanded',
+              expanded: true,
+              depth: 1,
+              hasChildren: true,
+              isVisible: false,
+            },
+            {
+              id: ['level0Collapsed', 'level1Expanded', 'child1'],
+              name: 'anotherInvisibleChild',
+              depth: 2,
+              hasChildren: false,
+              isVisible: false,
+            },
+          ],
+          borderVariant: undefined,
+          disabled: undefined,
+        },
+      });
+    });
   });
 
   describe('convertToInternalNodes', () => {

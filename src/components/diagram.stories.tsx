@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Diagram } from '@/components/diagram';
-import { EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
+import { CUSTOMERS_NODE, EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import {
   EMPLOYEES_TO_EMPLOYEE_TERRITORIES_EDGE,
   EMPLOYEES_TO_EMPLOYEES_EDGE,
@@ -58,23 +58,6 @@ export const DiagramWithConnectableNodes: Story = {
   },
 };
 
-let idAccumulator: string[];
-let lastDepth = 0;
-// Used to build a string array id based on field depth.
-function idFromDepthAccumulator(name: string, depth?: number) {
-  if (!depth) {
-    idAccumulator = [name];
-  } else if (depth > lastDepth) {
-    idAccumulator.push(name);
-  } else if (depth === lastDepth) {
-    idAccumulator[idAccumulator.length - 1] = name;
-  } else {
-    idAccumulator = idAccumulator.slice(0, depth);
-    idAccumulator[depth] = name;
-  }
-  lastDepth = depth ?? 0;
-  return [...idAccumulator];
-}
 export const DiagramWithEditInteractions: Story = {
   decorators: [DiagramEditableInteractionsDecorator],
   args: {
@@ -93,7 +76,6 @@ export const DiagramWithEditInteractions: Story = {
         fields: [
           ...ORDERS_NODE.fields.map(field => ({
             ...field,
-            id: idFromDepthAccumulator(field.name, field.depth),
             selectable: true,
             editable: true,
           })),
@@ -108,7 +90,16 @@ export const DiagramWithEditInteractions: Story = {
         fields: [
           ...EMPLOYEES_NODE.fields.map(field => ({
             ...field,
-            id: idFromDepthAccumulator(field.name, field.depth),
+            selectable: true,
+            editable: true,
+          })),
+        ],
+      },
+      {
+        ...CUSTOMERS_NODE,
+        fields: [
+          ...CUSTOMERS_NODE.fields.map(field => ({
+            ...field,
             selectable: true,
             editable: true,
           })),

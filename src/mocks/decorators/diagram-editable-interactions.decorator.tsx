@@ -257,16 +257,16 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
 
   const onFieldExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, fieldId: FieldId) => {
     setNodes(nodes =>
-      nodes.map(node =>
-        node.id === nodeId
+      nodes.map(node => {
+        return node.id === nodeId
           ? {
               ...node,
               fields: node.fields.map(field => {
-                return field.id === fieldId ? { ...field, expanded: !field.expanded } : field;
+                return field.id === fieldId ? { ...field, expanded: field.expanded === false } : field;
               }),
             }
-          : node,
-      ),
+          : node;
+      }),
     );
   }, []);
 
