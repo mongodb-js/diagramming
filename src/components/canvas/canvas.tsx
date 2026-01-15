@@ -66,6 +66,7 @@ export const Canvas = ({
   onFieldNameChange,
   onFieldTypeChange,
   onFieldClick,
+  onFieldExpandToggle,
   onNodeContextMenu,
   onNodeDrag,
   onNodeDragStop,
@@ -153,6 +154,7 @@ export const Canvas = ({
       onFieldClick={onFieldClick}
       onAddFieldToNodeClick={onAddFieldToNodeClick}
       onNodeExpandToggle={onNodeExpandToggle}
+      onFieldExpandToggle={onFieldExpandToggle}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
       onFieldTypeChange={onFieldTypeChange}

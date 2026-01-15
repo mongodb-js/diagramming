@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { fontFamilies, spacing } from '@leafygreen-ui/tokens';
 import { useTheme } from '@emotion/react';
 import Icon from '@leafygreen-ui/icon';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Tooltip } from '@leafygreen-ui/tooltip';
 import { useDarkMode } from '@leafygreen-ui/leafygreen-provider';
 import { palette } from '@leafygreen-ui/palette';
@@ -13,11 +13,12 @@ import { DEFAULT_NODE_HEADER_HEIGHT, ZOOM_THRESHOLD } from '@/utilities/constant
 import { InternalNode } from '@/types/internal';
 import { PlusWithSquare } from '@/components/icons/plus-with-square';
 import { ChevronCollapse } from '@/components/icons/chevron-collapse';
+import { ChevronExpand } from '@/components/icons/chevron-expand';
+import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 import { NodeBorder } from '@/components/node/node-border';
 import { FieldList } from '@/components/field/field-list';
 import { NodeType } from '@/types';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
-import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 
 const NodeZoomedOut = styled.div`
   display: flex;
@@ -157,11 +158,17 @@ export const Node = ({
     [addFieldToNodeClickHandler, id],
   );
 
+  const areSomeFieldsCollapsed = useMemo(() => {
+    return fields.some(field => {
+      return field.expanded === false;
+    });
+  }, [fields]);
+
   const handleNodeExpandToggle = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      onNodeExpandToggle?.(event, id);
+      onNodeExpandToggle?.(event, id, areSomeFieldsCollapsed);
     },
-    [onNodeExpandToggle, id],
+    [onNodeExpandToggle, id, areSomeFieldsCollapsed],
   );
 
   const getAccent = () => {
@@ -216,6 +223,8 @@ export const Node = ({
     setHovering(false);
   };
 
+  const nodeExpandLabel = areSomeFieldsCollapsed ? 'Expand all' : 'Collapse all';
+
   return (
     <div title={title} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <NodeBorder variant={getBorderVariant()}>
@@ -268,11 +277,11 @@ export const Node = ({
                 )}
                 {onNodeExpandToggle && (
                   <DiagramIconButton
-                    aria-label="Toggle Expand / Collapse Fields"
+                    aria-label={nodeExpandLabel}
                     onClick={handleNodeExpandToggle}
-                    title="Toggle Expand / Collapse Fields"
+                    title={nodeExpandLabel}
                   >
-                    <ChevronCollapse />
+                    {areSomeFieldsCollapsed ? <ChevronExpand /> : <ChevronCollapse />}
                   </DiagramIconButton>
                 )}
               </TitleControlsContainer>
