@@ -1,7 +1,31 @@
-import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useState, MouseEvent as ReactMouseEvent } from 'react';
 import { Decorator } from '@storybook/react';
 
 import { DiagramProps, FieldId, NodeField, NodeProps } from '@/types';
+
+const fieldTypes = [
+  'double',
+  'string',
+  'object',
+  'array',
+  'binData',
+  'undefined',
+  'objectId',
+  'bool',
+  'date',
+  'null',
+  'regex',
+  'dbPointer',
+  'javascript',
+  'symbol',
+  'javascriptWithScope',
+  'int',
+  'timestamp',
+  'long',
+  'decimal',
+  'minKey',
+  'maxKey',
+];
 
 function stringArrayCompare(a: string[], b: string[]): boolean {
   if (a.length !== b.length) return false;
@@ -20,6 +44,7 @@ const newField = (parentFieldPath?: string[]) => {
     name,
     type: 'string',
     selectable: true,
+    editable: true,
     depth: parentFieldPath ? parentFieldPath.length : 0,
     id: parentFieldPath ? [...parentFieldPath, name] : [name],
   };
@@ -57,6 +82,24 @@ function renameField(existingFields: NodeField[], fieldPath: string[], newName: 
   return fields;
 }
 
+function changeFieldType(existingFields: NodeField[], fieldPath: string[], newTypes: string[]) {
+  let currentType;
+  const fields = existingFields.map(field => {
+    if (JSON.stringify(field.id) !== JSON.stringify(fieldPath)) return field;
+    currentType = field.type;
+    return { ...field, type: Array.isArray(newTypes) && newTypes.length === 1 ? newTypes[0] : newTypes };
+  });
+  // If the currentType is 'object' or 'array', we should also remove all child fields.
+  if (currentType === 'object' || currentType === 'array') {
+    return fields.filter(field => {
+      const type = typeof field.id === 'string' ? [field.id] : field.id || [];
+      // Leading period helps ignore the current field (where type was changed).
+      return !type.join('.').startsWith(`${fieldPath.join('.')}.`);
+    });
+  }
+  return fields;
+}
+
 let idAccumulator: string[];
 let lastDepth = 0;
 // Used to build a string array id based on field depth.
@@ -88,14 +131,6 @@ function editableNodesFromNodes(nodes: NodeProps[]): NodeProps[] {
 
 export const useEditableNodes = (initialNodes: NodeProps[]) => {
   const [nodes, setNodes] = useState<NodeProps[]>([]);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
-    return Object.fromEntries(
-      nodes.map(node => {
-        return [node.id, true];
-      }),
-    );
-  });
-
   const hasInitialized = useRef(false);
   useEffect(() => {
     if (hasInitialized.current) {
@@ -192,36 +227,74 @@ export const useEditableNodes = (initialNodes: NodeProps[]) => {
     );
   }, []);
 
-  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string) => {
-    setExpanded(state => {
-      return {
-        ...state,
-        [nodeId]: !state[nodeId],
-      };
+  const onFieldTypeChange = useCallback((nodeId: string, fieldPath: string[], newTypes: string[]) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: changeFieldType(node.fields, fieldPath, newTypes),
+            }
+          : node,
+      ),
+    );
+  }, []);
+
+  const onNodeExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, expanded: boolean) => {
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+              ...node,
+              fields: node.fields.map(field => {
+                return { ...field, expanded };
+              }),
+            }
+          : node,
+      ),
+    );
+  }, []);
+
+  const onFieldExpandToggle = useCallback((_evt: ReactMouseEvent, nodeId: string, fieldId: FieldId) => {
+    setNodes(nodes =>
+      nodes.map(node => {
+        return node.id === nodeId
+          ? {
+              ...node,
+              fields: node.fields.map(field => {
+                return field.id === fieldId ? { ...field, expanded: field.expanded === false } : field;
+              }),
+            }
+          : node;
+      }),
+    );
+  }, []);
+
+  const onNodeDragStop = useCallback((_event: ReactMouseEvent, node: NodeProps) => {
+    setNodes(nodes => {
+      return nodes.map(n => {
+        if (n.id === node.id) {
+          return {
+            ...n,
+            position: node.position,
+          };
+        }
+        return n;
+      });
     });
   }, []);
 
-  const _nodes = useMemo(() => {
-    return nodes.map(node => {
-      if (expanded[node.id]) {
-        return node;
-      }
-      return {
-        ...node,
-        fields: node.fields.filter(field => {
-          return !field.depth || field.depth === 0;
-        }),
-      };
-    });
-  }, [nodes, expanded]);
-
   return {
-    nodes: _nodes,
+    nodes,
     onFieldClick,
     onAddFieldToNodeClick,
     onNodeExpandToggle,
     onAddFieldToObjectFieldClick,
     onFieldNameChange,
+    onFieldTypeChange,
+    onFieldExpandToggle,
+    fieldTypes,
+    onNodeDragStop,
   };
 };
 

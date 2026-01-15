@@ -8,17 +8,20 @@ const FieldWithEditableInteractions = ({
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
   onFieldClick,
+  onFieldExpandToggle,
   ...props
 }: Partial<React.ComponentProps<typeof FieldListComponent>> & {
   onAddFieldToObjectFieldClick?: () => void;
   onFieldNameChange?: (newName: string) => void;
   onFieldClick?: () => void;
+  onFieldExpandToggle?: () => void;
 }) => {
   return (
     <EditableDiagramInteractionsProvider
       onFieldClick={onFieldClick}
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
+      onFieldExpandToggle={onFieldExpandToggle}
     >
       <FieldListComponent nodeType="collection" nodeId="coll" fields={[]} {...props} />
     </EditableDiagramInteractionsProvider>
@@ -32,8 +35,14 @@ describe('field-list', () => {
       <FieldWithEditableInteractions
         onFieldClick={onFieldClick}
         fields={[
-          { name: 'field-with-just-name', selectable: true },
-          { id: ['field', 'with', 'id'], name: 'and-custom-name', selectable: true },
+          { name: 'field-with-just-name', selectable: true, hasChildren: false, isVisible: true },
+          {
+            id: ['field', 'with', 'id'],
+            name: 'and-custom-name',
+            selectable: true,
+            hasChildren: false,
+            isVisible: true,
+          },
         ]}
       />,
     );
@@ -53,5 +62,41 @@ describe('field-list', () => {
       id: ['field', 'with', 'id'],
       nodeId: 'coll',
     });
+  });
+
+  it('should ensure that items that are hasChildren have the toggle', () => {
+    const onFieldExpandToggle = vi.fn();
+    render(
+      <FieldWithEditableInteractions
+        onFieldExpandToggle={onFieldExpandToggle}
+        fields={[
+          { id: ['other'], name: 'other', hasChildren: false, isVisible: true },
+          { id: ['parent'], name: 'parent', expanded: true, hasChildren: true, isVisible: true },
+          { id: ['parent', 'child1'], name: 'child1', depth: 1, hasChildren: false, isVisible: true },
+          { id: ['parent', 'child2'], name: 'child2', depth: 1, hasChildren: false, isVisible: true },
+        ]}
+      />,
+    );
+    expect(screen.queryByTestId('field-expand-toggle-coll-other')).not.toBeInTheDocument();
+    expect(screen.getByTestId('field-expand-toggle-coll-parent')).toBeInTheDocument();
+    expect(screen.queryByTestId('field-expand-toggle-coll-parent-child1')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('field-expand-toggle-coll-parent-child2')).not.toBeInTheDocument();
+  });
+
+  it('should only display visible fields', () => {
+    render(
+      <FieldWithEditableInteractions
+        fields={[
+          { id: ['other'], name: 'other', hasChildren: false, isVisible: true },
+          { id: ['parent'], name: 'parent', expanded: false, hasChildren: true, isVisible: true },
+          { id: ['parent', 'child1'], name: 'child1', depth: 1, hasChildren: false, isVisible: false },
+          { id: ['parent', 'child2'], name: 'child2', depth: 1, hasChildren: false, isVisible: false },
+        ]}
+      />,
+    );
+    expect(screen.getByText('other')).toBeInTheDocument();
+    expect(screen.getByText('parent')).toBeInTheDocument();
+    expect(screen.queryByText('child1')).not.toBeInTheDocument();
+    expect(screen.queryByText('child2')).not.toBeInTheDocument();
   });
 });

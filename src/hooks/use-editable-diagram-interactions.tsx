@@ -6,34 +6,45 @@ import {
   OnNodeExpandHandler,
   OnAddFieldToObjectFieldClickHandler,
   OnFieldNameChangeHandler,
+  OnFieldTypeChangeHandler,
+  OnFieldExpandHandler,
 } from '@/types';
 
 interface EditableDiagramInteractionsContextType {
   onClickField?: OnFieldClickHandler;
   onClickAddFieldToNode?: OnAddFieldToNodeClickHandler;
   onNodeExpandToggle?: OnNodeExpandHandler;
+  onFieldExpandToggle?: OnFieldExpandHandler;
   onClickAddFieldToObjectField?: OnAddFieldToObjectFieldClickHandler;
   onChangeFieldName?: OnFieldNameChangeHandler;
+  onChangeFieldType?: OnFieldTypeChangeHandler;
+  fieldTypes?: string[];
 }
 
 const EditableDiagramInteractionsContext = createContext<EditableDiagramInteractionsContextType | undefined>(undefined);
 
 interface EditableDiagramInteractionsProviderProps {
   children: ReactNode;
+  fieldTypes?: string[];
   onFieldClick?: OnFieldClickHandler;
   onAddFieldToNodeClick?: OnAddFieldToNodeClickHandler;
   onNodeExpandToggle?: OnNodeExpandHandler;
+  onFieldExpandToggle?: OnFieldExpandHandler;
   onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
   onFieldNameChange?: OnFieldNameChangeHandler;
+  onFieldTypeChange?: OnFieldTypeChangeHandler;
 }
 
 export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramInteractionsProviderProps> = ({
   children,
+  fieldTypes,
   onFieldClick,
   onAddFieldToNodeClick,
   onNodeExpandToggle,
+  onFieldExpandToggle,
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
+  onFieldTypeChange,
 }) => {
   const value: EditableDiagramInteractionsContextType = useMemo(() => {
     return {
@@ -52,6 +63,11 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
             onNodeExpandToggle: onNodeExpandToggle,
           }
         : undefined),
+      ...(onFieldExpandToggle
+        ? {
+            onFieldExpandToggle: onFieldExpandToggle,
+          }
+        : undefined),
       ...(onAddFieldToObjectFieldClick
         ? {
             onClickAddFieldToObjectField: onAddFieldToObjectFieldClick,
@@ -62,8 +78,23 @@ export const EditableDiagramInteractionsProvider: React.FC<EditableDiagramIntera
             onChangeFieldName: onFieldNameChange,
           }
         : undefined),
+      ...(onFieldTypeChange
+        ? {
+            onChangeFieldType: onFieldTypeChange,
+          }
+        : undefined),
+      fieldTypes,
     };
-  }, [onFieldClick, onAddFieldToNodeClick, onNodeExpandToggle, onAddFieldToObjectFieldClick, onFieldNameChange]);
+  }, [
+    fieldTypes,
+    onFieldClick,
+    onAddFieldToNodeClick,
+    onNodeExpandToggle,
+    onAddFieldToObjectFieldClick,
+    onFieldNameChange,
+    onFieldExpandToggle,
+    onFieldTypeChange,
+  ]);
 
   return (
     <EditableDiagramInteractionsContext.Provider value={value}>{children}</EditableDiagramInteractionsContext.Provider>

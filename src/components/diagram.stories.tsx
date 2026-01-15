@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Diagram } from '@/components/diagram';
-import { EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
+import { CUSTOMERS_NODE, EMPLOYEE_TERRITORIES_NODE, EMPLOYEES_NODE, ORDERS_NODE } from '@/mocks/datasets/nodes';
 import {
   EMPLOYEES_TO_EMPLOYEE_TERRITORIES_EDGE,
   EMPLOYEES_TO_EMPLOYEES_EDGE,
@@ -31,8 +31,12 @@ export const DiagramWithFieldToFieldEdges: Story = {
     title: 'MongoDB Diagram',
     isDarkMode: true,
     edges: [
-      { ...EMPLOYEES_TO_ORDERS_EDGE, sourceFieldIndex: 0, targetFieldIndex: 1 },
-      { ...EMPLOYEES_TO_EMPLOYEE_TERRITORIES_EDGE, sourceFieldIndex: 0, targetFieldIndex: 1 },
+      { ...EMPLOYEES_TO_ORDERS_EDGE, sourceFieldId: ['address', 'city'], targetFieldId: ['SUPPLIER_ID'] },
+      {
+        ...EMPLOYEES_TO_EMPLOYEE_TERRITORIES_EDGE,
+        sourceFieldId: ['employeeId'],
+        targetFieldId: ['employeeId'],
+      },
     ],
     nodes: [
       { ...EMPLOYEE_TERRITORIES_NODE, position: { x: 100, y: 100 } },
@@ -54,47 +58,48 @@ export const DiagramWithConnectableNodes: Story = {
   },
 };
 
-let idAccumulator: string[];
-let lastDepth = 0;
-// Used to build a string array id based on field depth.
-function idFromDepthAccumulator(name: string, depth?: number) {
-  if (!depth) {
-    idAccumulator = [name];
-  } else if (depth > lastDepth) {
-    idAccumulator.push(name);
-  } else if (depth === lastDepth) {
-    idAccumulator[idAccumulator.length - 1] = name;
-  } else {
-    idAccumulator = idAccumulator.slice(0, depth);
-    idAccumulator[depth] = name;
-  }
-  lastDepth = depth ?? 0;
-  return [...idAccumulator];
-}
 export const DiagramWithEditInteractions: Story = {
   decorators: [DiagramEditableInteractionsDecorator],
   args: {
     title: 'MongoDB Diagram',
     isDarkMode: true,
-    edges: [],
+    edges: [
+      {
+        ...EMPLOYEES_TO_ORDERS_EDGE,
+        sourceFieldId: ['employeeId'],
+        targetFieldId: ['SUPPLIER_ID'],
+      },
+    ],
     nodes: [
       {
         ...ORDERS_NODE,
         fields: [
           ...ORDERS_NODE.fields.map(field => ({
             ...field,
-            id: idFromDepthAccumulator(field.name, field.depth),
             selectable: true,
             editable: true,
           })),
         ],
+        variant: {
+          type: 'warn',
+          warnMessage: 'This is a warning message for the Orders node.',
+        },
       },
       {
         ...EMPLOYEES_NODE,
         fields: [
           ...EMPLOYEES_NODE.fields.map(field => ({
             ...field,
-            id: idFromDepthAccumulator(field.name, field.depth),
+            selectable: true,
+            editable: true,
+          })),
+        ],
+      },
+      {
+        ...CUSTOMERS_NODE,
+        fields: [
+          ...CUSTOMERS_NODE.fields.map(field => ({
+            ...field,
             selectable: true,
             editable: true,
           })),

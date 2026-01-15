@@ -26,9 +26,21 @@ export type OnFieldClickHandler = (
 export type OnAddFieldToNodeClickHandler = (event: ReactMouseEvent, nodeId: string) => void;
 
 /**
- * Called when the button to expand / collapse all field is clicked in the node header.
+ * Called when the button to expand / collapse all field is clicked in the node
+ * header. If any fields are currently collapsed, shouldExpand will be `true`
  */
-export type OnNodeExpandHandler = (event: ReactMouseEvent, nodeId: string) => void;
+export type OnNodeExpandHandler = (event: ReactMouseEvent, nodeId: string, shouldExpand: boolean) => void;
+
+/**
+ * Called when the button to expand / collapse a single field is clicked
+ * header.
+ */
+export type OnFieldExpandHandler = (
+  event: ReactMouseEvent,
+  nodeId: string,
+  fieldPath: string[],
+  shouldExpand: boolean,
+) => void;
 
 /**
  * Called when the button to add a new field is clicked on an object type field in a node.
@@ -39,6 +51,11 @@ export type OnAddFieldToObjectFieldClickHandler = (event: ReactMouseEvent, nodeI
  * Called when a field's name is edited.
  */
 export type OnFieldNameChangeHandler = (nodeId: string, fieldPath: string[], newName: string) => void;
+
+/**
+ * Called when a field's type is edited.
+ */
+export type OnFieldTypeChangeHandler = (nodeId: string, fieldPath: string[], newTypes: string[]) => void;
 
 /**
  * Called when the canvas (pane) is clicked.
@@ -195,6 +212,11 @@ export interface DiagramProps {
   onNodeExpandToggle?: OnNodeExpandHandler;
 
   /**
+   * Callback when the user clicks the button to expand / collapse a single field in the node.
+   */
+  onFieldExpandToggle?: OnFieldExpandHandler;
+
+  /**
    * Callback when the user clicks to add a new field to an object type field in a node.
    */
   onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
@@ -203,6 +225,16 @@ export interface DiagramProps {
    * Callback when a field's name is changed.
    */
   onFieldNameChange?: OnFieldNameChangeHandler;
+
+  /**
+   * Callback when a field's type is changed.
+   */
+  onFieldTypeChange?: OnFieldTypeChangeHandler;
+
+  /**
+   * List of available field types for editing.
+   */
+  fieldTypes?: string[];
 
   /**
    * Whether the diagram should pan when dragging elements.

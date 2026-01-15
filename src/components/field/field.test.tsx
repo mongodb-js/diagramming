@@ -6,6 +6,12 @@ import { render, screen, waitFor } from '@/mocks/testing-utils';
 import { Field as FieldComponent } from '@/components/field/field';
 import { DEFAULT_PREVIEW_GROUP_AREA } from '@/utilities/get-preview-group-area';
 import { EditableDiagramInteractionsProvider } from '@/hooks/use-editable-diagram-interactions';
+import {
+  OnAddFieldToObjectFieldClickHandler,
+  OnFieldExpandHandler,
+  OnFieldNameChangeHandler,
+  OnFieldTypeChangeHandler,
+} from '@/types';
 
 const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
   <EditableDiagramInteractionsProvider>
@@ -16,15 +22,24 @@ const Field = (props: React.ComponentProps<typeof FieldComponent>) => (
 const FieldWithEditableInteractions = ({
   onAddFieldToObjectFieldClick,
   onFieldNameChange,
+  onFieldTypeChange,
+  onFieldExpandToggle,
+  fieldTypes,
   ...fieldProps
 }: React.ComponentProps<typeof FieldComponent> & {
-  onAddFieldToObjectFieldClick?: () => void;
-  onFieldNameChange?: (newName: string) => void;
+  onAddFieldToObjectFieldClick?: OnAddFieldToObjectFieldClickHandler;
+  onFieldNameChange?: OnFieldNameChangeHandler;
+  onFieldTypeChange?: OnFieldTypeChangeHandler;
+  onFieldExpandToggle?: OnFieldExpandHandler;
+  fieldTypes?: string[];
 }) => {
   return (
     <EditableDiagramInteractionsProvider
       onAddFieldToObjectFieldClick={onAddFieldToObjectFieldClick}
       onFieldNameChange={onFieldNameChange}
+      onFieldTypeChange={onFieldTypeChange}
+      onFieldExpandToggle={onFieldExpandToggle}
+      fieldTypes={fieldTypes}
     >
       <FieldComponent {...fieldProps} />
     </EditableDiagramInteractionsProvider>
@@ -98,6 +113,7 @@ describe('field', () => {
           {...DEFAULT_PROPS}
           id={fieldId}
           editable={true}
+          selected={true}
           onFieldNameChange={onFieldNameChangeMock}
         />,
       );
@@ -152,6 +168,123 @@ describe('field', () => {
       expect(screen.getByText(originalName)).toBeInTheDocument();
       await rerender(<FieldWithEditableInteractions {...DEFAULT_PROPS} editable={true} name={newName} />);
       expect(screen.getByText(newName)).toBeInTheDocument();
+    });
+
+    describe('Field type editing', () => {
+      it('Should not allow editing when field is not selected', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={false}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={vi.fn()}
+            fieldTypes={['string']}
+          />,
+        );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should not allow editing when field is disabled', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="disabled"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={vi.fn()}
+            fieldTypes={['string']}
+          />,
+        );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should not allow editing when no callback is provided', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            fieldTypes={['string']}
+          />,
+        );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should not allow editing when no fieldTypes are provided', async () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={vi.fn()}
+            fieldTypes={[]}
+          />,
+        );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
+        expect(screen.queryByText('Select field type')).not.toBeInTheDocument();
+      });
+      it('Should allow editing', async () => {
+        const onFieldTypeChangeMock = vi.fn();
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            id={['ordersId']}
+            selected={true}
+            variant="default"
+            isHovering={true}
+            editable={true}
+            onFieldTypeChange={onFieldTypeChangeMock}
+            fieldTypes={['objectId', 'string', 'number']}
+          />,
+        );
+        const fieldWrapper = screen.getByTestId('field-content-ordersId');
+        expect(fieldWrapper).toBeInTheDocument();
+        await userEvent.dblClick(fieldWrapper);
+
+        const caretWrapper = screen.getByLabelText('Select field type');
+        expect(caretWrapper).toBeInTheDocument();
+        await userEvent.click(caretWrapper);
+
+        expect(onFieldTypeChangeMock).not.toHaveBeenCalled();
+        const stringOption = screen.getByRole('option', { name: 'string' });
+        await userEvent.click(stringOption);
+        expect(onFieldTypeChangeMock).toHaveBeenCalledWith(
+          DEFAULT_PROPS.nodeId,
+          Array.isArray(DEFAULT_PROPS.id) ? DEFAULT_PROPS.id : [DEFAULT_PROPS.id],
+          ['string'],
+        );
+        expect(onFieldTypeChangeMock).toHaveBeenCalledTimes(1);
+
+        // Try changing to number type
+        await userEvent.click(caretWrapper);
+        const numberOption = screen.getByRole('option', { name: 'number' });
+        await userEvent.click(numberOption);
+        expect(onFieldTypeChangeMock).toHaveBeenCalledWith(
+          DEFAULT_PROPS.nodeId,
+          Array.isArray(DEFAULT_PROPS.id) ? DEFAULT_PROPS.id : [DEFAULT_PROPS.id],
+          ['number'],
+        );
+        expect(onFieldTypeChangeMock).toHaveBeenCalledTimes(2);
+      });
     });
   });
 
@@ -208,6 +341,87 @@ describe('field', () => {
       render(<Field {...DEFAULT_PROPS} nodeType={'table'} />);
       expect(screen.getByRole('img', { name: 'Key Icon' })).toHaveAttribute('color', palette.purple.base);
       expect(screen.getByRole('img', { name: 'Link Icon' })).toHaveAttribute('color', palette.gray.dark1);
+    });
+  });
+
+  describe('Expand/Collapse', () => {
+    describe('When the field has children', () => {
+      const hasChildrenProps = {
+        ...DEFAULT_PROPS,
+        onFieldExpandToggle: vi.fn(),
+        hasChildren: true,
+      };
+      beforeEach(() => {
+        hasChildrenProps.onFieldExpandToggle.mockClear();
+      });
+      it('Shows collapse icon by default', async () => {
+        render(<FieldWithEditableInteractions {...hasChildrenProps} hasChildren={true} />);
+        const toggle = screen.getByRole('button', { name: 'Collapse Field' });
+        expect(toggle).toBeInTheDocument();
+        await userEvent.click(toggle);
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalledWith(
+          expect.anything(),
+          hasChildrenProps.nodeId,
+          [hasChildrenProps.id as string],
+          false,
+        );
+      });
+
+      it('Shows expand icon for a collapsed field', async () => {
+        render(<FieldWithEditableInteractions {...hasChildrenProps} expanded={false} />);
+        const toggle = screen.getByRole('button', { name: 'Expand Field' });
+        expect(toggle).toBeInTheDocument();
+        await userEvent.click(toggle);
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalledWith(
+          expect.anything(),
+          hasChildrenProps.nodeId,
+          [hasChildrenProps.id as string],
+          true,
+        );
+      });
+
+      it('Shows collapse icon for an expanded field', async () => {
+        render(<FieldWithEditableInteractions {...hasChildrenProps} expanded={true} />);
+        const toggle = screen.getByRole('button', { name: 'Collapse Field' });
+        expect(toggle).toBeInTheDocument();
+        await userEvent.click(toggle);
+        expect(hasChildrenProps.onFieldExpandToggle).toHaveBeenCalledWith(
+          expect.anything(),
+          hasChildrenProps.nodeId,
+          [hasChildrenProps.id as string],
+          false,
+        );
+      });
+    });
+
+    describe('When the field is not hasChildren', () => {
+      it('Does not show the collapse/expand toggle', () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            onFieldExpandToggle={vi.fn()}
+            hasChildren={false}
+            expanded={true}
+          />,
+        );
+        expect(screen.queryByRole('button', { name: 'Collapse Field' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Expand Field' })).not.toBeInTheDocument();
+      });
+    });
+
+    describe('When there is no method for field expand toggle', () => {
+      it('Does not show the collapse/expand toggle', () => {
+        render(
+          <FieldWithEditableInteractions
+            {...DEFAULT_PROPS}
+            onFieldExpandToggle={undefined}
+            hasChildren={true}
+            expanded={true}
+          />,
+        );
+        expect(screen.queryByRole('button', { name: 'Collapse Field' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Expand Field' })).not.toBeInTheDocument();
+      });
     });
   });
 });
