@@ -15,7 +15,7 @@ const FieldTypeWrapper = styled.div<{ color: string; placeholderCollapse?: boole
   color: ${props => props.color};
   font-weight: normal;
   padding-left: ${spacing[100]}px;
-  padding-right: ${props => (props.placeholderCollapse ? spacing[600] : spacing[100])}px;
+  padding-right: ${props => (props.placeholderCollapse ? spacing[600] : spacing[50])}px;
   flex: 0 0 100px;
   display: flex;
   justify-content: flex-end;

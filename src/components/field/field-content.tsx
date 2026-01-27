@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import { fontWeights } from '@leafygreen-ui/tokens';
-import Icon from '@leafygreen-ui/icon';
-import { useTheme } from '@emotion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
@@ -10,6 +8,9 @@ import { FieldType } from '@/components/field/field-type';
 import { DiagramIconButton } from '@/components/buttons/diagram-icon-button';
 import { FieldId, NodeField } from '@/types';
 import { useEditableDiagramInteractions } from '@/hooks/use-editable-diagram-interactions';
+
+import { ChevronDown } from '../icons/chevron-down';
+import { ChevronUp } from '../icons/chevron-up';
 
 import { FieldNameContent } from './field-name-content';
 
@@ -46,7 +47,6 @@ export const FieldContent = ({
 }: FieldContentProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const fieldContentRef = useRef<HTMLDivElement>(null);
-  const theme = useTheme();
 
   const { onChangeFieldName, onChangeFieldType, fieldTypes, onFieldExpandToggle } = useEditableDiagramInteractions();
 
@@ -137,7 +137,7 @@ export const FieldContent = ({
           aria-label={expanded ? 'Collapse Field' : 'Expand Field'}
           title={expanded ? 'Collapse Field' : 'Expand Field'}
         >
-          <Icon glyph={expanded ? 'ChevronDown' : 'ChevronLeft'} color={theme.node.fieldIconButton} size={14} />
+          {expanded ? <ChevronDown /> : <ChevronUp />}
         </DiagramIconButton>
       )}
     </FieldContentWrapper>
