@@ -1,4 +1,4 @@
-import { styled } from 'storybook/internal/theming';
+import styled from '@emotion/styled';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ellipsisTruncation } from '@/styles/styles';
