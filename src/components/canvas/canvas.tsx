@@ -75,6 +75,7 @@ export const Canvas = ({
   onSelectionDragStop,
   onSelectionContextMenu,
   onSelectionChange,
+  minimapProps,
   ...rest
 }: DiagramProps) => {
   const initialNodes = useMemo(() => convertToInternalNodes(externalNodes), [externalNodes]);
@@ -192,7 +193,7 @@ export const Canvas = ({
           <MarkerList />
           <Background id={id} />
           <Controls title={title} />
-          <MiniMap />
+          <MiniMap {...minimapProps} />
         </ReactFlow>
       </ReactFlowWrapper>
     </EditableDiagramInteractionsProvider>

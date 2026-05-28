@@ -110,6 +110,18 @@ export type OnConnectStartHandler = (
   params: { nodeId?: string | null; handleType: HandleType | null; handleId?: string | null },
 ) => void;
 
+export interface MiniMapProps {
+  /**
+   * Whether the minimap should allow panning the main view by dragging the viewport rectangle.
+   */
+  pannable?: boolean;
+
+  /**
+   * Whether the minimap should allow zooming the main view by clicking on the minimap.
+   */
+  zoomable?: boolean;
+}
+
 export interface DiagramProps {
   /**
    * Unique identifier for the diagram instance.
@@ -290,4 +302,9 @@ export interface DiagramProps {
    * @default 1
    */
   nodeDragThreshold?: number;
+
+  /**
+   * Preferences to pass to the minimap component.
+   */
+  minimapProps?: MiniMapProps;
 }

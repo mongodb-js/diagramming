@@ -1,10 +1,14 @@
 import { MiniMap as ReactFlowMiniMap } from '@xyflow/react';
 import { Theme, useTheme } from '@emotion/react';
 
+import { MiniMapProps } from '@/types';
+
 const MINIMAP_WIDTH = 200;
 const MINIMAP_HEIGHT = 100;
 
-export const MiniMap = () => {
+const EMPTY_PROPS = {};
+
+export const MiniMap = (minimapProps: MiniMapProps = EMPTY_PROPS) => {
   const theme: Theme = useTheme();
   return (
     <ReactFlowMiniMap
@@ -15,6 +19,7 @@ export const MiniMap = () => {
         height: MINIMAP_HEIGHT,
         background: theme.minimap.selectionArea,
       }}
+      {...minimapProps}
     />
   );
 };

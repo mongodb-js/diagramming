@@ -116,6 +116,10 @@ export const DiagramStressTest: Story = {
     isDarkMode: true,
     edges: [],
     nodes: [],
+    minimapProps: {
+      zoomable: true,
+      pannable: true,
+    },
   },
 };
 
