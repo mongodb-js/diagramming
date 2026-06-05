@@ -289,6 +289,11 @@ export interface DiagramProps {
   minZoom?: number;
 
   /**
+   * Whether to allow panning via scroll.
+   */
+  panOnScroll?: boolean;
+
+  /**
    * Whether to only render elements that are currently visible in the viewport.
    * This can improve performance for large diagrams.
    * @default true
