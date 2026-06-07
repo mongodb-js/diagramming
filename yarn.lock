@@ -1555,6 +1555,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@leafygreen-ui/emotion@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "@leafygreen-ui/emotion@npm:5.2.0"
+  dependencies:
+    "@emotion/css": "npm:^11.1.3"
+    "@emotion/react": "npm:^11.14.0"
+    "@emotion/server": "npm:^11.4.0"
+  checksum: 10c0/bf79cabc4566652783cc1326186c75c85b37328ac868d9353ccb0f5f7e28669219e7cf742eb05d534709389b28cc98b2c4bfbca89f4134e87852305982b976da
+  languageName: node
+  linkType: hard
+
 "@leafygreen-ui/form-field@npm:^4.0.6":
   version: 4.0.6
   resolution: "@leafygreen-ui/form-field@npm:4.0.6"
@@ -1616,44 +1627,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@leafygreen-ui/icon@npm:^14.1.0, @leafygreen-ui/icon@npm:^14.3.0":
-  version: 14.3.0
-  resolution: "@leafygreen-ui/icon@npm:14.3.0"
+"@leafygreen-ui/icon@npm:^14.1.0, @leafygreen-ui/icon@npm:^14.3.0, @leafygreen-ui/icon@npm:^14.5.1, @leafygreen-ui/icon@npm:^14.6.0, @leafygreen-ui/icon@npm:^14.6.1, @leafygreen-ui/icon@npm:^14.7.0":
+  version: 14.8.0
+  resolution: "@leafygreen-ui/icon@npm:14.8.0"
   dependencies:
-    "@leafygreen-ui/emotion": "npm:^5.0.0"
-    lodash: "npm:^4.17.21"
-  checksum: 10c0/2fd72cd27f50b9b06208ce99fcda0c7234577b90af3c50e84fd426c3de4fe974cad9392a27adf2f5800e323389d02d30df8674fa9c11ba7b286893b7202180cd
-  languageName: node
-  linkType: hard
-
-"@leafygreen-ui/icon@npm:^14.5.1":
-  version: 14.5.1
-  resolution: "@leafygreen-ui/icon@npm:14.5.1"
-  dependencies:
-    "@leafygreen-ui/emotion": "npm:^5.0.3"
-    lodash: "npm:^4.17.21"
-  checksum: 10c0/52ff8377a1364c81e994dfc9d4d727a22647dfbb4aaff912c0d64ac54d3cdd0c3244b65d153781ac5925d7c3213b8fd270020c156297b79b8a5b5e560a1b1550
-  languageName: node
-  linkType: hard
-
-"@leafygreen-ui/icon@npm:^14.6.0":
-  version: 14.6.0
-  resolution: "@leafygreen-ui/icon@npm:14.6.0"
-  dependencies:
-    "@leafygreen-ui/emotion": "npm:^5.0.3"
-    lodash: "npm:^4.17.21"
-  checksum: 10c0/1da867cdf73426429a11052b3412a458032dfa72c0fb862d989475ebca9c67b70636104715cb172a0d9d3fbbaa62feb224a71e3167cf7559cc38b9d7b5ce42db
-  languageName: node
-  linkType: hard
-
-"@leafygreen-ui/icon@npm:^14.6.1, @leafygreen-ui/icon@npm:^14.7.0":
-  version: 14.7.0
-  resolution: "@leafygreen-ui/icon@npm:14.7.0"
-  dependencies:
-    "@leafygreen-ui/emotion": "npm:^5.1.0"
+    "@leafygreen-ui/emotion": "npm:^5.2.0"
     "@leafygreen-ui/hooks": "npm:^9.3.0"
     lodash: "npm:^4.17.21"
-  checksum: 10c0/117459888ea8bf2cee2ef9b07fb87ebaa95eb7198e694314039891fe5019e81dd6b27a2a0e27599d72e86921a0c7f5ce907f144f8e74ac9d3117bd0fd617d7fc
+  checksum: 10c0/fb321bd36d2cdcbcf6b56eebdc843392664faba4f2f41554aa75786726bf3fc503a1cd6cab5783aae8631bd7c3dc061f71291caca2d672f1814341c3284dae8c
   languageName: node
   linkType: hard
 
